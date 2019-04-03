@@ -33,6 +33,7 @@ urlpatterns = [
     path('author/<nickname>', views.DoingView.as_view()),
 
     # --------------------------------------------接口类
+    # 认证
     path('auth', views.DoingView.as_view()),
     path('comment/add', views.CommentAdd.as_view()),
     # 广告或友链点击记录

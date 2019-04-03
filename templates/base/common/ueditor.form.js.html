@@ -1,0 +1,6 @@
+{# 这两句顺序不能错，否则在实例化表单时会报错 #}
+{# UE.getEditor is not a function #}
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'ueditor/ueditor.config.js' %}"></script>
+<script type="text/javascript" src="{% static 'ueditor/ueditor.all.min.js' %}"></script>

@@ -1,0 +1,14 @@
+<div class="whitebg wenzi">
+    <h2 class="htitle">作者其他文章</h2>
+    <ul>
+        {% if others %}
+            {% for art_v in others %}
+                {% if art_v.pk != art.pk %}
+                    <li><a href="/x/art/{{ art_v.pk }}" target="_self">{{ art_v.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <li>暂无</li>
+        {% endif %}
+    </ul>
+</div>

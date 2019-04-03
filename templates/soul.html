@@ -1,0 +1,84 @@
+{% extends 'base/base-list.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {# 列表页说明 #}
+    <div class="whitebg lanmu"><img src="{% static 'image/lm01.jpg' %}" alt="图片丢失">
+        <h1>文学创作</h1>
+        <p>其实我一直有一个文学梦想，不过随着时间推移，渐渐搁置了这个梦想，在网站中开出这个独立版块来，就是为了重拾我的文学情节，毕竟我曾经也是个文艺青年。</p>
+    </div>
+
+    {# 列表数据 #}
+    <div class="whitebg bloglist">
+        <h2 class="htitle">
+            <span class="hnav"><a href="#">诗酒趁年华</a></span>
+            最新文学作品
+        </h2>
+        <ul>
+            <!--多图模式 置顶设计-->
+            {#            <li>#}
+            {#                <h3 class="blogtitle"><a href="/" target="_blank"><b>【顶】</b>别让这些闹心的套路，毁了你的网页设计!</a></h3>#}
+            {#                <span class="bplist"><a href="/"> <img src="images/b02.jpg" alt=""></a> <a href="/"><img#}
+            {#                        src="images/b03.jpg" alt=""></a> <a href="/"><img src="images/b04.jpg" alt=""> </a><a#}
+            {#                        href="/"><img src="images/b05.jpg" alt=""> </a></span>#}
+            {#                <p class="blogtext">如图，要实现上图效果，我采用如下方法：1、首先在数据库模型，增加字段，分别是图片2，图片3。2、增加标签模板，用if，else if#}
+            {#                    来判断，输出。思路已打开，样式调用就可以多样化啦！... </p>#}
+            {#                <p class="bloginfo"><i class="avatar"><img#}
+            {#                        src="images/avatar.jpg"></i><span>杨青青</span><span>2018-10-28</span><span>【<a href="/">原创模板</a>】</span>#}
+            {#                </p>#}
+            {#            </li>#}
+            <!--单图-->
+            {% for art in soul_list %}
+                <li>
+                    <h3 class="blogtitle"><a href="/x/art/{{ art.pk }}" target="_blank">{{ art.title }}</a></h3>
+                    <span class="blogpic imgscale">
+                    {% if art.source %}
+                        <i><a href="#">转载</a></i>
+                    {% else %}
+                        <i><a href="#">原创</a></i>
+                    {% endif %}
+                        <a href="/x/art/{{ art.pk }}" title=""><img src="{{ MEDIA_URL }}{{ art.cover }}" alt="图片丢失"></a>
+                </span>
+                    <p class="blogtext">
+                        {{ art.description }}
+                    </p>
+                    <p class="bloginfo">
+                        <i class="avatar">
+                            <a href="/x/author/{{ art.author.nickname }}" target="_self"><img
+                                    src="{{ MEDIA_URL }}{{ art.author.header }}"></a>
+                        </i>
+                        <span><a href="/x/author/{{ art.author.nickname }}">{{ art.author.nickname }}</a></span>
+                        <span>{{ art.add }}</span>
+                        <span>【<a href="/x/soul.html">{{ art.cat.cat }}</a>】</span>
+                        <span>{{ art.read }}次阅读</span>
+                    </p>
+                    <a href="/x/art/{{ art.pk }}" class="viewmore">阅读全部</a>
+                </li>
+            {% endfor %}
+
+            <!--纯文字-->
+            {#            <li>#}
+            {#                <h3 class="blogtitle"><a href="/" target="_blank">别让这些闹心的套路，毁了你的网页设计!</a></h3>#}
+            {#                <p class="blogtext">如图，要实现上图效果，我采用如下方法：1、首先在数据库模型，增加字段，分别是图片2，图片3。2、增加标签模板，用if，else if#}
+            {#                    来判断，输出。思路已打开，样式调用就可以多样化啦！... </p>#}
+            {#                <p class="bloginfo"><i class="avatar"><img#}
+            {#                        src="images/avatar.jpg"></i><span>杨青青</span><span>2018-10-28</span><span>【<a href="/">原创模板</a>】</span>#}
+            {#                </p>#}
+            {#                <a href="/" class="viewmore">阅读更多</a></li>#}
+        </ul>
+
+        {# 分页条 #}
+        <!--pagelist-->
+        <div class="pagelist">
+            <a title="Total record">&nbsp;<b>67</b> </a>&nbsp;&nbsp;&nbsp;<b>1</b>&nbsp;
+            <a href="/download/index_2.html">2</a>&nbsp;<a href="/download/index_3.html">3</a>&nbsp;
+            <a href="/download/index_2.html">下一页</a>&nbsp;<a href="/download/index_3.html">尾页</a>
+        </div>
+        <!--pagelist end-->
+    </div>
+
+
+{% endblock %}
+
+

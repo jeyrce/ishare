@@ -1,0 +1,8 @@
+<div class="whitebg cloud">
+    <h2 class="htitle">标签云</h2>
+    <ul>
+        {% for tag in tags %}
+            <a href="/x/tag/{{ tag.pk }}" target="_self">{{ tag.tag }}</a>
+        {% endfor %}
+    </ul>
+</div>

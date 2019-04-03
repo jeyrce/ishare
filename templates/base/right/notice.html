@@ -1,0 +1,8 @@
+<div class="whitebg notice">
+    <h2 class="htitle">网站公告</h2>
+    <ul>
+        {% for tip in NOTICE %}
+            <li><a href="/x/notice/{{ tip.pk }}">{{ tip.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

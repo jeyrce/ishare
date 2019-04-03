@@ -1,0 +1,38 @@
+{# 文章评论区： 无限瀑布流获取更多的评论 #}
+<div class="whitebg gbook">
+    <h2 class="htitle">文章评论(已开启审核，通过方可显示)</h2>
+    {#  评论表单  #}
+    {% include 'base/left/isaytoart.html' %}
+    {#  已有评论列表  #}
+    <h2 class="htitle">已有评论{{ art.com }}条</h2>
+    <ul>
+        {% if art.com > 0 %}
+            {% for com in art.act_coms %}
+                {# 评论信息 #}
+                {% if com.obj_type == '会员' %}
+                    <li>
+                        <span>【会员】{{ com.visitor.nickname }}</span>
+                        <span>{{ com.add }}说：</span><br>
+                        <p>{{ com.content | safe }}</p>
+                    </li>
+                {% else %}
+                    <li>
+                        <span>【游客】{{ com.nickname }}</span>
+                        <span>{{ com.add }}说：</span><br>
+                        <p>{{ com.content | safe }}</p>
+                    </li>
+                {% endif %}
+                {# 回复信息 #}
+                {% if com.rep %}
+                    <span>作者：{{ art.author.nickname }}</span>
+                    <span>{{ com.rep }}回复：</span><br>
+                    <P>{{ com.reply | safe }}</P>
+                {% else %}
+                    <span>作者暂未回复</span>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <li><span>暂无</span></li>
+        {% endif %}
+    </ul>
+</div>

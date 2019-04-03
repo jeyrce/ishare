@@ -1,0 +1,56 @@
+{# 友链页 #}
+{% extends 'base/base-link.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+    {# 友链声明 #}
+    <div class="whitebg">
+        <h1>{{ declare }}</h1>
+        <p>{{ desc }}</p>
+    </div>
+
+    {# 公益链接 #}
+    <div class="whitebg">
+        <h2 class="htitle">
+            <strong>
+                <span class="hnav">只要人人献出一点爱、世界变成美好人间！</span>公益链接({{ public_cnt }}条)
+            </strong>
+        </h2>
+        <ul class="site_tj">
+            {% for link in public_links %}
+                <li><a href="{{ link.link }}" target="_blank" title="{{ link.link_name }}">{{ link.link_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# 个人主页 #}
+    <div class="whitebg">
+        <h2 class="htitle">
+            <strong>
+                <span class="hnav"><a href="/" target="_blank">——>提交链接</a></span>个人主页({{ person_cnt }}条)
+            </strong>
+        </h2>
+        <ul class="site_tj site_yx">
+            {% for link in person_links %}
+                <li><a href="{{ link.link }}" target="_blank" title="{{ link.link_name }}">{{ link.link_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# 商业广告 #}
+    <div class="whitebg">
+        <h2 class="htitle">
+            <strong>
+                <span class="hnav"><a href="/" target="_blank">——>提交链接</a></span>商业广告({{ biz_cnt }}条)
+            </strong>
+        </h2>
+        <ul class="site_tj">
+            {% for link in biz_links %}
+                <li><a href="{{ link.link }}" target="_blank" title="{{ link.link_name }}">{{ link.link_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+

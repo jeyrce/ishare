@@ -1,0 +1,26 @@
+<!--banbox begin-->
+{# 轮播图 #}
+<div class="banbox">
+    <div class="banner">
+        <div id="banner" class="fader">
+
+            {#      遍历轮播图      #}
+            {% for ban in banners %}
+                <li class="slide">
+                    <a href="/x/art/{{ ban.pk }}" target="_blank" title="{{ ban.title }}">
+                        {#                        <span>{{ ban.title }}</span>#}
+                        <img src="{{ MEDIA_URL }}{{ ban.cover }}" alt="图片丢失">
+                    </a>
+                </li>
+            {% endfor %}
+
+            <div class="fader_controls">
+                <div class="page prev" data-target="prev"></div>
+                <div class="page next" data-target="next"></div>
+                <ul class="pager_list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--banbox end-->

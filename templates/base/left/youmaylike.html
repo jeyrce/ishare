@@ -1,0 +1,11 @@
+{#  同类别文章推荐  #}
+<div class="whitebg">
+    <h2 class="htitle">猜你喜欢</h2>
+    <ul class="otherlink">
+        {% for art_c in cnxh %}
+            {% if art_c.pk != art.pk %}
+                <li><a href="/x/art/{{ art_c.pk }}" title="{{ art_c.title }}">{{ art_c.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>

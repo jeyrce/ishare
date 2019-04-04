@@ -57,7 +57,7 @@ class Visitor(models.Model):
     """
     访客表: 电子邮箱作为唯一访客标识, 访客如需留言评论, 必须以电子邮件作为账户登录
     """
-    id = models.EmailField(max_length=32, primary_key=True, verbose_name='邮箱', help_text='最多32字符')
+    email = models.EmailField(max_length=32, primary_key=True, verbose_name='邮箱', help_text='最多32字符')
     nickname = models.CharField(max_length=12, verbose_name='昵称', unique=True, help_text='1~12个字')
     header = models.ImageField(null=True, blank=True, verbose_name='头像', upload_to='header/')
     pwd = models.CharField(max_length=20, blank=True, null=True, verbose_name='密码')

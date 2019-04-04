@@ -62,6 +62,7 @@ class VisitCountMiddleware(BaseCustomMiddleware):
     """
 
     def after_make_response(self):
+        # 今日访问次数的临时数据由定时任务每晚0点执行
         # TODO： 更新今日访问次数
         # TODO： 更新历史访问次数
         pass

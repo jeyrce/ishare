@@ -7,8 +7,8 @@ Here is the descriptions and some purpose of the file:
 
 from django.http.response import JsonResponse, HttpResponse, Http404
 from django.views.generic import View
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, resolve_url, redirect
+from django.contrib.auth.hashers import make_password, check_password
 
 from ljx.views import OpenView, RestfulView
 from db import models as m
@@ -172,8 +172,27 @@ class Message(RestfulView):
     """
     留言板
     """
+
     def get(self, request, *args, **kwargs):
         ctx = {
 
         }
         return render(request, 'msg.html', ctx)
+
+
+class SignIn(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'auth/signin.html')
+
+    def post(self, request, *args, **kwargs):
+        # 进行登录
+        obj = m.Visitor.objects.filter(email=self.request.POST.get('email')).first()
+        if not obj:
+            return JsonResponse({'msg': '账号不存在', 'code': -1})
+        if not obj.is_active:
+            return JsonResponse({'msg': '账号被冻结', 'code': -2})
+        if not check_password(self.request.POST.get('pwd'), obj.pwd):
+            return JsonResponse({'msg': '密码错误', 'code': -3})
+        response = JsonResponse({'msg': 'ok', 'code': 0})
+        return response

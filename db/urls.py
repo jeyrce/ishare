@@ -31,17 +31,14 @@ urlpatterns = [
     path('me.html', views.DoingView.as_view()),
     # 对外作者主页
     path('author/<nickname>', views.DoingView.as_view()),
-
-    # --------------------------------------------接口类
-    # 认证
-    path('auth', views.DoingView.as_view()),
+    # 登录
+    path('auth/signin', views.SignIn.as_view()),
+    # 注册
+    path('auth/signup', views.DoingView.as_view()),
+    # 登出
+    path('auth/signout', views.DoingView.as_view()),
+    # 添加评论
     path('comment/add', views.CommentAdd.as_view()),
     # 广告或友链点击记录
     path('goto', views.DoingView.as_view()),
-    # 登录页面
-    path('signin', views.DoingView.as_view()),
-    # 注册页面
-    path('signup', views.DoingView.as_view()),
-    # 登出
-    path('signout', views.DoingView.as_view()),
 ]

@@ -360,46 +360,6 @@ class Click(models.Model):
         return self.ip
 
 
-class Focus(models.Model):
-    """
-    邮箱订阅: 每周末推送上一周的新文章
-    """
-    id = models.EmailField(max_length=32, primary_key=True, verbose_name='邮箱')
-    add = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
-    mod = models.DateTimeField(auto_now=True, verbose_name='最近修改')
-    is_active = models.BooleanField(default=True, verbose_name='是否接收')
-
-    class Meta:
-        verbose_name_plural = verbose_name = '订阅'
-        db_table = 'focus'
-
-    def __str__(self):
-        return self.pk
-
-
-class Email(models.Model):
-    """
-    邮件发送记录:
-    友链: 每月发送一次, 正文写有多少条记录来自于我这, 推荐几篇最近的文章, 附件部分发送生成的表格详细记录
-    """
-    cats = (
-        (0, '订阅推送'),  # 每周一次, 内容相同
-        (1, '友链推送'),  # 每月一次, 内容不同
-    )
-    cat = models.PositiveSmallIntegerField(choices=cats, verbose_name='推送类型')
-    total = models.PositiveIntegerField(verbose_name='发送条数', default=0)
-    success = models.PositiveIntegerField(verbose_name='成功条数', default=0)
-    start = models.DateTimeField(auto_now_add=True, verbose_name='开始时间')
-    end = models.DateTimeField(null=True, verbose_name='结束时间')
-
-    class Meta:
-        verbose_name_plural = verbose_name = '邮件记录'
-        db_table = 'email'
-
-    def __str__(self):
-        return '%s-%s' % (self.start, self.end)
-
-
 class Notice(models.Model):
     """
     公告: 首页右侧展示三条

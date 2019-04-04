@@ -23,8 +23,6 @@ from db.models import (
     AdClick,
     Link,
     Click,
-    Focus,
-    Email,
     Notice,
     Expand,
 )
@@ -409,44 +407,6 @@ class ClickAdmin(CommonSetting):
     )
 
 
-class FocusAdmin(CommonSetting):
-    list_display = ('id', 'is_active', 'add')
-    search_fields = ('id',)
-    list_filter = ('add', 'is_active', 'mod')
-    readonly_fields = ('add', 'mod')
-    list_editable = ('is_active',)
-    form_layout = (
-        Main(
-            Fieldset(
-                _('订阅信息'),
-                Row('id'),
-                Row('add', 'mod')
-            ),
-        ),
-        Side(
-            Fieldset(_('状态'), 'is_active'),
-        )
-    )
-
-
-class EmailAdmin(CommonSetting):
-    list_display = ('cat', 'total', 'success', 'start')
-    ordering = ('-start',)
-    search_fields = ()
-    list_filter = ('start', 'end', 'cat')
-    readonly_fields = ('start', 'total', 'success')
-    list_editable = ()
-    form_layout = (
-        Main(
-            Fieldset(
-                _('推送记录'),
-                Row('cat', 'total', 'success'),
-                Row('start', 'end'),
-            ),
-        ),
-    )
-
-
 class NoticeAdmin(CommonSetting):
     list_display = ('title', 'is_active', 'add', 'url')
     search_fields = ('title',)
@@ -503,8 +463,6 @@ xadmin.site.register(TipAd, TipAdAdmin)
 xadmin.site.register(AdClick, AdClickAdmin)
 xadmin.site.register(Link, LinkAdmin)
 xadmin.site.register(Click, ClickAdmin)
-xadmin.site.register(Focus, FocusAdmin)
-xadmin.site.register(Email, EmailAdmin)
 xadmin.site.register(Notice, NoticeAdmin)
 xadmin.site.register(Expand, ExpandAdmin)
 

@@ -80,7 +80,7 @@ class Visitor(models.Model):
         # 原创文章数
         ocnt = Blog.objects.filter(
             is_active=True,
-            author__id=self.id,
+            author=self.pk,
             source__isnull=True
         ).count()
         return ocnt
@@ -89,7 +89,7 @@ class Visitor(models.Model):
         # 转载文章数
         ccnt = Blog.objects.filter(
             is_active=True,
-            author__id=self.id,
+            author=self.pk,
             source__isnull=False
         ).count()
         return ccnt

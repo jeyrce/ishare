@@ -24,7 +24,7 @@ urlpatterns = [
     # 某标签文章列表
     path('tag/<pk>', views.DoingView.as_view()),
     # 留言留言列表页
-    path('msg.html', views.DoingView.as_view()),
+    path('msg.html', views.Message.as_view()),
     # 投稿页面，在线编辑
     path('write.html', views.DoingView.as_view()),
     # 作者主页
@@ -37,6 +37,8 @@ urlpatterns = [
     path('auth/signup', views.DoingView.as_view()),
     # 登出
     path('auth/signout', views.DoingView.as_view()),
+    # 重置密码
+    path('auth/forget', views.DoingView.as_view()),
     # 添加评论
     path('comment/add', views.CommentAdd.as_view()),
     # 广告或友链点击记录

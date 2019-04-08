@@ -5,15 +5,19 @@ Here is the descriptions and some purpose of the file:
     0. 博客主要业务逻辑视图
 """
 
+
 from django.http.response import JsonResponse, HttpResponse, Http404
 from django.views.generic import View
+from django.db.models import F
 from django.shortcuts import render, resolve_url, redirect
 from django.contrib.auth.hashers import make_password, check_password
 
-from ljx.views import OpenView, RestfulView
+from ljx.views import OpenView
 from db import models as m
-from db.utils import ContextUtil
+from db.utils import ContextUtil, make_auth_token
 from db.forms import CommentForm
+
+from ljx import settings
 
 
 class DoingView(OpenView):
@@ -25,7 +29,7 @@ class DoingView(OpenView):
         return render(request, 'doing.html')
 
 
-class ArticleObj(RestfulView):
+class ArticleObj(View):
     # 前台和文章有关的逻辑
 
     model = m.Blog
@@ -40,7 +44,7 @@ class ArticleObj(RestfulView):
 
     def get_others(self, obj):
         # 作者其他文章
-        return self.model.objects.filter(is_active=True, author_id=obj.author_id).order_by('-add')[:10]
+        return self.model.objects.filter(is_active=True, author=obj.author).order_by('-add')[:10]
 
     def get_next(self, obj):
         # 获取下一篇： 按发表时间
@@ -63,27 +67,39 @@ class ArticleObj(RestfulView):
             'others': self.get_others(obj),
             'next': self.get_next(obj),
             'prev': self.get_prev(obj),
-            'cform': CommentForm()
+            'cform': CommentForm(),
+            'liked': self.get_art_like_status(pk),
         }
 
         return render(request, 'detail.html', ctx)
 
     def post(self, request, pk):
         obj = self.get_obj(pk)
-        # 文章点赞
-        raise NotImplementedError()
+        obj.like += 1
+        obj.save(update_fields=['like',])
+        response = JsonResponse({'code': 0, 'msg': obj.like})
+        # 7天内不允许重复点赞
+        response.set_cookie(pk, 'true', expires=60*60*24*7)
+        return response
 
     def patch(self, request, pk):
         # 修改文章
-        print(self.request.PATCH)
         return JsonResponse({"code": 0, "msg": 'put xxx'})
 
     def delete(self, request, pk):
         # 删除文章
-        raise NotImplementedError()
+        obj = self.get_obj(pk)
+        obj.is_active = False
+        obj.save(update_fields=['is_active',])
+        return JsonResponse({"code": 0, "msg": obj.pk})
+
+    def get_art_like_status(self, pk):
+        # 检验当前文章是否已经点赞过
+        liked = self.request.COOKIES.get(pk, 'false')
+        return liked
 
 
-class ArticleAdd(RestfulView):
+class ArticleAdd(View):
 
     def get(self, request):
         # 发表新的文章
@@ -120,7 +136,7 @@ class Soul(OpenView):
         return query
 
 
-class Link(RestfulView):
+class Link(View):
     """
     友链相关
     """
@@ -168,12 +184,13 @@ class Link(RestfulView):
         return self.get_biz_links().count()
 
 
-class Message(RestfulView):
+class Message(View):
     """
     留言板
     """
 
     def get(self, request, *args, **kwargs):
+        print(kwargs)
         ctx = {
 
         }
@@ -183,7 +200,9 @@ class Message(RestfulView):
 class SignIn(View):
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'auth/signin.html')
+        # 获取接下来要去的地方
+        next = self.request.META.get('HTTP_REFERER', '/')
+        return render(request, 'auth/signin.html', {'next': next})
 
     def post(self, request, *args, **kwargs):
         # 进行登录
@@ -193,6 +212,12 @@ class SignIn(View):
         if not obj.is_active:
             return JsonResponse({'msg': '账号被冻结', 'code': -2})
         if not check_password(self.request.POST.get('pwd'), obj.pwd):
-            return JsonResponse({'msg': '密码错误', 'code': -3})
+            return JsonResponse({'msg': '密码不正确', 'code': -3})
+        auth_token = make_auth_token(obj, settings.SECRET_KEY)
         response = JsonResponse({'msg': 'ok', 'code': 0})
+        self.request.session['auth_token'] = auth_token
         return response
+
+    def delete(self, request, *args, **kwargs):
+        # 注销登录
+        raise NotImplementedError()

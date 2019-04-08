@@ -5,7 +5,13 @@ Here is the descriptions and some purpose of the file:
     0. 自定义中间件
 """
 
+import pickle
+
 from django.http import QueryDict
+
+from ljx.settings import SECRET_KEY
+from db.models import Visitor
+from db.utils import parse_auth_token
 
 
 class BaseCustomMiddleware(object):
@@ -22,26 +28,11 @@ class BaseCustomMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        try:
-            if hasattr(self, 'before_make_response'):
-                request = self.before_make_response(request)
-                assert request is not None, (
-                    "%s class has error because extend CustomBaseMiddleWare".format(self.__class__.__name__),
-                    "The function 'before_make_response' must return request object",
-                )
-        except:
-            # TODO: 此处可用来进行邮件报警
-            pass
-
+        if hasattr(self, 'before_make_response'):
+            request = self.before_make_response(request)
         response = self.get_response(request)
-
-        try:
-            if hasattr(self, 'after_make_response'):
-                self.after_make_response(request)
-        except:
-            # TODO: 邮件报警
-            pass
-
+        if hasattr(self, 'after_make_response'):
+            self.after_make_response(request)
         return response
 
 
@@ -51,8 +42,14 @@ class VisitorAuthenticationMiddleware(BaseCustomMiddleware):
     """
 
     def before_make_response(self, request):
-        # TODO: 从session获取数据进行解析，选择赋予请求对象
-        # setattr(request, 'visitor', 'ljx')
+        # 从cookie获取数据进行解析，选择赋予请求对象
+        token = request.session.get('auth_token')
+        if not token:
+            return request
+        obj = object()
+        obj = parse_auth_token(token, SECRET_KEY)
+        if isinstance(obj, Visitor):
+            setattr(request, 'visitor', obj)
         return request
 
 
@@ -61,7 +58,7 @@ class VisitCountMiddleware(BaseCustomMiddleware):
     访客访问记录中间件， 统计今日访问次数和历史总访问次数
     """
 
-    def after_make_response(self):
+    def after_make_response(self, request):
         # 今日访问次数的临时数据由定时任务每晚0点执行
         # TODO： 更新今日访问次数
         # TODO： 更新历史访问次数

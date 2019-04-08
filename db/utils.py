@@ -6,6 +6,7 @@ Here is the descriptions and some purpose of the file:
 """
 
 import datetime
+import base64
 
 from db import models as _m
 from ljx import settings as _st
@@ -100,3 +101,23 @@ class ContextUtil(object):
     def cats(cls):
         # 站点除了散文之外的技术博客
         return _m.Category.objects.order_by('add').filter(is_active=True, id__gt=1)
+
+
+def make_auth_token(obj, salt, join_str='---'):
+    # 制作用于标记用户在线的token
+    token_string = join_str.join([salt, obj.pk])
+    new_string = str(base64.b64encode(bytes(token_string, encoding='utf-8')))
+    return new_string.split("'")[1]
+
+
+def parse_auth_token(token, salt, join_str='---'):
+    # 反解token
+    obj = object()
+    s = base64.b64decode(bytes(token, encoding='utf-8')).decode('utf-8')
+    up_salt, up_obj_str = s.split(join_str)
+    if not up_salt == salt:
+        return obj
+    visitor = _m.Visitor.objects.filter(is_active=True, pk=up_obj_str).first()
+    if not visitor:
+        return obj
+    return visitor

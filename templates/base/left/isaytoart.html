@@ -3,7 +3,7 @@
 <div class="form_div">
     <form action="/x/comment/add" method="post">
         {% csrf_token %}
-
+        <input type="hidden" name="liked" value="{{ liked }}">
         <input type="hidden" name="blog_id" value="{{ art.pk }}">
 
         {% if VISITOR %}

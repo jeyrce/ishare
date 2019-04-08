@@ -31,7 +31,7 @@
         <!--单图-->
         {% for art in blog_list %}
             <li>
-                <h3 class="blogtitle"><a href="/x/art/{{ art.pk }}" target="_blank">{{ art.title }}</a></h3>
+                <h3 class="blogtitle"><a href="/x/art/{{ art.pk }}" target="_self">{{ art.title }}</a></h3>
                 <span class="blogpic imgscale">
                     {% if art.source %}
                         <i><a href="#">转载</a></i>

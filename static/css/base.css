@@ -196,7 +196,7 @@ a.iconfont.icon-weixin { color: #07AF12;    background: url(../image/c04.png) no
 .hnav a:last-child::after { content: "" }
 /*notice*/
 .notice ul { padding-top: 18px }
-.notice li { font-size: 12px; line-height: 30px; margin-bottom: 12px; display: block; -moz-border-radius: 4px; border-radius: 4px; background: #f6f6f6; padding: 4px 12px 4px 30px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; -moz-transition: all .2s ease; -webkit-transition: all .2s ease; transition: all .2s ease; }
+.notice li { font-size: 15px; line-height: 30px; margin-bottom: 12px; display: block; -moz-border-radius: 4px; border-radius: 4px; background: #f6f6f6; padding: 4px 12px 4px 30px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; -moz-transition: all .2s ease; -webkit-transition: all .2s ease; transition: all .2s ease; }
 .notice li:before { position: absolute; content: ""; width: 3px; height: 3px; background: #000; border-radius: 10px; left: 15px; top: 20px }
 .notice li:hover { background: #f2f2f2; box-shadow: 0 0 10px #ccc; -moz-transition: all .2s ease; -webkit-transition: all .2s ease; transition: all .2s ease; }
 /*topnews*/
@@ -358,7 +358,8 @@ about
 .price_info p { margin-bottom: 5px }
 .price_info img { position: absolute; right: 20px; top: 0; width: 120px }
 .share { padding: 10px 20px; background: #f7f7f7; border-left: 3px solid #000; }
-.diggit { display: block; width: 160px; margin: 20px auto; background: #E2523A; color: #fff; box-shadow: 1px 2px 6px 0px rgba(0,0,0,.2); border-radius: 3px; line-height: 40px; text-align: center; }
+.share b { color: #000; }
+.diggit button { width: 160px; margin: 0 0; background: #E2523A; color: #fff; box-shadow: 1px 2px 6px 0px rgba(0,0,0,.2); border-radius: 15px; line-height: 45px; height: 45px; text-align: center; outline: none; }
 .diggit a { color: #fff }
 .diggit a:hover { text-decoration: none }
 .otherlink { margin: 10px 0; overflow: hidden }
@@ -366,7 +367,7 @@ about
 .otherlink li a { display: block; margin-right: 30px; padding-left: 10px; }
 .otherlink li a:hover { text-decoration: underline; color: #000 }
 .otherlink li:before { position: absolute; content: ""; width: 3px; height: 3px; background: #000; border-radius: 10px; left: 0px; top: 12px; }
-.nextinfo a { color: #000 }
+.nextinfo a { color: #5bc0de; }
 .ad img { width: 100% }
 .xiangsi { margin-top: 20px; overflow: hidden }
 .xiangsi li { width: 25%; float: left; overflow: hidden; margin-bottom: 20px; padding-bottom: 10px; }
@@ -402,3 +403,5 @@ about
 .visitor-info span { color: red; }
 .original { background: #1da7ee; }
 .copy { background: #ACCD3C; }
+.shang input { line-height: 70px; height: 70px; width: 70px; border-radius: 50%; background: #00a0e9; font-size: 30px; outline: none; box-shadow: none; }
+#notice { width: 25px; height: 25px; display: inline; vertical-align: middle; align-items: center; margin: 0 10px 0 0; }

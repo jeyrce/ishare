@@ -13,6 +13,7 @@ body { height: 100%; background: #fff url(../image/background.jpg) 50% 50% no-re
 .reg-bar a { color: #fff; text-decoration: none; }
 .reg-bar a:hover { text-decoration: underline; }
 .reg-bar .reg { float: left; }
+.reg-bar { text-align: center; font-size: 20px; }
 .reg-bar .forget { float: right; }
 .dowebok ::-webkit-input-placeholder { font-size: 18px; line-height: 1.4; color: #fff;}
 .dowebok :-moz-placeholder { font-size: 18px; line-height: 1.4; color: #fff;}

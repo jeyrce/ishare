@@ -5,16 +5,16 @@
         {% for art in table.arts %}
             <li>
                 <i class="ztpic">
-                    <a href="/x/art/{{ art.pk }}" target="_blank">
+                    <a href="/x/art/{{ art.pk }}" target="_self">
                         <img src="{{ MEDIA_URL }}{{ art.cover }}" alt="图片丢失">
                     </a>
                 </i>
                 <b>{{ art.title }}</b>
                 <span>{{ art.description }}</span>
                 {% if art.source %}
-                    <a href="/x/art/{{ art.pk }}" target="_blank" class="readmore">文章阅读-【转载】</a>
+                    <a href="/x/art/{{ art.pk }}" target="_self" class="readmore">文章阅读-【转载】</a>
                 {% else %}
-                    <a href="/x/art/{{ art.pk }}" target="_blank" class="readmore">文章阅读-【原创】</a>
+                    <a href="/x/art/{{ art.pk }}" target="_self" class="readmore">文章阅读-【原创】</a>
                 {% endif %}
             </li>
         {% endfor %}

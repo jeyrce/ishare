@@ -48,8 +48,12 @@
         {# 点赞，打赏 #}
         <div class="dashang">
             <p class="like">
-                <span class="diggit">很赞哦！ (74)</span>
-                <span class="diggit">我要打赏</span>
+                <span class="diggit"><button id="like">很赞哦({{ art.like }})</button></span>
+                <span class="shang"><input id = "dashang" type="button" value="赏"></span>
+                <span class="diggit"><button id="copy">复制地址</button></span>
+                <input type="hidden" name="link" value="{{ SITE.host }}/x/art/{{ art.pk }}">
+                <input type="hidden" name="author" value="{{ art.author.nickname }}">
+                <input type="hidden" name="site" value="{{ SITE.name }}">
             </p>
         </div>
 

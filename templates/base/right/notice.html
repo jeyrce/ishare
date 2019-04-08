@@ -1,5 +1,6 @@
+{% load staticfiles %}
 <div class="whitebg notice">
-    <h2 class="htitle">网站公告</h2>
+    <h2 class="htitle"><img id="notice" src="{% static 'image/notice.png' %}" alt="通知">网站公告</h2>
     <ul>
         {% for tip in NOTICE %}
             <li><a href="/x/notice/{{ tip.pk }}">{{ tip.title }}</a></li>

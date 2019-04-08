@@ -42,7 +42,7 @@ class OpenView(View):
 
 class RestfulView(View):
     """
-    修改操作仅实现patch方式
+    修改操作仅实现patch方式, 游客认证
     """
 
     def put(self, request, pk):

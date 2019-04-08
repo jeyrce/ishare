@@ -10,7 +10,8 @@
     {% for engine, code in SITE.search_engine_metas.items %}
         <meta name="{{ engine }}" content="{{ code }}"/>
     {% endfor %}
-
+    {# -----------彩蛋----------- #}
+    {% include 'base/common/egg.js.html' %}
     {# 统一图标 #}
     <link rel="icon" type="image/x-icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
@@ -20,8 +21,9 @@
     <div class="title">
         <h2><span>{{ SITE.name }}</span></h2>
     </div>
-    {# token #}
+    {# token和接下来要去的页面 #}
     {% csrf_token %}
+    <input type="hidden" name="next", value="{{ next }}">
     <div class="form-item">
         <input id="email" type="text" autocomplete="off" placeholder="你的邮箱">
         <p class="tip" id="email-tip"></p>
@@ -34,8 +36,9 @@
         <button id="submit">登 录</button>
     </div>
     <div class="reg-bar">
-        <a class="reg" href="#" target="_blank">立即注册</a>
-        <a class="forget" href="#" target="_blank">忘记密码</a>
+        <a class="reg" href="/x/auth/signup" target="_self">立即注册</a>
+        <a class="index" href="/" target="_self">返回首页</a>
+        <a class="forget" href="/x/auth/forget" target="_self">忘记密码</a>
     </div>
 </div>
 

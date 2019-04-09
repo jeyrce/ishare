@@ -123,8 +123,8 @@ class CateGoryAdmin(CommonSetting):
 
 
 class VisitorAdmin(CommonSetting):
-    list_display = ('id', 'is_active', 'is_author', 'nickname')
-    search_fields = ('id', 'nickname', 'desc')
+    list_display = ('email', 'is_active', 'is_author', 'nickname')
+    search_fields = ('email', 'nickname', 'desc')
     list_filter = ('is_author', 'is_active')
     readonly_fields = ('add', 'mod')
     list_editable = ('is_active', 'is_author')
@@ -133,7 +133,7 @@ class VisitorAdmin(CommonSetting):
         Main(
             Fieldset(
                 _('基本信息'),
-                Row('id', 'nickname'),
+                Row('email', 'nickname'),
                 Row('header'),
                 Row('add', 'mod'),
             ),
@@ -162,7 +162,7 @@ class VisitorAdmin(CommonSetting):
 class BlogAdmin(CommonSetting):
     exclude = ('id',)
     list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'com', 'url')
-    search_fields = ('title', 'author__nickname', 'author__id')
+    search_fields = ('title', 'author__nickname', 'author__email')
     list_filter = ('is_active', 'add', 'mod')
     readonly_fields = ('read', 'like', 'add', 'mod')
     list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')

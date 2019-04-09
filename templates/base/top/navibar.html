@@ -20,9 +20,9 @@
                 <li><a href="/x/msg.html">留言板</a></li>
                 {% if VISITOR %}
                     <li><a href="/x/me.html">{{ VISITOR.nickname }}</a></li>
-                    <li><a href="/x/auth/signout">注销登录</a></li>
+                    <li><a id="signout">注销登录</a></li>
                 {% else %}
-                    <li><a href="/x/auth/signin">登录 | 注册</a></li>
+                    <li><a id="signin">登录 | 注册</a></li>
                 {% endif %}
             </ul>
         </nav>

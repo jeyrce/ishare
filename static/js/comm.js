@@ -38,7 +38,7 @@ $(document).ready(function () {
         like_btn = $('#like');
         var liked = $('input[name="liked"]').val();
         if (liked == 'true') {
-            alert('你已经点过赞啦！');
+            layer.msg('你已经点过赞啦！七天内不能重复点赞哦')
         } else {
             $.ajax({
                 type: "POST",
@@ -48,7 +48,7 @@ $(document).ready(function () {
                 },
                 //回调
                 success: function (res) {
-                    alert("感谢你的点赞！");
+                    layer.msg('感谢你的点赞！作者将会更加努力写作');
                     //局部刷新点击后的点赞数并标记点赞
                     like_btn.text('很赞哦(' + res["msg"] + ')');
                     $('input[name="liked"]').val('true');
@@ -59,23 +59,46 @@ $(document).ready(function () {
 
     //打赏文章作者
     $('#dashang').click(function (event) {
-        //显示该文章作者的两张打赏码
-        console.log('你对作者的赞赏就是作者创作的动力！');
+        var art_id = $('input[name="blog_id"]').val();
+        //获取作者打赏码
+        $.ajax({
+            type: "GET",
+            url: '/x/art/dsm/',
+            data: {
+                'art_id': art_id
+            },
+            //回调
+            success: function (res) {
+                //显示该文章作者的两张打赏码
+                layer.photos({
+                    photos: res,
+                    //切换图片时回调
+                    tab: function (pic, layero) {
+                        if(pic["pid"] == "alipay"){
+                            layer.msg('当前是支付宝打赏码，可切换为微信', {time:2000}, function () {});
+                        } else {
+                            layer.msg('当前是微信打赏码，可切换为支付宝', {time:2000}, function () {});
+                        }
+                    }
+                });
+            }
+        });
     });
+
     //复制本文地址
     $('#copy').click(function (event) {
         var author = $('input[name="author"]').val();
         var site = $('input[name="site"]').val();
         var link = $('input[name="link"]').val();
-        var str = '-------------------------------------------------\r\n' +
-                  '来源:' + site + '\r\n' +
-                  '链接:' + link + '\r\n' +
-                  '作者:' + author + '\r\n' +
-                  '声明:' + '原创著作版权归本站及作者所有，转载引用请注明来源。\r\n' +
-                  '-------------------------------------------------\r\n';
+        var str =
+            '来源:' + site + '\r\n' +
+            '作者:' + author + '\r\n' +
+            '声明:' + '原创著作版权归本站及作者所有，转载引用请注明来源。\r\n' +
+            '-------------------------------------------------\r\n' +
+            '链接:' + link + '\r\n';
         console.log(str);
         executeCopy(str);
-        alert('复制本文地址成功！欢迎转载分享！')
+        layer.msg('复制本文永久链接成功，欢迎转载分享！');
     });
 
     // Copy text as text
@@ -88,4 +111,8 @@ $(document).ready(function () {
         document.execCommand('Copy', false);
         input.remove();
     }
+
+    //弹出式登录框
+
+
 });

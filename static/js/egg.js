@@ -4,12 +4,20 @@
 * description: 埋藏在控制台的彩蛋
 * */
 
+
 //重复n个字符
-function repeat(str, n){
-    return new Array(n+1).join(str);
+function repeat(str, n) {
+    return new Array(n + 1).join(str);
 }
 
 $(document).ready(function () {
+    //任意页面加载动画//加载层-风格2
+    layer.load(1);
+    //此处演示关闭
+    setTimeout(function () {
+        layer.closeAll('loading');
+    }, 2000);
+    /*控制台彩蛋*/
     var str = [
         "%c青春不是年华，而是心境；",
         "%c青春不是桃面，丹唇，柔膝，而是深沉的意志；恢宏的想象；炙热的爱情；青春是生命盎然的涌流。",
@@ -24,11 +32,33 @@ $(document).ready(function () {
         "%c然则只要树起天线，捕捉乐观信号，你就有望在八十高龄告别尘寰时仍青春韶华。"
     ];
     console.log("%c《青春》---塞缪尔•厄尔曼", "color: red;");
-    for (var index=0; index<str.length; index++){
-        console.log(repeat('-', 85) + '\r\n');
+    for (var index = 0; index < str.length; index++) {
+        console.log('\r\n');
         console.log(str[index], "color: green;");
     }
-    console.log(repeat('-', 85) + '\r\n');
+    console.log('\r\n');
     console.log("%c2019-04-09 00:40 https://www.lujianxin.com", "color: green;");
+
+    var site_name = [
+        "%c                               _       _ _                  _                            ",
+        "%c                              | |     (_|_)                (_)                           ",
+        "%c __      ____      ____      _| |_   _ _ _  __ _ _ __ __  ___ _ __    ___ ___  _ __ ___  ",
+        "%c \\ \\ /\\ / /\\ \\ /\\ / /\\ \\ /\\ / / | | | | | |/ _` | \'_ \\\\ \\/ / | \'_ \\  / __/ _ \\| \'_ ` _ \\ ",
+        "%c  \\ V  V /  \\ V  V /  \\ V  V /| | |_| | | | (_| | | | |>  <| | | | || (_| (_) | | | | | |",
+        "%c   \\_/\\_/    \\_/\\_/    \\_/\\_(_)_|\\__,_| |_|\\__,_|_| |_/_/\\_\\_|_| |_(_)___\\___/|_| |_| |_|",
+        "%c                                     _/ |                                                ",
+        "%c                                    |__/                                                 "
+    ];
+    for (i=0; i<site_name.length; i++){
+        console.log(site_name[i], "color: blue;");
+    }
     console.log("%c~既然都发现这个彩蛋了，收藏一下本站呗^o^", "color: red;");
 });
+
+
+
+
+
+
+
+

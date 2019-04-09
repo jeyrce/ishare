@@ -5,11 +5,9 @@ Here is the descriptions and some purpose of the file:
     0. 博客主要业务逻辑视图
 """
 
-
 from django.http.response import JsonResponse, HttpResponse, Http404
 from django.views.generic import View
-from django.db.models import F
-from django.shortcuts import render, resolve_url, redirect
+from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 
 from ljx.views import OpenView
@@ -70,16 +68,18 @@ class ArticleObj(View):
             'cform': CommentForm(),
             'liked': self.get_art_like_status(pk),
         }
-
+        # 更新阅读次数
+        obj.read += 1
+        obj.save(update_fields=('read',))
         return render(request, 'detail.html', ctx)
 
     def post(self, request, pk):
         obj = self.get_obj(pk)
         obj.like += 1
-        obj.save(update_fields=['like',])
+        obj.save(update_fields=['like', ])
         response = JsonResponse({'code': 0, 'msg': obj.like})
         # 7天内不允许重复点赞
-        response.set_cookie(pk, 'true', expires=60*60*24*7)
+        response.set_cookie(pk, 'true', expires=60 * 60 * 24 * 7)
         return response
 
     def patch(self, request, pk):
@@ -90,7 +90,7 @@ class ArticleObj(View):
         # 删除文章
         obj = self.get_obj(pk)
         obj.is_active = False
-        obj.save(update_fields=['is_active',])
+        obj.save(update_fields=['is_active', ])
         return JsonResponse({"code": 0, "msg": obj.pk})
 
     def get_art_like_status(self, pk):
@@ -221,3 +221,42 @@ class SignIn(View):
     def delete(self, request, *args, **kwargs):
         # 注销登录
         raise NotImplementedError()
+
+
+class DsImg(View):
+    # 获取文章打赏码
+
+    def get(self, request, *args, **kwargs):
+        art_id = self.request.GET.get('art_id', 'xxx')
+        art = m.Blog.objects.filter(pk=art_id).first()
+        alipay_src = ''
+        wechat_src = ''
+        if not art:
+            # 放上站长的二维码
+            siter = m.Visitor.objects.filter(pk='jeeyshe@gmail.com').first()
+            alipay_src = '{}{}'.format(settings.MEDIA_URL, siter.alipay)
+            wechat_src = '{}{}'.format(settings.MEDIA_URL, siter.wechat)
+        else:
+            # 放上作者的二维码
+            alipay_src = '{}{}'.format(settings.MEDIA_URL, art.author.alipay)
+            wechat_src = '{}{}'.format(settings.MEDIA_URL, art.author.wechat)
+        response = JsonResponse({
+            "title": "作者打赏码",
+            "id": 'dsm',
+            "start": 0,
+            "data": [
+                {
+                    "alt": "支付宝打赏码",
+                    "pid": 'alipay',
+                    "src": alipay_src,
+                    "thumb": alipay_src
+                },
+                {
+                    "alt": "微信打赏码",
+                    "pid": 'wehcat',
+                    "src": wechat_src,
+                    "thumb": wechat_src
+                },
+            ]
+        })
+        return response

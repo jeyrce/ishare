@@ -43,4 +43,7 @@ urlpatterns = [
     path('comment/add', views.CommentAdd.as_view()),
     # 广告或友链点击记录
     path('goto', views.DoingView.as_view()),
+    # 获取打赏码地址
+    path('art/dsm/', views.DsImg.as_view()),
 ]
+

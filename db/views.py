@@ -260,3 +260,17 @@ class DsImg(View):
             ]
         })
         return response
+
+
+class SignUp(View):
+    """
+    注册账号
+    """
+    def get(self, request, *args, **kwargs):
+        return render(request, 'auth/signup.html')
+
+    def post(self):
+        response = JsonResponse({'code': 0, 'msg': 'ok'})
+        auth_token = make_auth_token()
+        self.request.session['auth_token'] = auth_token
+        return response

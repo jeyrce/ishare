@@ -57,7 +57,7 @@ $(document).ready(function () {
         }
     });
 
-    //打赏文章作者
+//打赏文章作者
     $('#dashang').click(function (event) {
         var art_id = $('input[name="blog_id"]').val();
         //获取作者打赏码
@@ -74,10 +74,12 @@ $(document).ready(function () {
                     photos: res,
                     //切换图片时回调
                     tab: function (pic, layero) {
-                        if(pic["pid"] == "alipay"){
-                            layer.msg('当前是支付宝打赏码，可切换为微信', {time:2000}, function () {});
+                        if (pic["pid"] == "alipay") {
+                            layer.msg('当前是支付宝打赏码，可切换为微信', {time: 2000}, function () {
+                            });
                         } else {
-                            layer.msg('当前是微信打赏码，可切换为支付宝', {time:2000}, function () {});
+                            layer.msg('当前是微信打赏码，可切换为支付宝', {time: 2000}, function () {
+                            });
                         }
                     }
                 });
@@ -85,7 +87,7 @@ $(document).ready(function () {
         });
     });
 
-    //复制本文地址
+//复制本文地址
     $('#copy').click(function (event) {
         var author = $('input[name="author"]').val();
         var site = $('input[name="site"]').val();
@@ -101,7 +103,7 @@ $(document).ready(function () {
         layer.msg('复制本文永久链接成功，欢迎转载分享！');
     });
 
-    // Copy text as text
+// Copy text as text
     function executeCopy(text) {
         var input = document.createElement('textarea');
         document.body.appendChild(input);
@@ -112,7 +114,13 @@ $(document).ready(function () {
         input.remove();
     }
 
-    //弹出式登录框
-
-
 });
+
+
+//注销登录
+function signout() {
+
+}
+
+
+

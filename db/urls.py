@@ -34,7 +34,7 @@ urlpatterns = [
     # 登录
     path('auth/signin', views.SignIn.as_view()),
     # 注册
-    path('auth/signup', views.DoingView.as_view()),
+    path('auth/signup', views.SignUp.as_view()),
     # 登出
     path('auth/signout', views.DoingView.as_view()),
     # 重置密码

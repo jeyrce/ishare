@@ -7,7 +7,7 @@
             <ul id="starlist">
                 <li><a href="/">首页</a></li>
                 <li><a href="/x/soul.html">文学创作</a></li>
-                <li class="menu"><a href="#">技术干货</a>
+                <li class="menu"><a href="#" onclick="return false;">技术干货</a>
                     <ul class="sub">
                         {% for cat in CATS %}
                             <li><a href="/x/cat/{{ cat.pk }}">{{ cat.cat }}</a></li>
@@ -20,9 +20,8 @@
                 <li><a href="/x/msg.html">留言板</a></li>
                 {% if VISITOR %}
                     <li><a href="/x/me.html">{{ VISITOR.nickname }}</a></li>
-                    <li><a id="signout">注销登录</a></li>
                 {% else %}
-                    <li><a id="signin">登录 | 注册</a></li>
+                    <li><a href="/x/auth/signin">登录 | 注册</a></li>
                 {% endif %}
             </ul>
         </nav>

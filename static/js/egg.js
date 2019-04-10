@@ -56,5 +56,6 @@ $(document).ready(function () {
         console.log(site_name[i], "color: blue;");
     }
     console.log("%c~既然都发现这个彩蛋了，收藏一下本站呗^o^", "color: red;");
+
 });
 

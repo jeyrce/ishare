@@ -261,12 +261,14 @@ class DsImg(View):
         })
         return response
 
+from db.tasks import printx
 
 class SignUp(View):
     """
     注册账号
     """
     def get(self, request, *args, **kwargs):
+        printx()
         return render(request, 'auth/signup.html')
 
     def post(self):

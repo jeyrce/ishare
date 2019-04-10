@@ -11,7 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import re
 import pymysql
+
+import djcelery
+
+djcelery.setup_loader()
+BROKER_URL = 'django://'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -51,15 +57,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+]
+
+MAIN_APPS = [
     # 主要业务模块
     'ljx',
     'db',
+]
+INSTALLED_APPS.extend(MAIN_APPS)
+EXTRA_APPS = [
     # 功能拓展模块
     'crispy_forms',
     'reversion',
     'xadmin',
     'DjangoUeditor',
+    'djcelery',
 ]
+INSTALLED_APPS.extend(EXTRA_APPS)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -187,3 +202,60 @@ ART_DESC_LENGTH = 200
 
 # 评论和留言缩略长度
 COM_DESC_LENGTH = MSG_DESC_LENGTH = 20
+
+# 缓存配置
+#########
+# CACHE #
+#########
+
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
+CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 10},
+            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+            "PASSWORD": "ljX.07",
+        }
+    },
+    "one": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 10},
+            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+            "PASSWORD": "ljX.07",
+        }
+    },
+}
+
+############
+# SESSIONS #
+############
+
+# Cache to store session data if using the cache session backend.
+SESSION_CACHE_ALIAS = 'default'
+# Cookie name. This can be whatever you want.
+SESSION_COOKIE_NAME = 'sessionid'
+# Age of cookie, in seconds (default: 2 weeks).
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 2
+# The path of the session cookie.
+SESSION_COOKIE_PATH = '/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG
+# class to serialize session data
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+# 基于内存和redis双缓存
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+DJANGO_REDIS_IGNORE_EXCEPTIONS = True  # 忽略异常
+
+DISALLOWED_USER_AGENTS = [
+    re.compile('^python.*$'),
+]
+
+LOGOUT_REDIRECT_URL = '/'
+CSRF_USE_SESSIONS = True

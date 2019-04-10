@@ -43,7 +43,7 @@ setTimeout(function () {
 
 
 $(document).ready(function () {
-
+    console.clear();
     console.log("%c《青春》---塞缪尔•厄尔曼", "color: red;");
     for (var index = 0; index < str.length; index++) {
         console.log('\r\n');

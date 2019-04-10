@@ -8,7 +8,7 @@ Here is the descriptions and some purpose of the file:
 from __future__ import absolute_import, unicode_literals
 import os
 
-from ljx.settings import MAIN_APPS
+from ljx.settings import INSTALLED_APPS, CELERY_BROKER_URL
 from celery import Celery
 
 # set the default Django settings module for the 'celery' program.
@@ -18,4 +18,4 @@ app = Celery('ljx')
 
 app.config_from_object('django.conf:settings')
 
-app.autodiscover_tasks(MAIN_APPS)
+app.autodiscover_tasks(('ljx.db',))

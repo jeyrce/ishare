@@ -17,7 +17,6 @@ import pymysql
 import djcelery
 
 djcelery.setup_loader()
-BROKER_URL = 'django://'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,6 +72,8 @@ EXTRA_APPS = [
     'xadmin',
     'DjangoUeditor',
     'djcelery',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 INSTALLED_APPS.extend(EXTRA_APPS)
 
@@ -259,3 +260,12 @@ DISALLOWED_USER_AGENTS = [
 
 LOGOUT_REDIRECT_URL = '/'
 CSRF_USE_SESSIONS = True
+
+# celery配置
+CELERY_BROKER_URL = BROKER_URL = 'redis://:ljX.07@127.0.0.1:6379/2'
+CELERY_RESULT_BACKEND = 'redis://:ljX.07@127.0.0.1:6379/3'
+CELERY_CACHE_BACKEND = 'django-cache'
+BROKER_TRANSPORT_OPTIONS = {
+    'visibility_timeout': 3600,
+    'fanout_prefix': True,
+}

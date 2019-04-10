@@ -9,8 +9,9 @@ from ljx import celery_app
 
 
 @celery_app.task()
-def printx():
+def printx(self):
     f = open('task.txt', 'at', encoding='utf-8')
     for i in range(99):
         f.write(str(i).center(20, '+'))
+        print(i)
     f.close()

@@ -15,14 +15,12 @@
                     </ul>
                     <span></span>
                 </li>
-                <li><a href="/x/write.html">我要投稿</a></li>
                 <li><a href="/x/link.html">友情链接</a></li>
                 <li><a href="/x/msg.html">留言板</a></li>
-                {% if VISITOR %}
-                    <li><a href="/x/me.html">{{ VISITOR.nickname }}</a></li>
-                    <li><a href="/x/auth/signout">登出</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="/xauth" target="_blank">进入后台</a></li>
                 {% else %}
-                    <li><a href="/x/auth/signin">登录 | 注册</a></li>
+                    <li><a href="/xauth" target="_blank">登录</a></li>
                 {% endif %}
             </ul>
         </nav>

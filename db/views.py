@@ -8,7 +8,6 @@ Here is the descriptions and some purpose of the file:
 from django.http.response import JsonResponse, HttpResponse, Http404
 from django.views.generic import View
 from django.shortcuts import render
-from django.contrib.auth.hashers import make_password, check_password
 
 from ljx.views import OpenView
 from db import models as m
@@ -82,38 +81,10 @@ class ArticleObj(View):
         response.set_cookie(pk, 'true', expires=60 * 60 * 24 * 7)
         return response
 
-    def patch(self, request, pk):
-        # 修改文章
-        return JsonResponse({"code": 0, "msg": 'put xxx'})
-
-    def delete(self, request, pk):
-        # 删除文章
-        obj = self.get_obj(pk)
-        obj.is_active = False
-        obj.save(update_fields=['is_active', ])
-        return JsonResponse({"code": 0, "msg": obj.pk})
-
     def get_art_like_status(self, pk):
         # 检验当前文章是否已经点赞过
         liked = self.request.COOKIES.get(pk, 'false')
         return liked
-
-
-class ArticleAdd(View):
-
-    def get(self, request):
-        # 发表新的文章
-        raise NotImplementedError()
-
-
-class CommentAdd(View):
-    """
-    添加评论楼层
-    """
-
-    def post(self, request):
-        print(self.request.POST)
-        return HttpResponse('ok')
 
 
 class Soul(OpenView):
@@ -190,37 +161,11 @@ class Message(View):
     """
 
     def get(self, request, *args, **kwargs):
-        print(kwargs)
         ctx = {
-
+            'declare': '都走到这了，留句话呗！',
+            'desc': '欢迎前来找我聊人生、聊理想、聊家常、谈天说地！'
         }
         return render(request, 'msg.html', ctx)
-
-
-class SignIn(View):
-
-    def get(self, request, *args, **kwargs):
-        # 获取接下来要去的地方
-        next = self.request.META.get('HTTP_REFERER', '/')
-        return render(request, 'auth/signin.html', {'next': next})
-
-    def post(self, request, *args, **kwargs):
-        # 进行登录
-        obj = m.Visitor.objects.filter(email=self.request.POST.get('email')).first()
-        if not obj:
-            return JsonResponse({'msg': '账号不存在', 'code': -1})
-        if not obj.is_active:
-            return JsonResponse({'msg': '账号被冻结', 'code': -2})
-        if not check_password(self.request.POST.get('pwd'), obj.pwd):
-            return JsonResponse({'msg': '密码不正确', 'code': -3})
-        auth_token = make_auth_token(obj, settings.SECRET_KEY)
-        response = JsonResponse({'msg': 'ok', 'code': 0})
-        self.request.session['auth_token'] = auth_token
-        return response
-
-    def delete(self, request, *args, **kwargs):
-        # 注销登录
-        raise NotImplementedError()
 
 
 class DsImg(View):
@@ -259,20 +204,4 @@ class DsImg(View):
                 },
             ]
         })
-        return response
-
-from db.tasks import printx
-
-class SignUp(View):
-    """
-    注册账号
-    """
-    def get(self, request, *args, **kwargs):
-        printx()
-        return render(request, 'auth/signup.html')
-
-    def post(self):
-        response = JsonResponse({'code': 0, 'msg': 'ok'})
-        auth_token = make_auth_token()
-        self.request.session['auth_token'] = auth_token
         return response

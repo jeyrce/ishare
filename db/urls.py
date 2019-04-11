@@ -5,14 +5,13 @@ Here is the descriptions and some purpose of the file:
     0. 博客主要业务逻辑路由
 """
 
-from django.urls import path, re_path
+from django.urls import path
 
 from db import views
 
 app_name = 'db'
 
 urlpatterns = [
-    # ----------------------------------------------页面类
     # 文章详情页
     path('art/<pk>', views.ArticleObj.as_view()),
     # 文学类列表页
@@ -25,25 +24,10 @@ urlpatterns = [
     path('tag/<pk>', views.DoingView.as_view()),
     # 留言留言列表页
     path('msg.html', views.Message.as_view()),
-    # 投稿页面，在线编辑
-    path('write.html', views.DoingView.as_view()),
-    # 作者主页
-    path('me.html', views.DoingView.as_view()),
     # 对外作者主页
     path('author/<nickname>', views.DoingView.as_view()),
-    # 登录
-    path('auth/signin', views.SignIn.as_view()),
-    # 注册
-    path('auth/signup', views.SignUp.as_view()),
-    # 登出
-    path('auth/signout', views.DoingView.as_view()),
-    # 重置密码
-    path('auth/forget', views.DoingView.as_view()),
-    # 添加评论
-    path('comment/add', views.CommentAdd.as_view()),
     # 广告或友链点击记录
     path('goto', views.DoingView.as_view()),
     # 获取打赏码地址
     path('art/dsm/', views.DsImg.as_view()),
 ]
-

@@ -1,7 +1,10 @@
 {# --------------文章详情------------ #}
 {% load staticfiles %}
 <div class="content_box whitebg">
-
+    {# 隐藏域；token #}
+    {% csrf_token %}
+    <input type="hidden" name="blog_id" value="{{ art.pk }}">
+    <input type="hidden" name="liked" value="{{ liked }}">
     {# 位置说明 #}
     <h2 class="htitle">
         文章详情页

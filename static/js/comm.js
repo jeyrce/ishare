@@ -117,10 +117,5 @@ $(document).ready(function () {
 });
 
 
-//注销登录
-function signout() {
-
-}
-
 
 

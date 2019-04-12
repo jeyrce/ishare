@@ -20,6 +20,8 @@ urlpatterns = [
     path('cat/<pk>', views.DoingView.as_view()),
     # 某标签文章列表
     path('tag/<pk>', views.DoingView.as_view()),
+    # 公告详情页
+    path('notice/<pk>', views.DoingView.as_view()),
     # 留言留言列表页
     path('msg.html', views.Message.as_view()),
     # 广告或友链点击记录

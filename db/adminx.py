@@ -204,6 +204,11 @@ class AuthorAdmin(CommonSetting, UserAdmin):
         # 删除权限
         return False
 
+    def save_models(self):
+        if self.new_obj.email is None:
+            self.new_obj.email = 'author@lujianxin.com'
+        self.new_obj.save()
+
 
 class BlogAdmin(CommonSetting):
     exclude = ('id',)
@@ -291,6 +296,9 @@ class AuthorBlogAdmin(CommonSetting):
         # 删除权限
         if self.request.user.is_superuser:
             return True
+
+    def has_change_permission(self):
+        return True
 
 
 class AdvertisementAdmin(CommonSetting):

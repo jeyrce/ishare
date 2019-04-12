@@ -10,14 +10,13 @@ from django.utils.translation import ugettext as _
 import xadmin
 from xadmin import views
 from xadmin.layout import Main, Fieldset, Row, Side, Col
+from xadmin.plugins.auth import UserAdmin
 from db.models import (
     Tag,
     Category,
-    Visitor,
     Blog,
-    TopBlog,
-    Comment,
-    Message,
+    AuthorBlog,
+    Author,
     Advertisement,
     TipAd,
     AdClick,
@@ -39,20 +38,8 @@ class BaseSetting(object):
 class GlobalSetting(object):
     site_title = '博客后台管理系统'
     site_footer = '陆鉴鑫的博客'
-    menu_style = 'accordion'  # 还有一个选项default
-    global_search_models = (Tag, User)
-    global_add_models = (
-        User,
-        Tag,
-        Category,
-        Blog,
-        TopBlog,
-        Advertisement,
-        TipAd,
-        Link,
-        Notice,
-        Expand,
-    )
+    global_search_models = ()
+    global_add_models = ()
 
 
 class CommonSetting(object):
@@ -62,7 +49,7 @@ class CommonSetting(object):
     empty_value_display = '-暂无-'
     list_gallery = True
     use_related_menu = False
-    style_fields = {'content': 'ueditor', 'reply': 'ueditor'}
+    style_fields = {'content': 'ueditor'}
     # relfield_style = 'fk_ajax'  # ajax加载外键选项
 
 
@@ -103,16 +90,16 @@ class TagAdmin(CommonSetting):
 
 
 class CateGoryAdmin(CommonSetting):
-    list_display = ('cat', 'is_active', 'art_nums', 'add', 'mod')
-    search_fields = ('cat',)
+    list_display = ('pre_cat', 'cat', 'is_active', 'art_nums', 'add', 'mod')
+    search_fields = ('cat', 'pre_cat')
     list_filter = ('add', 'mod', 'is_active')
     readonly_fields = ('add', 'mod')
-    list_editable = ('cat', 'is_active')
+    list_editable = ('pre_cat', 'cat', 'is_active')
     form_layout = (
         Main(
             Fieldset(
                 _('类别信息'),
-                Row('cat', 'art_nums'),
+                Row('pre_cat', 'cat'),
                 Row('add', 'mod')
             ),
         ),
@@ -122,57 +109,115 @@ class CateGoryAdmin(CommonSetting):
     )
 
 
-class VisitorAdmin(CommonSetting):
-    list_display = ('email', 'is_active', 'is_author', 'nickname')
-    search_fields = ('email', 'nickname', 'desc')
-    list_filter = ('is_author', 'is_active')
-    readonly_fields = ('add', 'mod')
-    list_editable = ('is_active', 'is_author')
-    exclude = ('pwd',)
-    form_layout = (
-        Main(
-            Fieldset(
-                _('基本信息'),
-                Row('email', 'nickname'),
-                Row('header'),
-                Row('add', 'mod'),
-            ),
-            Fieldset(
-                _('打赏账户'),
-                Row('alipay', 'wechat'),
-            ),
-        ),
-        Side(
-            Fieldset(_('状态'), 'is_active', 'is_author'),
-            Fieldset(_('简介'), 'desc')
-        )
-    )
+class UserAccountAdmin(CommonSetting, UserAdmin):
+    change_user_password_template = None
+    list_display = ('email', 'username', 'is_staff', 'is_active')
+    list_editable = ('is_active', 'is_staff')
+    list_filter = ('is_staff', 'is_superuser', 'is_active')
+    search_fields = ('username', 'first_name', 'last_name', 'email')
+    ordering = ('-date_joined',)
+    readonly_fields = ('date_joined', 'last_login')
+    exclude = ('last_name', 'first_name')
+    style_fields = {'user_permissions': 'm2m_transfer'}
+    model_icon = 'fa fa-user'
+    relfield_style = 'fk-ajax'
 
-    def has_add_permission(self):
-        if self.user.is_superuser:
-            return True
-        return False
+    def get_form_layout(self):
+        if self.org_obj:
+            self.form_layout = (
+                Main(
+                    Fieldset(_('Personal info'),
+                             Row('email'),
+                             Row('password'),
+                             ),
+                    Fieldset(
+                        '作者信息',
+                        Row('username', 'header'),
+                        Row('desc'),
+                        Row('alipay', 'wechat'),
+                    ),
+                    Fieldset(_('Permissions'),
+                             'groups', 'user_permissions'
+                             ),
+                    Fieldset(_('Important dates'),
+                             Row('last_login', 'date_joined')
+                             ),
+                ),
+                Side(
+                    Fieldset(_('Status'),
+                             'is_active', 'is_staff', 'is_superuser',
+                             ),
+                )
+            )
+        return super(UserAdmin, self).get_form_layout()
 
-    def has_delete_permission(self, request=None, obj=None):
-        if self.user.is_superuser:
-            return True
+    def save_models(self):
+        if self.new_obj.email is None:
+            self.new_obj.email = 'author@lujianxin.com'
+        self.new_obj.save()
+
+
+class AuthorAdmin(CommonSetting, UserAdmin):
+    """
+    作者的管理类
+    """
+    change_user_password_template = None
+    list_display = ('email', 'username', 'is_staff', 'is_active')
+    ordering = ('-date_joined',)
+    readonly_fields = ('date_joined', 'last_login', 'email', 'is_active', 'is_staff', 'is_superuser')
+    exclude = ('last_name', 'first_name', 'groups', 'user_permissions')
+    style_fields = {'user_permissions': 'm2m_transfer'}
+    model_icon = 'fa fa-user'
+    relfield_style = 'fk-ajax'
+
+    def get_form_layout(self):
+        if self.org_obj:
+            self.form_layout = (
+                Main(
+                    Fieldset(_('Personal info'),
+                             Row('email'),
+                             Row('password'),
+                             ),
+                    Fieldset(
+                        '作者信息',
+                        Row('username', 'header'),
+                        Row('desc'),
+                        Row('alipay', 'wechat'),
+                    ),
+                    Fieldset(_('Important dates'),
+                             Row('last_login', 'date_joined')
+                             ),
+                ),
+                Side(
+                    Fieldset(_('Status'),
+                             'is_active', 'is_staff', 'is_superuser',
+                             ),
+                )
+            )
+        return super(UserAdmin, self).get_form_layout()
+
+    def queryset(self):
+        q = super().queryset()
+        return q.filter(id=self.request.user.id)
+
+    def has_delete_permission(self, obj=None):
+        # 删除权限
         return False
 
 
 class BlogAdmin(CommonSetting):
     exclude = ('id',)
-    list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'com', 'url')
+    list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'url')
     search_fields = ('title', 'author__nickname', 'author__email')
     list_filter = ('is_active', 'add', 'mod')
-    readonly_fields = ('read', 'like', 'add', 'mod')
+    readonly_fields = ('read', 'like', 'add', 'mod', 'author')
     list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
     form_layout = (
         Main(
             Fieldset(
                 _('基本信息'),
-                Row('title', 'author'),
-                Row('cat', 'tags'),
-                Row('cover'),
+                Row('title', 'cat', 'author'),
+                Row('cover', 'tags'),
             ),
             Fieldset(
                 _('正文'),
@@ -194,24 +239,27 @@ class BlogAdmin(CommonSetting):
         q = super().queryset()
         return q.filter(is_top=False)
 
+    def save_models(self):
+        """
+        保存数据到数据库中时提取作者为当前用户
+        """
+        self.new_obj.author = self.request.user
+        self.new_obj.save()
 
-class TopBlogAdmin(CommonSetting):
-    """
-    置顶文章管理
-    """
-    exclude = ('id',)
-    list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'com', 'url')
-    search_fields = ('title', 'author__nickname', 'author__id')
-    list_filter = ('is_active', 'add', 'mod')
+
+class AuthorBlogAdmin(CommonSetting):
+    exclude = ('id', 'author', 'is_active', 'is_top', 'is_fine')
+    list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'url')
+    search_fields = ('title',)
+    list_filter = ('add', 'mod')
     readonly_fields = ('read', 'like', 'add', 'mod')
     list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
     form_layout = (
         Main(
             Fieldset(
                 _('基本信息'),
-                Row('title', 'author'),
-                Row('cat', 'tags'),
-                Row('cover'),
+                Row('title', 'cat'),
+                Row('cover', 'tags'),
             ),
             Fieldset(
                 _('正文'),
@@ -224,74 +272,29 @@ class TopBlogAdmin(CommonSetting):
                 Row('add', 'mod'),
             ),
         ),
-        Side(
-            Fieldset(_('状态'), 'is_active', 'is_top', 'is_fine'),
-        )
     )
 
     def queryset(self):
         q = super().queryset()
-        return q.filter(is_top=True)
+        return q.filter(author_id=self.request.user.id)
 
+    def save_models(self):
+        """
+        保存数据到数据库中时提取作者为当前用户
+        """
+        self.new_obj.author = self.request.user
+        self.new_obj.save()
 
-class CommentAdmin(CommonSetting):
-    list_display = ('__str__', 'is_active', 'obj_type', 'blog', 'add')
-    search_fields = ()
-    list_filter = ('is_active', 'add')
-    readonly_fields = ('add', 'rep')
-    list_editable = ('is_active',)
-    form_layout = (
-        Main(
-            Fieldset(
-                _('访客对象'),
-                Row('visitor'),
-                Row('nickname', 'email')
-            ),
-            Fieldset(
-                _('评论信息'),
-                Row('blog', 'add'),
-                Row('content'),
-            ),
-            Fieldset(
-                _('作者回复'),
-                Row('reply'),
-                Row('rep'),
-            ),
-        ),
-        Side(
-            Fieldset(_('状态'), 'is_active'),
-        )
-    )
+    def has_add_permission(self):
+        # 写文章的权限
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user.is_active
 
-
-class MessageAdmin(CommonSetting):
-    list_display = ('__str__', 'obj_type', 'is_active', 'add')
-    search_fields = ()
-    list_filter = ('add', 'is_active')
-    readonly_fields = ('add', 'rep')
-    list_editable = ('is_active',)
-    form_layout = (
-        Main(
-            Fieldset(
-                _('访客对象'),
-                Row('visitor', ),
-                Row('nickname', 'email'),
-            ),
-            Fieldset(
-                _('留言信息'),
-                Row('content'),
-                Row('add'),
-            ),
-            Fieldset(
-                _('回复信息'),
-                Row('reply'),
-                Row('rep'),
-            ),
-        ),
-        Side(
-            Fieldset(_('状态'), 'is_active')
-        )
-    )
+    def has_delete_permission(self, obj=None):
+        # 删除权限
+        if self.request.user.is_superuser:
+            return True
 
 
 class AdvertisementAdmin(CommonSetting):
@@ -453,11 +456,10 @@ class ExpandAdmin(CommonSetting):
 # ---------------------注册--------------------
 xadmin.site.register(Tag, TagAdmin)
 xadmin.site.register(Category, CateGoryAdmin)
-xadmin.site.register(Visitor, VisitorAdmin)
+xadmin.site.register(User, UserAccountAdmin)
+xadmin.site.register(Author, AuthorAdmin)
 xadmin.site.register(Blog, BlogAdmin)
-xadmin.site.register(TopBlog, TopBlogAdmin)
-xadmin.site.register(Comment, CommentAdmin)
-xadmin.site.register(Message, MessageAdmin)
+xadmin.site.register(AuthorBlog, AuthorBlogAdmin)
 xadmin.site.register(Advertisement, AdvertisementAdmin)
 xadmin.site.register(TipAd, TipAdAdmin)
 xadmin.site.register(AdClick, AdClickAdmin)

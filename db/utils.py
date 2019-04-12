@@ -8,8 +8,13 @@ Here is the descriptions and some purpose of the file:
 import datetime
 import base64
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
+
 from db import models as _m
 from ljx import settings as _st
+
+UserAccount = get_user_model()
 
 
 def get_value_from_db(key, default):
@@ -40,17 +45,6 @@ class ContextUtil(object):
     def copy_art_cnt(cls) -> int:
         # 获取原创文章数量
         return _m.Blog.objects.filter(source__isnull=False, is_active=True).count()
-
-    @classmethod
-    def comment_cnt(cls) -> int:
-        # 评论数
-        comm_cnt = _m.Comment.objects.filter(is_active=True).count()
-        return comm_cnt
-
-    @classmethod
-    def msg_cnt(cls) -> int:
-        # 留言条数统计
-        return _m.Message.objects.filter(is_active=True).count()
 
     @classmethod
     def visit_cnt(cls) -> int:
@@ -97,10 +91,10 @@ class ContextUtil(object):
         # 猜你喜欢: 当用户阅读某一文章的详情时，随机取出这篇文章的同类别和同标签文章几篇进行推荐
         raise NotImplementedError()
 
-    @classmethod
-    def cats(cls):
+    @staticmethod
+    def cats(pre='A'):
         # 站点除了散文之外的技术博客
-        return _m.Category.objects.order_by('add').filter(is_active=True, id__gt=1)
+        return _m.Category.objects.order_by('-add').filter(is_active=True, pre_cat=pre)
 
 
 def make_auth_token(obj, salt, join_str='---'):
@@ -117,7 +111,23 @@ def parse_auth_token(token, salt, join_str='---'):
     up_salt, up_obj_str = s.split(join_str)
     if not up_salt == salt:
         return obj
-    visitor = _m.Visitor.objects.filter(is_active=True, pk=up_obj_str).first()
+    visitor = _m.UserAccount.objects.filter(is_active=True, pk=up_obj_str).first()
     if not visitor:
         return obj
     return visitor
+
+
+class EmailAuthBackend(ModelBackend):
+    """
+    使用email作为账户登录
+    """
+
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        email = username
+        try:
+            account = UserAccount.objects.get(**{UserAccount.EMAIL_FIELD: email})
+        except UserAccount.DoesNotExist:
+            pass
+        else:
+            if account.check_password(password) and self.user_can_authenticate(account):
+                return account

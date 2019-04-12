@@ -17,7 +17,7 @@
         <i class="avatar">
             <img src="{{ MEDIA_URL }}{{ art.author.header }}" alt="图片丢失">
         </i>
-        <span><a href="/x/author/{{ art.author.nickname }}">{{ art.author.nickname }}</a></span>
+        <span>{{ art.author.username }}</span>
         <span>发表于：{{ art.add }}</span>
         <span>分类：【<a href="/x/cat/{{ art.cat.pk }}">{{ art.cat.cat }}</a>】</span>
         <span>{{ art.read }}次阅读</span>
@@ -55,7 +55,7 @@
                 <span class="shang"><input id = "dashang" type="button" value="赏"></span>
                 <span class="diggit"><button id="copy">复制地址</button></span>
                 <input type="hidden" name="link" value="{{ SITE.host }}/x/art/{{ art.pk }}">
-                <input type="hidden" name="author" value="{{ art.author.nickname }}">
+                <input type="hidden" name="author" value="{{ art.author.username }}">
                 <input type="hidden" name="site" value="{{ SITE.name }}">
             </p>
         </div>

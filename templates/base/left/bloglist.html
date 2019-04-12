@@ -45,9 +45,9 @@
                 </p>
                 <p class="bloginfo">
                     <i class="avatar">
-                        <a href="/x/author/{{ art.author.nickname }}" target="_self"><img src="{{ MEDIA_URL }}{{ art.author.header }}"></a>
+                        <img src="{{ MEDIA_URL }}{{ art.author.header }}">
                     </i>
-                    <span><a href="/x/author/{{ art.author.nickname }}">{{ art.author.nickname }}</a></span>
+                    <span>{{ art.author.nickname }}</span>
                     <span>{{ art.add }}</span>
                     <span>【<a href="/x/cat/{{ art.cat.pk }}">{{ art.cat.cat }}</a>】</span>
                     <span>{{ art.read }}次阅读</span>

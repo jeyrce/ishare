@@ -87,7 +87,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 以下是自定义中间件
     'db.my_middlewares.AllMethodSupportMiddleware',
-    'db.my_middlewares.VisitorAuthenticationMiddleware',
     'db.my_middlewares.VisitCountMiddleware',
     'db.my_middlewares.LinkClickMiddleware',
 ]
@@ -113,8 +112,6 @@ TEMPLATES = [
                 'db.my_context_processors.most_read',
                 'db.my_context_processors.notice',
                 'db.my_context_processors.recommend',
-                # 拟定用户登录全局上下文
-                'db.my_context_processors.visit_auth'
             ],
         },
     },
@@ -174,6 +171,11 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = 'db.UserAccount'
+AUTHENTICATION_BACKENDS = (
+    'db.utils.EmailAuthBackend',
+)
 
 # 站点信息
 SITE = {

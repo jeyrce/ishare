@@ -8,13 +8,15 @@ Here is the descriptions and some purpose of the file:
 from django.http.response import JsonResponse, HttpResponse, Http404
 from django.views.generic import View
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
 
 from ljx.views import OpenView
 from db import models as m
-from db.utils import ContextUtil, make_auth_token
-from db.forms import CommentForm
+from db.utils import ContextUtil
 
 from ljx import settings
+
+User = get_user_model()
 
 
 class DoingView(OpenView):
@@ -26,7 +28,7 @@ class DoingView(OpenView):
         return render(request, 'doing.html')
 
 
-class ArticleObj(View):
+class Detail(View):
     # 前台和文章有关的逻辑
 
     model = m.Blog
@@ -64,7 +66,6 @@ class ArticleObj(View):
             'others': self.get_others(obj),
             'next': self.get_next(obj),
             'prev': self.get_prev(obj),
-            'cform': CommentForm(),
             'liked': self.get_art_like_status(pk),
         }
         # 更新阅读次数
@@ -99,7 +100,7 @@ class Soul(OpenView):
                 'description': '陆鉴鑫的博客，一个助力实现文学梦想，技术干货创作和分享的开放平台。',
             }
         }
-        return render(request, 'soul.html', ctx)
+        return render(request, 'list.html', ctx)
 
     def get_art_list(self):
         # 获取列表
@@ -178,7 +179,7 @@ class DsImg(View):
         wechat_src = ''
         if not art:
             # 放上站长的二维码
-            siter = m.Visitor.objects.filter(pk='jeeyshe@gmail.com').first()
+            siter = User.objects.filter(pk='jeeyshe@gmail.com').first()
             alipay_src = '{}{}'.format(settings.MEDIA_URL, siter.alipay)
             wechat_src = '{}{}'.format(settings.MEDIA_URL, siter.wechat)
         else:

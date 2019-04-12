@@ -28,6 +28,7 @@ xversion.register_models()
 urlpatterns = [
     # 后台管理系统
     path('xauth/', xadmin.site.urls),
+    path('xauth/db/author/<uid>/password/', views.password_reset),
     # 其他
     re_path('^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
     path('ueditor/', include('DjangoUeditor.urls')),

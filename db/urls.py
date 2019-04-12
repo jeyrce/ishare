@@ -13,9 +13,7 @@ app_name = 'db'
 
 urlpatterns = [
     # 文章详情页
-    path('art/<pk>', views.ArticleObj.as_view()),
-    # 文学类列表页
-    path('soul.html', views.Soul.as_view()),
+    path('art/<pk>', views.Detail.as_view()),
     # 友链页
     path('link.html', views.Link.as_view()),
     # 某类别文章列表
@@ -24,8 +22,6 @@ urlpatterns = [
     path('tag/<pk>', views.DoingView.as_view()),
     # 留言留言列表页
     path('msg.html', views.Message.as_view()),
-    # 对外作者主页
-    path('author/<nickname>', views.DoingView.as_view()),
     # 广告或友链点击记录
     path('goto', views.DoingView.as_view()),
     # 获取打赏码地址

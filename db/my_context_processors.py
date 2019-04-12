@@ -15,7 +15,12 @@ def site(request):
 
 def cats(request):
     # 站点分类文件
-    return {'CATS': ctx.cats()}
+    return {
+        'A_CATS': ctx.cats('A'),
+        'a_cat': '文学创作',
+        'B_CATS': ctx.cats('B'),
+        'b_cat': '技术干货',
+    }
 
 
 def site_count(request):
@@ -24,8 +29,6 @@ def site_count(request):
         'run': ctx.run_days(),  # 运行天数
         'origin': ctx.origin_art_cnt(),  # 原创文章数
         'copy': ctx.copy_art_cnt(),  # 转载文章,
-        'comm': ctx.comment_cnt(),  # 评论条数
-        'msg': ctx.msg_cnt(),  # 留言条数
         'visit': ctx.visit_cnt(),  # 总访问数
         'today_visit': ctx.today_visit_cnt(),  # 今日访问
     }}
@@ -44,12 +47,3 @@ def notice(request):
 def recommend(request):
     # 推荐阅读
     return {'RECOMMEND': ctx.recommend()}
-
-
-def visit_auth(request):
-    # 访客身份上下文: 如果中间件赋予了访客身份，就使用这个身份, 否则视为未登录访客
-    if hasattr(request, 'visitor'):
-        visitor = request.visitor
-    else:
-        visitor = None
-    return {'VISITOR': visitor}

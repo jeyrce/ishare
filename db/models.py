@@ -1,5 +1,8 @@
 # coding: utf-8
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
 from ljx import settings
 from DjangoUeditor.models import UEditorField
 from lxml import etree
@@ -35,6 +38,11 @@ class Category(models.Model):
     """
     分类
     """
+    pre_cats = (
+        ('A', '文学类'),
+        ('B', '技术类'),
+    )
+    pre_cat = models.CharField(max_length=1, choices=pre_cats, verbose_name='前置分类')
     cat = models.CharField(max_length=12, verbose_name='类别', help_text='1~12个字')
     add = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
     mod = models.DateTimeField(auto_now=True, verbose_name='最近修改')
@@ -53,28 +61,35 @@ class Category(models.Model):
     art_nums.short_description = '文章数'
 
 
-class Visitor(models.Model):
+class UserAccount(AbstractUser):
     """
-    访客表: 电子邮箱作为唯一访客标识, 访客如需留言评论, 必须以电子邮件作为账户登录
+    重构user模型,适应作者需求， username 为作者昵称
     """
-    email = models.EmailField(max_length=32, primary_key=True, verbose_name='邮箱', help_text='最多32字符')
-    nickname = models.CharField(max_length=12, verbose_name='昵称', unique=True, help_text='1~12个字')
+    username = models.CharField(
+        _('username'),
+        max_length=30,
+        unique=True,
+        help_text='作者昵称、2~30个字符',
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
+    email = models.EmailField(
+        verbose_name='账号邮箱',
+        unique=True,
+        help_text='作为登录账号，绑定后不可修改'
+    )
     header = models.ImageField(null=True, blank=True, verbose_name='头像', upload_to='header/')
-    pwd = models.CharField(max_length=20, blank=True, null=True, verbose_name='密码')
     desc = models.TextField(max_length=200, blank=True, verbose_name='简介', null=True, help_text='200字描述一下自己')
-    is_author = models.BooleanField(default=True, verbose_name='是否作者')
     alipay = models.ImageField(upload_to='dsm/alipay/', null=True, verbose_name='支付宝打赏码', blank=True)
     wechat = models.ImageField(upload_to='dsm/wechat/', null=True, verbose_name='微信打赏码', blank=True)
-    is_active = models.BooleanField(default=False, verbose_name='是否可用')
-    mod = models.DateTimeField(auto_now=True, verbose_name='最近修改')
-    add = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
 
     class Meta:
-        verbose_name_plural = verbose_name = '访客'
-        db_table = 'visitor'
+        verbose_name_plural = verbose_name = '账户'
+        db_table = 'user_account'
 
     def __str__(self):
-        return self.nickname
+        return self.username
 
     def origin(self):
         # 原创文章数
@@ -98,8 +113,14 @@ class Visitor(models.Model):
         # 加入本站天数
         import datetime
         now = datetime.datetime.now()
-        t = now - self.add
+        t = now - self.date_joined
         return t.days
+
+
+class Author(UserAccount):
+    class Meta:
+        verbose_name_plural = verbose_name = '我的账号'
+        proxy = True
 
 
 class Blog(models.Model):
@@ -108,7 +129,15 @@ class Blog(models.Model):
     """
     id = models.CharField(max_length=12, default=short_uuid.random, primary_key=True)
     title = models.CharField(max_length=32, verbose_name='标题', help_text='1~32个字')
-    author = models.ForeignKey(to=Visitor, on_delete=models.CASCADE, verbose_name='作者')
+    author = models.ForeignKey(
+        to=UserAccount,
+        on_delete=models.CASCADE,
+        limit_choices_to={
+            "is_active": True,
+            "is_staff": True,
+        },
+        verbose_name='作者'
+    )
     cat = models.ForeignKey(to=Category, related_name='cblogs', on_delete=models.SET_NULL, null=True, verbose_name='分类')
     tags = models.ManyToManyField(to=Tag, related_name='tblogs', verbose_name='标签', blank=True)
     cover = models.ImageField(upload_to='blog/cover/', verbose_name='封面', blank=True)
@@ -139,14 +168,6 @@ class Blog(models.Model):
 
     url.short_description = '前去阅读'
 
-    def com(self):
-        coms = self.coms.filter(is_active=True)
-        # 评论条数
-        com_cnt = coms.count()
-        return com_cnt
-
-    com.short_description = '评论数'
-
     def original(self):
         # 是否原创: 有source链接则为转载, 否则为原创
         if self.source:
@@ -167,89 +188,15 @@ class Blog(models.Model):
         tags = self.tags.filter(is_active=True)
         return '、'.join([tag.tag for tag in tags])
 
-    def act_coms(self):
-        # 文章对应的可见评论
-        return self.coms.filter(is_active=True)
 
-
-class TopBlog(Blog):
+class AuthorBlog(Blog):
     """
-    置顶博客： 轮播图级旁边两个小窗
+    给作者用的博客管理器
     """
 
     class Meta:
-        verbose_name_plural = verbose_name = '置顶博客'
+        verbose_name_plural = verbose_name = '我的博客'
         proxy = True
-
-
-class Comment(models.Model):
-    """
-    评论表, 简单的1问1答模式，如果是游客，visitor字段不为空，否则email字段不为空
-    """
-    blog = models.ForeignKey(to=Blog, related_name='coms', on_delete=models.CASCADE, verbose_name='所属博客')
-    visitor = models.ForeignKey(to=Visitor, on_delete=models.CASCADE, null=True, blank=True, verbose_name='评论者')
-    nickname = models.CharField(max_length=12, null=True, blank=True, verbose_name='昵称')
-    email = models.EmailField(max_length=64, verbose_name='邮箱', null=True, blank=True)
-    content = UEditorField(verbose_name='评论内容', max_length=300, width='100%', height=200, blank=True,
-                           imagePath='com/v/',
-                           toolbars='normal')
-    reply = UEditorField(verbose_name='作者回复', max_length=300, width='100%', height=200, blank=True, imagePath='com/r/',
-                         toolbars='normal')
-    add = models.DateTimeField(auto_now_add=True, verbose_name='评论时间')
-    rep = models.DateTimeField(default=None, null=True, blank=True, verbose_name='回复时间')
-    is_active = models.BooleanField(default=False, verbose_name='是否可用')
-
-    class Meta:
-        verbose_name_plural = verbose_name = '评论'
-        db_table = 'comment'
-
-    def __str__(self):
-        e = etree.HTML(self.content)
-        text = e.xpath('string(.)').strip()
-        return text[:settings.COM_DESC_LENGTH] or '-x-'
-
-    def obj_type(self):
-        if not self.visitor:
-            if self.nickname and self.email:
-                return '游客'
-            return '未知'
-        return '会员'
-
-    obj_type.short_description = '访客类型'
-
-
-class Message(models.Model):
-    """
-    留言, 一问一答模式, 没有楼层嵌套, visitor不为空则为已注册会员发言，否则为未注册，依靠nickname和email收信
-    """
-    visitor = models.ForeignKey(to=Visitor, on_delete=models.CASCADE, verbose_name='访客')
-    nickname = models.CharField(max_length=12, null=True, blank=True, verbose_name='昵称')
-    email = models.EmailField(max_length=64, verbose_name='邮箱', null=True, blank=True)
-    content = UEditorField(verbose_name='内容', max_length=300, width='100%', blank=True, imagePath='msg/v/',
-                           toolbars='normal')
-    reply = UEditorField(max_length=300, null=True, verbose_name='站长回复', blank=True, width='100%',
-                         imagePath='msg/r/', toolbars='normal')
-    add = models.DateTimeField(auto_now_add=True, verbose_name='留言时间')
-    rep = models.DateTimeField(default=None, null=True, blank=True, verbose_name='回复时间')
-    is_active = models.BooleanField(default=False, verbose_name='是否可见')
-
-    class Meta:
-        verbose_name_plural = verbose_name = '留言'
-        db_table = 'message'
-
-    def __str__(self):
-        e = etree.HTML(self.content)
-        text = e.xpath('string(.)').strip()
-        return text[:settings.MSG_DESC_LENGTH] or '-x-'
-
-    def obj_type(self):
-        if not self.visitor:
-            if self.email and self.nickname:
-                return '游客'
-            return '未知'
-        return '会员'
-
-    obj_type.short_description = '访客类型'
 
 
 class Advertisement(models.Model):

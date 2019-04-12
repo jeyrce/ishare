@@ -5,13 +5,8 @@ Here is the descriptions and some purpose of the file:
     0. 自定义中间件
 """
 
-import pickle
 
 from django.http import QueryDict
-
-from ljx.settings import SECRET_KEY
-from db.models import Visitor
-from db.utils import parse_auth_token
 
 
 class BaseCustomMiddleware(object):
@@ -34,23 +29,6 @@ class BaseCustomMiddleware(object):
         if hasattr(self, 'after_make_response'):
             self.after_make_response(request)
         return response
-
-
-class VisitorAuthenticationMiddleware(BaseCustomMiddleware):
-    """
-    访客身份中间件
-    """
-
-    def before_make_response(self, request):
-        # 从cookie获取数据进行解析，选择赋予请求对象
-        token = request.session.get('auth_token')
-        if not token:
-            return request
-        obj = object()
-        obj = parse_auth_token(token, SECRET_KEY)
-        if isinstance(obj, Visitor):
-            setattr(request, 'visitor', obj)
-        return request
 
 
 class VisitCountMiddleware(BaseCustomMiddleware):

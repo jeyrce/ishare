@@ -40,18 +40,6 @@ class OpenView(View):
         return self.get(request, *args, **kwargs)
 
 
-class RestfulView(View):
-    """
-    修改操作仅实现patch方式, 游客认证
-    """
-
-    def put(self, request, pk):
-        setattr(self.request, 'PATCH', self.request.PUT)
-        if not hasattr(self, 'patch'):
-            return HttpResponseNotAllowed(self.http_method_not_allowed(self.request))
-        return self.patch(request, pk)
-
-
 # ---------------------------------
 # 首页， 首页跳转
 # ---------------------------------
@@ -78,18 +66,30 @@ class Index(OpenView):
 
     def get_banners(self):
         num = get_value_from_db('BAN_SHOW_NUM', 4)
-        queryset = models.Blog.objects.filter(is_active=True, is_top=True).order_by('-add')[:num]
+        queryset = models.Blog.objects.filter(
+            is_active=True,
+            is_top=True,
+            cat__is_active=True
+        ).order_by('-add')[:num]
         return queryset
 
     def get_headlines(self):
         num = get_value_from_db('BAN_SHOW_NUM', 4)
-        queryset = models.Blog.objects.filter(is_active=True, is_top=True).order_by('-add')[num:(num + 2)]
+        queryset = models.Blog.objects.filter(
+            is_active=True,
+            is_top=True,
+            cat__is_active=True
+        ).order_by('-add')[num:(num + 2)]
         return queryset
 
     def get_table(self):
         d = {'cat': 1, 'arts': None}
         num = get_value_from_db('CAT_1_SHOW_NUM', 6)
-        d['arts'] = models.Blog.objects.filter(is_active=True, cat_id=1).order_by('-add')[:num]
+        d['arts'] = models.Blog.objects.filter(
+            is_active=True,
+            cat__is_active=True,
+            cat__pre_cat='A'
+        ).order_by('-add')[:num]
         return d
 
     def get_ad(self):
@@ -99,8 +99,21 @@ class Index(OpenView):
 
     def get_blog_list(self):
         num = get_value_from_db('BLOG_LIST_SHOW_NUM', 10)
-        return models.Blog.objects.order_by('-add').filter(is_active=True, cat__id__gt=1)[:num]
+        query = models.Blog.objects.order_by('-add').filter(
+            is_active=True,
+            cat__is_active=True,
+            cat__pre_cat='B'
+        )[:num]
+        return query
 
 
 def goto_index(request):
     return redirect(to=resolve_url('index'), permanent=True)
+
+
+def password_reset(request, uid):
+    # 解决后台管理中的bug
+    uri = 'xauth/'
+    if request.user.is_authenticated:
+        uri = '/xauth/account/password/'
+    return redirect(uri)

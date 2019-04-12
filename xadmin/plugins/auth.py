@@ -119,7 +119,7 @@ class PermissionAdmin(object):
     list_display = ('show_name', )
 
 site.register(Group, GroupAdmin)
-site.register(User, UserAdmin)
+# site.register(User, UserAdmin)
 site.register(Permission, PermissionAdmin)
 
 

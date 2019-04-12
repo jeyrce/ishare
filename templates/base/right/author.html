@@ -1,13 +1,13 @@
 <div class="whitebg tongji">
     <h2 class="htitle">作者名片</h2>
     <div class="center-block card_head">
-        <a href="/x/author/{{ art.author.nickname }}">
+        {#        <a href="/x/author/{{ art.author.username }}">#}
         <img src="{{ MEDIA_URL }}{{ art.author.header }}" alt="图片丢失" class="tongji_gzh">
-    </a>
+        {#        </a>#}
     </div>
     <span></span>
     <ul>
-        <li><b>作者昵称</b>：<a href="/x/author/{{ art.author.nickname }}">{{ art.author.nickname }}</a></li>
+        <li><b>作者昵称</b>：{{ art.author.username }}</li>
         <li><b>原创文章</b>：{{ art.author.origin }}篇</li>
         <li><b>转载文章</b>：{{ art.author.copy }}篇</li>
         <li><b>加入本站</b>：{{ art.author.join }}天</li>

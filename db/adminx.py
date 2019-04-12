@@ -235,10 +235,6 @@ class BlogAdmin(CommonSetting):
         )
     )
 
-    def queryset(self):
-        q = super().queryset()
-        return q.filter(is_top=False)
-
     def save_models(self):
         """
         保存数据到数据库中时提取作者为当前用户

@@ -5,9 +5,10 @@ Here is the descriptions and some purpose of the file:
     0. 博客主要业务逻辑视图
 """
 
-from django.http.response import JsonResponse, HttpResponse, Http404
+from django.http.response import JsonResponse, Http404
 from django.views.generic import View
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 
 from ljx.views import OpenView
@@ -88,26 +89,6 @@ class Detail(View):
         return liked
 
 
-class Soul(OpenView):
-    # 获取文学创作类列表
-    def get(self, request, *args, **kwargs):
-        ctx = {
-            'soul_list': self.get_art_list(),
-            'tags': ContextUtil.random_tags(),
-            'page': {
-                'title': '文学作品 | 陆鉴鑫的博客',
-                'keywords': '文艺青年、个人博客、原创文章、内容创作、文学创作、文学梦想',
-                'description': '陆鉴鑫的博客，一个助力实现文学梦想，技术干货创作和分享的开放平台。',
-            }
-        }
-        return render(request, 'list.html', ctx)
-
-    def get_art_list(self):
-        # 获取列表
-        query = m.Blog.objects.filter(is_active=True, cat_id=1)
-        return query
-
-
 class Link(View):
     """
     友链相关
@@ -156,6 +137,32 @@ class Link(View):
         return self.get_biz_links().count()
 
 
+class LinkAdd(View):
+    """
+    提交链接
+    """
+
+    def get(self, request, *args, **kwargs):
+        html = render_to_string('linkform.html', {}, request)
+        response = JsonResponse({'code': 0, 'text': html})
+        return response
+
+    def post(self, request, *args, **kwargs):
+        email = self.request.POST.get('email')
+        name = self.request.POST.get('link_name')
+        link = self.request.POST.get('link')
+        existed = m.Link.objects.filter(link=link).only(*('pk',)).count()
+        if existed:
+            return JsonResponse({'code': -1, 'msg': '链接已经在友链中！'})
+        if not all((email, name, link)):
+            return JsonResponse({'code': -2, 'msg': 'nothing to do'})
+        try:
+            m.Link.objects.create(link=link, email=email, link_name=name)
+        except:
+            pass
+        return JsonResponse({'code': 0, 'msg': '提交成功，站长审核通过即可展示'})
+
+
 class Message(View):
     """
     留言板
@@ -163,8 +170,13 @@ class Message(View):
 
     def get(self, request, *args, **kwargs):
         ctx = {
-            'declare': '都走到这了，留句话呗！',
-            'desc': '欢迎前来找我聊人生、聊理想、聊家常、谈天说地！'
+            'declare': '天涯何处觅知音！',
+            'desc': '欢迎前来找我聊人生、聊理想、聊家常、谈天说地！',
+            'page': {
+                'title': '站点留言板',
+                'keywords': '留言板、谈天说地',
+                'description': '天涯何处觅知音？',
+            }
         }
         return render(request, 'msg.html', ctx)
 
@@ -179,7 +191,7 @@ class DsImg(View):
         wechat_src = ''
         if not art:
             # 放上站长的二维码
-            siter = User.objects.filter(pk='jeeyshe@gmail.com').first()
+            siter = User.objects.filter(email='jeeyshe@gmail.com').first()
             alipay_src = '{}{}'.format(settings.MEDIA_URL, siter.alipay)
             wechat_src = '{}{}'.format(settings.MEDIA_URL, siter.wechat)
         else:
@@ -206,3 +218,28 @@ class DsImg(View):
             ]
         })
         return response
+
+
+class GoTo(View):
+    """
+    友链或广告点击
+    """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({'msg': 'OK'})
+
+
+class Notice(View):
+    """
+    公告详情页
+    """
+
+    def get(self, request, pk, *args, **kwargs):
+        obj = m.Notice.objects.filter(is_active=True, pk=pk).first()
+        if not obj:
+            raise Http404()
+        ctx = {
+            'tip': obj,
+            'notices': m.Notice.objects.filter(is_active=True).order_by('-add').only(*('id', 'title'))
+        }
+        return render(request, 'notice.html', ctx)

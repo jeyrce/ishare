@@ -5,8 +5,10 @@ Here is the descriptions and some purpose of the file:
     0. 自定义中间件
 """
 
-
 from django.http import QueryDict
+
+from db.models import Click, Link
+from ljx.settings import DEFAULT_UA
 
 
 class BaseCustomMiddleware(object):
@@ -49,8 +51,16 @@ class LinkClickMiddleware(BaseCustomMiddleware):
     """
 
     def after_make_response(self, request):
-        # TODO: 记录ip, 设备等关键信息
-        pass
+        # 记录ip, ua关键信息
+        if request.META.get('PATH_INFO', '') == '/x/goto/':
+            LK = request.GET.get('uri', '/')
+            if Link.objects.filter(link=LK).count():
+                UA = request.META.get('HTTP_USER_AGENT', DEFAULT_UA)
+                IP = request.META.get('REMOTE_ADDR')
+                try:
+                    Click.objects.create(link_id=LK, ip=IP, user_agent=UA)
+                except:
+                    pass
 
 
 class AllMethodSupportMiddleware(BaseCustomMiddleware):

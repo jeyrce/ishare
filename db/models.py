@@ -267,10 +267,10 @@ class Link(models.Model):
         (1, '个人主页'),
         (2, '商业广告'),
     )
-    link = models.URLField(max_length=64, verbose_name='链接', primary_key=True)
-    link_name = models.CharField(max_length=32, verbose_name='链接名称')
-    cat = models.PositiveSmallIntegerField(choices=cats, default=0, verbose_name='链接类型')
-    email = models.EmailField(max_length=32, verbose_name='邮箱')
+    link = models.URLField(max_length=64, verbose_name='链接', primary_key=True, help_text='完整的网站首页地址')
+    link_name = models.CharField(max_length=32, verbose_name='链接名称', help_text='网站的名字')
+    cat = models.PositiveSmallIntegerField(choices=cats, default=1, verbose_name='链接类型', help_text='网站类型')
+    email = models.EmailField(max_length=32, verbose_name='邮箱', help_text='有特殊情况方便联系')
     add = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
     mod = models.DateTimeField(auto_now=True, verbose_name='最近修改')
     is_active = models.BooleanField(default=False, verbose_name='是否可用')
@@ -332,6 +332,12 @@ class Notice(models.Model):
         return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
 
     url.short_description = '公告链接'
+
+    def keywords(self):
+        return self.title
+
+    def description(self):
+        return self.title
 
 
 class Expand(models.Model):

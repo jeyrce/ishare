@@ -1,6 +1,9 @@
 {# 横条广告 #}
-<div class="ad whitebg">
-    <a href="{{ ad.link }}" target="_blank">
-        <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="{{ ad.ad_name }}" style="width: 100%;">
-    </a>
-</div>
+{% if ad %}
+    <div class="ad whitebg">
+        <a href="{{ ad.link }}" target="_blank">
+            <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="{{ ad.ad_name }}" style="width: 100%;">
+        </a>
+    </div>
+{% endif %}
+

@@ -1,0 +1,39 @@
+{# --------------文章详情------------ #}
+{% load staticfiles %}
+<div class="content_box whitebg">
+    {# 隐藏域；token #}
+    {% csrf_token %}
+    <input type="hidden" name="tip_id" value="{{ tip.pk }}">
+    {# 位置说明 #}
+    <h2 class="htitle">
+        公告详情页
+        <span class="con_nav">您现在的位置是：<a href="/">网站首页</a>><a href="javascript: void(0);">公告详情</a></span>
+    </h2>
+
+    {#  元信息  #}
+    <h1 class="con_tilte"><b>{{ tip.title }}</b></h1>
+
+    <p class="share">
+        <span>由站长发布于：{{ tip.add }}&nbsp;&nbsp;</span>
+        <span>望本站读者和作者悉知！更多详情请关注网站底部微信公众号！</span>
+    </p>
+
+    {#  正文区域  #}
+    <div class="con_text">
+
+        {# 富文本 #}
+        {{ tip.content | safe }}
+
+        {# 点赞，打赏 #}
+        <div class="dashang">
+            <p class="like">
+                <span class="diggit"><button id="about-me">小小彩蛋</button></span>
+                <span class="shang"><input id="dashang" type="button" value="赏"></span>
+                <span class="diggit"><button id="copy">复制地址</button></span>
+                <input type="hidden" name="link" value="{{ SITE.host }}/x/art/{{ art.pk }}">
+                <input type="hidden" name="author" value="{{ art.author.username }}">
+                <input type="hidden" name="site" value="{{ SITE.name }}">
+            </p>
+        </div>
+    </div>
+</div>

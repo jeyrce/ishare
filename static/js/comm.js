@@ -1,12 +1,16 @@
+/**
+ * 一个后端程序员写的js~~~将就着看吧
+ *
+ */
+
+var HOST = 'https://www.lujianxin.com';
+
+var videoIds = [
+    'XMTY3MDgyMjg2OA',//妹子演唱告白气球
+    'XMjY3MzgzODg0',//炎心时光，layer默认
+];
+
 $(document).ready(function () {
-    // //nav
-    // var obj = null;
-    // var As = document.getElementById('starlist').getElementsByTagName('a');
-    // obj = As[0];
-    // for (i = 1; i < As.length; i++) {
-    //     if (window.location.href.indexOf(As[i].href) >= 0) obj = As[i];
-    // }
-    // obj.id = 'selected';
     //nav
     $("#mnavh").click(function () {
         $("#starlist").toggle();
@@ -32,7 +36,7 @@ $(document).ready(function () {
         $('.newstab>div:eq(' + $(this).index() + ')').show().siblings().hide();
     });
 
-    //点赞
+    //文章点赞
     $('#like').click(function (event) {
         var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
         like_btn = $('#like');
@@ -57,7 +61,23 @@ $(document).ready(function () {
         }
     });
 
-//打赏文章作者
+    //公告页替换点赞视频小彩蛋
+    $('#about-me').click(function (event) {
+        var videoId = Math.floor((Math.random() * videoIds.length));
+        //iframe层-多媒体
+        layer.open({
+            type: 2,
+            title: false,
+            area: ['630px', '360px'],
+            shade: 0.8,
+            closeBtn: 0,
+            shadeClose: true,
+            content: '//player.youku.com/embed/' + videoIds[videoId]
+            // content: 'http://player.youku.com/embed/XMTY3MDgyMjg2OA'
+        });
+    });
+
+    //打赏文章作者
     $('#dashang').click(function (event) {
         var art_id = $('input[name="blog_id"]').val();
         //获取作者打赏码
@@ -87,23 +107,28 @@ $(document).ready(function () {
         });
     });
 
-//复制本文地址
+    //复制本文地址
     $('#copy').click(function (event) {
         var author = $('input[name="author"]').val();
         var site = $('input[name="site"]').val();
         var link = $('input[name="link"]').val();
-        var str =
-            '来源:' + site + '\r\n' +
-            '作者:' + author + '\r\n' +
-            '声明:' + '原创著作版权归本站及作者所有，转载引用请注明来源。\r\n' +
-            '-------------------------------------------------\r\n' +
-            '链接:' + link + '\r\n';
+        var str;
+        if (!site || !author || !link) {
+            str = 'https://www.lujianxin.com';
+        } else {
+            str =
+                '来源:' + site + '\r\n' +
+                '作者:' + author + '\r\n' +
+                '声明:' + '原创著作版权归本站及作者所有，转载引用请注明来源。\r\n' +
+                '-------------------------------------------------\r\n' +
+                '链接:' + link + '\r\n';
+        }
         console.log(str);
         executeCopy(str);
         layer.msg('复制本文永久链接成功，欢迎转载分享！');
     });
 
-// Copy text as text
+    // Copy text as text
     function executeCopy(text) {
         var input = document.createElement('textarea');
         document.body.appendChild(input);
@@ -114,6 +139,44 @@ $(document).ready(function () {
         input.remove();
     }
 
+    //获取提交链接表单
+    $('.green').click(function (event) {
+        //获取表单
+        $.ajax({
+            type: 'GET',
+            url: '/x/link/add',
+            success: function (res) {
+                //页面层-自定义
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    shadeClose: true,
+                    content: res['text']
+                });
+            }
+        });
+    });
+
+    //友链点击
+    $('.goto').click(function (event) {
+        var uri = this.id;
+        $.ajax({
+            type: 'GET',
+            url: '/x/goto/',
+            async: true,
+            data: {
+                'uri': uri
+            },
+        });
+        var new_page = uri + '?source=' + HOST;
+        window.open(new_page, '_blank');
+    });
+
+    //搜索框聚焦清空
+    $('#keyboard').focus(function (event) {
+        this.value = '';
+    });
 });
 
 

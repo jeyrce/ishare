@@ -1,0 +1,18 @@
+{# 历史公告 #}
+<div class="whitebg wenzi">
+    <h2 class="htitle">历史公告({{ notices.count }})</h2>
+    <ul>
+        {% for tip in notices %}
+            <li>
+                {{ tip.add | date:'Y-m-d' }}:&nbsp;
+                <a href="/x/notice/{{ tip.pk }}">{{ tip.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{# 引入广告 #}
+{% include 'base/right/advertisement.html' %}
+
+{# 引入站点信息 #}
+{% include 'base/right/siteinfo.html' %}

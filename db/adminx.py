@@ -204,10 +204,18 @@ class AuthorAdmin(CommonSetting, UserAdmin):
         # 删除权限
         return False
 
+    def has_add_permission(self):
+        return False
+
     def save_models(self):
         if self.new_obj.email is None:
             self.new_obj.email = 'author@lujianxin.com'
         self.new_obj.save()
+
+    def has_change_permission(self, obj=None):
+        if obj is not None:
+            if self.request.user.id == obj.id:
+                return True
 
 
 class BlogAdmin(CommonSetting):
@@ -294,11 +302,14 @@ class AuthorBlogAdmin(CommonSetting):
 
     def has_delete_permission(self, obj=None):
         # 删除权限
-        if self.request.user.is_superuser:
-            return True
+        if obj is not None:
+            if self.request.user.id == obj.author.id:
+                return True
 
-    def has_change_permission(self):
-        return True
+    def has_change_permission(self, obj=None):
+        if obj is not None:
+            if self.request.user.id == obj.author.id:
+                return True
 
 
 class AdvertisementAdmin(CommonSetting):

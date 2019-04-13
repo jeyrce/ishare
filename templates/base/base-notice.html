@@ -1,12 +1,12 @@
-{#  文章详情页模板  #}
+{#  公告详情页模板  #}
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     {# -----------网站头部------------- #}
     {% include 'base/common/header.html' %}
-    <title>{{ art.title }}</title>
-    <meta name="keywords" content="{{ art.keywords }}"/>
-    <meta name="description" content="{{ art.title }}"/>
+    <title>{{ tip.title }}</title>
+    <meta name="keywords" content="{{ tip.keywords }}"/>
+    <meta name="description" content="{{ tip.title }}"/>
 
     {# -------------可能用到的其他css-------------- #}
     {% block extra_css %}{% endblock %}
@@ -31,7 +31,7 @@
 
     <div class="rbox">
         {# -------------右部------------- #}
-        {% include 'base/right/base-detail.html' %}
+        {% include 'base/right/base-notice.html' %}
     </div>
 
 

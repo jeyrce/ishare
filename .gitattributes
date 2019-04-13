@@ -1,0 +1,2 @@
+# 帮助github将项目判别为python
+*.html linguist-language=python

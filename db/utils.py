@@ -9,6 +9,7 @@ import datetime
 import base64
 
 from django.contrib.auth import get_user_model
+from django.core.cache import caches
 from django.contrib.auth.backends import ModelBackend
 
 from db import models as _m
@@ -21,6 +22,11 @@ def get_value_from_db(key, default):
     # 从extend数据库读取值, 不存在则返回默认值
     obj = _m.Expand.objects.filter(key=key).first()
     return obj.value if obj else default
+
+
+def today_key():
+    # 获取redis中存储的今日日期
+    return datetime.datetime.now().strftime('%y%m%d')
 
 
 class ContextUtil(object):
@@ -55,7 +61,8 @@ class ContextUtil(object):
     @classmethod
     def today_visit_cnt(cls) -> int:
         # 今日访问次数
-        today = int(get_value_from_db('TODAY_VISIT_CNT', 0))
+        cache = caches['four']
+        today = cache.get(today_key(), 0)
         return today
 
     @classmethod

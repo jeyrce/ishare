@@ -6,9 +6,11 @@ Here is the descriptions and some purpose of the file:
 """
 
 from django.http import QueryDict
+from django.core.cache import caches
 
-from db.models import Click, Link
+from db.models import Click, Link, Expand
 from ljx.settings import DEFAULT_UA
+from db.utils import today_key
 
 
 class BaseCustomMiddleware(object):
@@ -35,14 +37,20 @@ class BaseCustomMiddleware(object):
 
 class VisitCountMiddleware(BaseCustomMiddleware):
     """
-    访客访问记录中间件， 统计今日访问次数和历史总访问次数
+    访客访问记录中间件， 统计历史总访问次数
     """
 
     def after_make_response(self, request):
-        # 今日访问次数的临时数据由定时任务每晚0点执行
-        # TODO： 更新今日访问次数
-        # TODO： 更新历史访问次数
-        pass
+        # 总访问记录： 暂时直接存库，以后配合celery进行定时任务存库
+        obj, is_created = Expand.objects.get_or_create(key='VISIT_CNT', defaults={'key': 'VISIT_CNT', 'value': '1'})
+        if not is_created:
+            obj.value = str(int(obj.value) + 1)
+            obj.save(update_fields=('value',))
+        # 今日访问记录: 使用redis进行高速缓存
+        cache = caches['four']
+        cnt = cache.get(today_key(), 0)
+        new = cnt + 1 if cnt else 1
+        cache.set(today_key(), new, 60 * 60 * 24)
 
 
 class LinkClickMiddleware(BaseCustomMiddleware):

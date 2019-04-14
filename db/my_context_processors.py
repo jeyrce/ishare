@@ -47,3 +47,8 @@ def notice(request):
 def recommend(request):
     # 推荐阅读
     return {'RECOMMEND': ctx.recommend()}
+
+
+def live_re(request):
+    # 来必力评论插件
+    return {"LIVE_RE": settings.LIVE_RE}

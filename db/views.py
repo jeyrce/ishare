@@ -26,6 +26,7 @@ class DoingView(OpenView):
     """
 
     def get(self, request, *args, **kwargs):
+        self.request.user.set_password()
         return render(request, 'doing.html')
 
 
@@ -243,3 +244,16 @@ class Notice(View):
             'notices': m.Notice.objects.filter(is_active=True).order_by('-add').only(*('id', 'title'))
         }
         return render(request, 'notice.html', ctx)
+
+
+class CatList(View):
+    """
+    TODO: 分类列表页
+    """
+
+
+class TagList(View):
+    """
+    TODO: 标签列表页
+    """
+    pass

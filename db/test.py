@@ -12,8 +12,17 @@ import requests
 from lxml import etree
 
 
-if __name__ == '__main__':
+class TestView(object):
 
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+    def __str__(self):
+        print(self.__dict__)
+
+
+if __name__ == '__main__':
     # start = datetime.datetime.strptime('2018-01-01', '%Y-%m-%d')
     #
     # end = datetime.datetime.now()
@@ -22,16 +31,15 @@ if __name__ == '__main__':
     #
     # print(t, type(t), t.days, type(t.days))
 
-    url = 'http://127.0.0.1:8000/x/art/pTyQeGEUJi3BTPuTY348LS5'
-
-    res = requests.patch(url, data={'name': '123', 'xyz': '2344'})
-
-    try:
-        print(res.json())
-    except:
-        print(res.status_code)
-        print(res.text)
-
+    # url = 'http://127.0.0.1:8000/x/art/pTyQeGEUJi3BTPuTY348LS5'
+    #
+    # res = requests.patch(url, data={'name': '123', 'xyz': '2344'})
+    #
+    # try:
+    #     print(res.json())
+    # except:
+    #     print(res.status_code)
+    #     print(res.text)
 
     # html = """
     # <p>
@@ -42,3 +50,13 @@ if __name__ == '__main__':
     # # s = tree.string()
     #
     # print(tree.xpath('string(.)'))
+
+    # a = TestView(1, 2, 3, a=5, b=6)
+    #
+    # print(a)
+    from django.contrib.admin import register
+
+
+    pass
+
+

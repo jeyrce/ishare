@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.urls import path, re_path, include
 from django.views.static import serve
+from django.contrib import admin
 
 import xadmin
 from xadmin.plugins import xversion

@@ -85,6 +85,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 以下是开启缓存中间件
+    'django.middleware.cache.CacheMiddleware',
     # 以下是自定义中间件
     'db.my_middlewares.AllMethodSupportMiddleware',
     'db.my_middlewares.VisitCountMiddleware',
@@ -112,6 +114,7 @@ TEMPLATES = [
                 'db.my_context_processors.most_read',
                 'db.my_context_processors.notice',
                 'db.my_context_processors.recommend',
+                'db.my_context_processors.live_re',
             ],
         },
     },
@@ -177,6 +180,15 @@ AUTHENTICATION_BACKENDS = (
     'db.utils.EmailAuthBackend',
 )
 
+# 云评论插件的账户信息
+LIVE_RE = {
+    'data_id': 'city',
+    'data_uid': 'MTAyMC80MzY3NS8yMDIxNQ==',
+}
+
+# 密码重置链接一天内有效
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+
 # 站点信息
 SITE = {
     'dns': ALLOWED_HOSTS[0],
@@ -215,23 +227,37 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ''
 CACHE_MIDDLEWARE_SECONDS = 600
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHES = {
+    # 默认使用的库，session，csrf等存储
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 10},
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
             "PASSWORD": "ljX.07",
         }
     },
+    # 重置密码token
     "one": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 10},
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+            "PASSWORD": "ljX.07",
+        }
+    },
+    # 2号3号库用作celery的任务队列
+
+    # 专做本站访问次数记录
+    "four": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/4",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 10},
             "PASSWORD": "ljX.07",
         }
     },
@@ -271,3 +297,23 @@ BROKER_TRANSPORT_OPTIONS = {
     'visibility_timeout': 3600,
     'fanout_prefix': True,
 }
+
+# ----------本站系统所用email配置----------
+SERVER_EMAIL = 'support@lujianxin.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.exmail.qq.com'
+EMAIL_PORT = 465
+
+EMAIL_USE_LOCALTIME = False
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = 'support@lujianxin.com'
+EMAIL_HOST_PASSWORD = 'ljX.07'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_SSL_CERTFILE = None
+EMAIL_SSL_KEYFILE = None
+EMAIL_TIMEOUT = None
+
+DEFAULT_FROM_EMAIL = 'support@lujianxin.com'
+EMAIL_SUBJECT_PREFIX = '[陆鉴鑫的博客]'

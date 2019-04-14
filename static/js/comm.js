@@ -1,4 +1,5 @@
 /**
+ * 2019-04-01 杰西
  * 一个后端程序员写的js~~~将就着看吧
  *
  */
@@ -176,6 +177,36 @@ $(document).ready(function () {
     //搜索框聚焦清空
     $('#keyboard').focus(function (event) {
         this.value = '';
+    });
+
+    //我要投稿点击
+    $('#tougao').click(function (event) {
+        //投稿提示
+        var tips = '<div style="padding: 30px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' +
+            '<h2>作者须知：</h2><br>' +
+            '<b>0、</b>本站已开启审核，不接受存在违反法律法规、传递不正确价值观的言论、其他低质量作品的投稿。<br><br>' +
+            '<b>1、</b>本站优先置顶、推荐原创内容，转载文章必须指明出处。<br><br>' +
+            '<b>2、</b>作者需遵守国家法律法规、地方政策，对作品版权及其他纠纷负责。<br><br>' +
+            '<b>其他未尽事宜请阅读本站公告</b></div>';
+        //示范一个公告层
+        layer.open({
+            type: 1,
+            title: false, //不显示标题栏
+            closeBtn: false,
+            shadeClose: true,
+            area: '400px;',
+            shade: 0.7,
+            id: 'iWrite', //设定一个id，防止重复弹出
+            resize: false,
+            btn: ['已有作者账号', '选择邮件投稿'],
+            btnAlign: 'c',
+            moveType: 1, //拖拽模式，0或者1
+            content: tips,
+            yes: function (x) {
+                layer.closeAll();
+                window.open('/xauth', '_blank');
+            }
+        });
     });
 });
 

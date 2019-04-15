@@ -65,7 +65,7 @@ class Index(OpenView):
         return render(request, 'db/index.html', data)
 
     def get_banners(self):
-        num = get_value_from_db('BAN_SHOW_NUM', 4)
+        num = int(get_value_from_db('BAN_SHOW_NUM', 4))
         queryset = models.Blog.objects.filter(
             is_active=True,
             is_top=True,
@@ -74,7 +74,7 @@ class Index(OpenView):
         return queryset
 
     def get_headlines(self):
-        num = get_value_from_db('BAN_SHOW_NUM', 4)
+        num = int(get_value_from_db('BAN_SHOW_NUM', 4))
         queryset = models.Blog.objects.filter(
             is_active=True,
             is_top=True,
@@ -84,7 +84,7 @@ class Index(OpenView):
 
     def get_table(self):
         d = {'cat': 1, 'arts': None}
-        num = get_value_from_db('CAT_1_SHOW_NUM', 6)
+        num = int(get_value_from_db('TABLE_SHOW_NUM', 6))
         d['arts'] = models.Blog.objects.filter(
             is_active=True,
             cat__is_active=True,
@@ -98,7 +98,7 @@ class Index(OpenView):
         return models.Advertisement.objects.filter(end__gt=now, adtype=1).order_by('?').first()
 
     def get_blog_list(self):
-        num = get_value_from_db('BLOG_LIST_SHOW_NUM', 10)
+        num = int(get_value_from_db('BLOG_LIST_SHOW_NUM', 10))
         query = models.Blog.objects.order_by('-add').filter(
             is_active=True,
             cat__is_active=True,

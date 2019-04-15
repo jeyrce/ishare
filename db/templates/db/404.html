@@ -1,0 +1,12 @@
+<!-- 陆鉴鑫的博客404页面 -->
+{% extends 'db/base/base-error.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <title>404页面 | {{ SITE.name }}</title>
+{% endblock %}
+
+{% block error_area0 %}
+    <h1><span>你所访问的资源不存在</span></h1>
+    <a href="/" target="_self"><img src="{% static 'image/404.gif' %}" height="100%" width="100%"></a>
+{% endblock %}

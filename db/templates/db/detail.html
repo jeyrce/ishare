@@ -1,0 +1,30 @@
+{% extends 'db/base/base-detail.html' %}
+{% load staticfiles %}
+
+{% block extra_js %}
+    {# 引入富文本效果 #}
+    <script type="text/javascript" src="{% static 'ueditor/third-party/SyntaxHighlighter/shCore.js' %}"></script>
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+    </script>
+    {# 引入弹窗效果 #}
+    <script type="text/javascript" src="{% static 'layer/layer.js' %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+    {# 富文本样式 #}
+    <link href="{% static 'ueditor/third-party/SyntaxHighlighter/shCoreDefault.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    {#  正文区  #}
+    {% include 'db/base/left/text.html' %}
+
+    {#  同类别文章推荐  #}
+    {% include 'db/base/left/youmaylike.html' %}
+
+    {#  评论区  #}
+    {% include 'db/base/left/discuss.html' %}
+
+{% endblock %}

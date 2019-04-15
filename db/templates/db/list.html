@@ -1,0 +1,62 @@
+{% extends 'db/base/base-list.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {# 列表页说明 #}
+    <div class="whitebg lanmu"><img src="{% static 'image/lm01.jpg' %}" alt="图片丢失">
+        <h1>{{ current_cat }}</h1>
+        <p>{{ current_desc }}</p>
+    </div>
+
+    {# 列表数据 #}
+    <div class="whitebg bloglist">
+        <h2 class="htitle">
+            <span class="hnav">本栏目最新文章</span>
+        </h2>
+        <ul>
+            {% for art in art_list %}
+                <li>
+                    <h3 class="blogtitle"><a href="/x/art/{{ art.pk }}" target="_blank">{{ art.title }}</a></h3>
+                    <span class="blogpic imgscale">
+                    {% if art.source %}
+                        <i><a href="#">转载</a></i>
+                    {% else %}
+                        <i><a href="#">原创</a></i>
+                    {% endif %}
+                        <a href="/x/art/{{ art.pk }}" title=""><img src="{{ MEDIA_URL }}{{ art.cover }}" alt="图片丢失"></a>
+                </span>
+                    <p class="blogtext">
+                        {{ art.description }}
+                    </p>
+                    <p class="bloginfo">
+                        <i class="avatar">
+                            <img src="{{ MEDIA_URL }}{{ art.author.header }}" alt="暂无">
+                        </i>
+                        <span>{{ art.author.username }}</span>
+                        <span>{{ art.add }}</span>
+                        <span>【<a href="/x/cat/{{ art.cat.pk }}">{{ art.cat.cat }}</a>】</span>
+                        <span>{{ art.read }}次阅读</span>
+                    </p>
+                    <a href="/x/art/{{ art.pk }}" class="viewmore">阅读全部</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        {# 分页条 #}
+        <!--pagelist-->
+        <div class="pagelist">
+            <a title="Total record"><b>67</b></a>
+            <b>1</b>&nbsp;
+            <a href="/download/index_2.html">2</a>
+            <a href="/download/index_3.html">3</a>&nbsp;
+            <a href="/download/index_2.html">下一页</a>
+            <a href="/download/index_3.html">尾页</a>
+        </div>
+        <!--pagelist end-->
+    </div>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,12 @@
+{% extends 'db/base/base-error-old.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <title>预告页面 | {{ SITE.name }}</title>
+    {% include 'db/base/common/egg.js.html' %}
+{% endblock %}
+
+{% block error_area0 %}
+    <h1><span>功能暂未开放、敬请期待、可扫描底部二维码关注本站微信公众号、第一时间获取动态</span></h1>
+    <a href="/" target="_self"><img src="{% static 'image/doing.jpg' %}" height="100%" width="100%"></a>
+{% endblock %}

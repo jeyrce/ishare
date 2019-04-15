@@ -1,0 +1,24 @@
+{# --首页-- #}
+{% extends 'db/base/base0.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {# 轮播图 #}
+    {% include 'db/base/left/banbox.html' %}
+
+    {# 轮播图旁边小窗口 #}
+    {% include 'db/base/left/headline.html' %}
+
+    <div class="clearblank"></div>
+
+    {# 最新心情日记 #}
+    {% include 'db/base/left/table.html' %}
+
+    {# 横条广告 #}
+    {% include 'db/base/left/advertisement.html' %}
+
+    {# 最新技术博客列表 #}
+    {% include 'db/base/left/bloglist.html' %}
+
+{% endblock %}

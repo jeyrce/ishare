@@ -41,7 +41,7 @@ ALLOWED_HOSTS = [
 ]
 
 # 网站开始运营时间
-START = '2018-03-30'
+START = '2019-04-15'
 
 SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
 # SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
@@ -63,6 +63,7 @@ MAIN_APPS = [
     # 主要业务模块
     'ljx',
     'db',
+    'biz',
 ]
 INSTALLED_APPS.extend(MAIN_APPS)
 EXTRA_APPS = [
@@ -206,10 +207,6 @@ SITE = {
         'baidu-site-verification': '5amdMOKaXx',
         'google-site-verification': 'C2ujkHLAjxkyD2SXrnXNeoZum0YsZcl832GvR3XBTw4',
     },
-    # 我的名片
-    'webname': 'jeeyshe.Ru | 杰西.鲁',
-    'major': 'python, golang后端工程师',
-    'location': '浙江省-杭州市',
 }
 
 # 文章缩略文本长度

@@ -1,0 +1,61 @@
+{#  错误页模板  #}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    {# -----------网站头部------------- #}
+    {% include 'db/base/common/header.html' %}
+    {% block extra_head %}{% endblock %}
+    <meta name="keywords" content="错误、处理、全局"/>
+    <meta name="description" content="这是一个错误页面，无需做seo优化"/>
+    {# -------------可能用到的其他css-------------- #}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+
+{# ---------------导航条--------------- #}
+{% include 'db/base/top/navibar.html' %}
+
+{# --站内搜索-- #}
+{% include 'db/base/top/searchbox.html' %}
+
+
+<article>
+
+
+    <div class="lbox">
+        {#------------------误提示区-------------------#}
+        <div class="whitebg">
+        {#  位置说明  #}
+        <h2 class="htitle">
+            错误页
+            <span class="con_nav">您现在的位置是：<a href="/">网站首页</a>><a href="/">错误页</a></span>
+        </h2>
+
+        {% block error_area0 %}
+
+        {% endblock %}
+        </div>
+    </div>
+
+    <div class="rbox">
+        {#-------------右部-------------#}
+        {% include 'db/base/right/base-error.html' %}
+    </div>
+
+
+</article>
+{#------------------宽错误提示区-------------------#}
+{% block error_area1 %}{% endblock %}
+<footer>
+    {# ------------------网站底部--------------- #}
+    {% include 'db/base/bottom/footer.html' %}
+</footer>
+
+{# --------------可能用到的其他js-------------- #}
+{% block extra_js %}{% endblock %}
+
+
+</body>
+</html>

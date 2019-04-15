@@ -1,0 +1,13 @@
+<!-- 陆鉴鑫的博客400页面 -->
+{% extends 'db/base/base-error.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <title>400页面 | {{ SITE.name }}</title>
+{% endblock %}
+
+{% block error_area0 %}
+    <h1><span>你的输入可能有问题、服务器无法理解你要表达的意思</span></h1>
+    <a href="/" target="_self"><img src="{% static 'image/400.gif' %}" height="100%" width="100%"></a>
+{% endblock %}
+

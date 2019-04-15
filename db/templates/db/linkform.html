@@ -1,0 +1,152 @@
+{# 友链提交表单 #}
+{% load staticfiles %}
+<style>
+
+    #link-form {
+        background: #ffffff;
+        color: black;
+        border-radius: 15px;
+        font-family: Arial;
+        font-size: 17px;
+        min-width: 350px;
+        height: auto;
+    }
+
+    #link-form .title {
+        margin: 0;
+        padding: 0;
+        font-size: 30px;
+        color: white;
+        text-align: center;
+        line-height: 50px;
+        height: 50px;
+        background: #117700;
+    }
+
+    #link-form .input_div {
+        text-align: center;
+        margin: 10px;
+        padding: 0;
+    }
+
+    .red {
+        color: red;
+    }
+
+    #link-form label {
+        overflow: auto;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    #link-form label input {
+        height: 25px;
+        min-width: 200px;
+    }
+
+    .submit {
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .submit input {
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 17px;
+        background: #00a0e9;
+    }
+
+    .input-not-valid {
+        border: solid red 1px;
+    }
+
+</style>
+
+<div id="link-form">
+    <form action="/x/link/add" method="post">
+        {% csrf_token %}
+        <div class="title">
+            <p><span>请填写以下信息</span></p>
+        </div>
+
+        <div class="input_div">
+            <label>
+                <span class="red">*</span>
+                <span>站点名称:</span>
+                <input id="name" type="text" name="name" placeholder="网站的名称"/>
+            </label>
+            <br>
+            <label>
+                <span class="red">*</span>
+                <span>网站地址:</span>
+                <input id="link" type="text" name="link" placeholder="网站首页完整地址"/>
+            </label>
+            <br>
+            <label>
+                <span class="red">*</span>
+                <span>联系邮箱:</span>
+                <input id="email" type="email" name="email" placeholder="方便站长联系"/>
+            </label>
+            <br>
+            <div class="submit">
+                <input type="button" id="submit" value="提交"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'layer/layer.js' %}"></script>
+<script type="text/javascript">
+    //表单提交
+    $('#submit').click(function (event) {
+        var name_input = $('input[name="name"]');
+        var link_input = $('input[name="link"]');
+        var email_input = $('input[name="email"]');
+        var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+
+        //判断是否为空
+        if (!name_input.val()) {
+            name_input.addClass('input-not-valid');
+            layer.msg('网站名不能为空', function () {
+            });
+        } else if (!link_input.val()) {
+            link_input.addClass('input-not-valid');
+            layer.msg('链接不能为空', function () {
+            });
+        } else if (!email_input.val()) {
+            email_input.addClass('input-not-valid');
+            layer.msg('邮箱不能为空', function () {
+            });
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '/x/link/add',
+                data: {
+                    'csrfmiddlewaretoken': csrf_token,
+                    'link_name': name_input.val(),
+                    'link': link_input.val(),
+                    'email': email_input.val()
+                },
+                success: function (res) {
+                    if (res['code'] == 0) {
+                        layer.closeAll();
+                        layer.msg(res['msg']);
+                    } else {
+                        layer.msg(res['msg'], function () {
+                        });
+                    }
+                }
+            })
+        }
+    });
+    //聚焦事件
+    $('input').focus(function (event) {
+        $('input').removeClass('input-not-valid');
+    });
+</script>
+

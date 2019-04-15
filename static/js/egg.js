@@ -41,6 +41,11 @@ setTimeout(function () {
     layer.closeAll('loading');
 }, 1000);
 
+function doing() {
+    layer.msg('<h1>功能暂未开放</h1>请留意微信公众号，功能开放后会第一时间通知呦', {
+        time: 3000, //3s后自动关闭
+    });
+}
 
 $(document).ready(function () {
     console.clear();

@@ -62,7 +62,7 @@ class Index(OpenView):
                 'description': '陆鉴鑫的博客，一个助力实现文学梦想，技术干货创作和分享的开放平台。',
             }
         }
-        return render(request, 'index.html', data)
+        return render(request, 'db/index.html', data)
 
     def get_banners(self):
         num = get_value_from_db('BAN_SHOW_NUM', 4)

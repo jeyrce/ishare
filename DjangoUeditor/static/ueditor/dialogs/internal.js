@@ -32,7 +32,7 @@
     };
     utils.loadFile(document,{
         href:editor.options.themePath + editor.options.theme + "/dialogbase.css?cache="+Math.random(),
-        tag:"link",
+        tag:"db.templates.db.link",
         type:"text/css",
         rel:"stylesheet"
     });

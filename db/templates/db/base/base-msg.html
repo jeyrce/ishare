@@ -1,0 +1,41 @@
+{#  首页模板 #}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {# -----------网站头部------------- #}
+    {% include 'db/base/common/header.html' %}
+    <title>{{ page.title }}</title>
+    <meta name="keywords" content="{{ page.keywords }}"/>
+    <meta name="description" content="{{ page.description }}"/>
+    {# -------------可能用到的其他css-------------- #}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+
+{# ---------------导航条--------------- #}
+{% include 'db/base/top/navibar.html' %}
+
+{# --站内搜索-- #}
+{% include 'db/base/top/searchbox.html' %}
+
+
+<article>
+
+    {# ---------------主体部分------------- #}
+    {% block content %}{% endblock %}
+
+</article>
+
+
+<footer>
+    {# ------------------网站底部--------------- #}
+    {% include 'db/base/bottom/footer.html' %}
+</footer>
+
+{# --------------可能用到的其他js-------------- #}
+{% block extra_js %}{% endblock %}
+
+
+</body>
+</html>

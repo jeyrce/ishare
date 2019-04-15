@@ -196,7 +196,7 @@
             this.list = document.createElement('ul');
             this.clearFloat = document.createElement('li');
 
-            domUtils.addClass(this.list, 'list');
+            domUtils.addClass(this.list, 'db.templates.db.list');
             domUtils.addClass(this.clearFloat, 'clearFloat');
 
             this.list.id = 'imageListUl';

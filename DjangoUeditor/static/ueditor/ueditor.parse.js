@@ -348,7 +348,7 @@ UE.parse.register('insertcode',function(utils){
             }
             utils.loadFile(document,{
                 id : "syntaxhighlighter_css",
-                tag : "link",
+                tag : "db.templates.db.link",
                 rel : "stylesheet",
                 type : "text/css",
                 href : cssurl
@@ -890,7 +890,7 @@ UE.parse.register('background', function (utils) {
     //追加默认的表格样式
     styles && utils.cssRule('ueditor_background', me.selector + '{' + styles + '}', document);
 });
-UE.parse.register('list',function(utils){
+UE.parse.register('db.templates.db.list',function(utils){
     var customCss = [],
         customStyle = {
             'cn'    :   'cn-1-',
@@ -927,7 +927,7 @@ UE.parse.register('list',function(utils){
         customCss.push(selector +' .list-paddingleft-2{padding-left:'+ this.listDefaultPaddingLeft+'px}');
         customCss.push(selector +' .list-paddingleft-3{padding-left:'+ this.listDefaultPaddingLeft*2+'px}');
 
-        utils.cssRule('list', selector +' ol,'+selector +' ul{margin:0;padding:0;}li{clear:both;}'+customCss.join('\n'), document);
+        utils.cssRule('db.templates.db.list', selector +' ol,'+selector +' ul{margin:0;padding:0;}li{clear:both;}'+customCss.join('\n'), document);
     }
     function applyStyle(nodes){
         var T = this;
@@ -1000,7 +1000,7 @@ UE.parse.register('vedio',function(utils){
         } else {
             utils.loadFile(document,{
                 id : "video_css",
-                tag : "link",
+                tag : "db.templates.db.link",
                 rel : "stylesheet",
                 type : "text/css",
                 href : cssurl

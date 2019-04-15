@@ -37,6 +37,7 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('index', views.goto_index),
     path('index.html', views.goto_index),
-    # 博客业务逻辑模块
+    # 业务逻辑模块
     path('x/', include('db.urls', namespace='x')),
+    path('biz/', include('biz.urls', namespace='biz')),
 ]

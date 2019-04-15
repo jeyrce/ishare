@@ -4,6 +4,7 @@ Created by Jeeyshe.Ru at 19-3-27 下午7:22, for any more contact me with jeeysh
 Here is the descriptions and some purpose of the file:
     0. 博客主要业务逻辑视图
 """
+import re
 
 from django.http.response import JsonResponse, Http404
 from django.views.generic import View
@@ -27,7 +28,7 @@ class DoingView(OpenView):
 
     def get(self, request, *args, **kwargs):
         self.request.user.set_password()
-        return render(request, 'doing.html')
+        return render(request, 'db/doing.html')
 
 
 class Detail(View):
@@ -73,7 +74,7 @@ class Detail(View):
         # 更新阅读次数
         obj.read += 1
         obj.save(update_fields=('read',))
-        return render(request, 'detail.html', ctx)
+        return render(request, 'db/detail.html', ctx)
 
     def post(self, request, pk):
         obj = self.get_obj(pk)
@@ -111,7 +112,7 @@ class Link(View):
             'declare': '友链说明',
             'desc': '本站接受个人博客链接、真实可信的广告链接作为友链，请自行提交或联系站长后台添加，自行提交的链接通过审核方可显示，请耐心等待。',
         }
-        return render(request, 'link.html', ctx)
+        return render(request, 'db/link.html', ctx)
 
     def get_person_links(self):
         # 获取链接
@@ -144,7 +145,7 @@ class LinkAdd(View):
     """
 
     def get(self, request, *args, **kwargs):
-        html = render_to_string('linkform.html', {}, request)
+        html = render_to_string('db/linkform.html', {}, request)
         response = JsonResponse({'code': 0, 'text': html})
         return response
 
@@ -153,15 +154,28 @@ class LinkAdd(View):
         name = self.request.POST.get('link_name')
         link = self.request.POST.get('link')
         existed = m.Link.objects.filter(link=link).only(*('pk',)).count()
+
         if existed:
             return JsonResponse({'code': -1, 'msg': '链接已经在友链中！'})
-        if not all((email, name, link)):
-            return JsonResponse({'code': -2, 'msg': 'nothing to do'})
-        try:
-            m.Link.objects.create(link=link, email=email, link_name=name)
-        except:
-            pass
-        return JsonResponse({'code': 0, 'msg': '提交成功，站长审核通过即可展示'})
+        OK, msg = self.is_data_valid(name, link, email)
+        if OK:
+            try:
+                m.Link.objects.create(link=link, email=email, link_name=name)
+            except:
+                pass
+            return JsonResponse({'code': 0, 'msg': '提交成功，站长审核通过即可展示'})
+        else:
+            return JsonResponse({'code': -1, 'msg': msg})
+
+    @staticmethod
+    def is_data_valid(name, link, email):
+        if not re.match('^(http|https)://.+\..+$', link):
+            return False, '链接不合法，可能是没有添加http或https'
+        if not re.match('^.{4,12}@.+\..{2,6}$', email):
+            return False, '邮箱不合法'
+        if not name:
+            return False, '网站名不合法'
+        return True, 'OK'
 
 
 class Message(View):
@@ -179,7 +193,7 @@ class Message(View):
                 'description': '天涯何处觅知音？',
             }
         }
-        return render(request, 'msg.html', ctx)
+        return render(request, 'db/msg.html', ctx)
 
 
 class DsImg(View):
@@ -243,7 +257,7 @@ class Notice(View):
             'tip': obj,
             'notices': m.Notice.objects.filter(is_active=True).order_by('-add').only(*('id', 'title'))
         }
-        return render(request, 'notice.html', ctx)
+        return render(request, 'db/notice.html', ctx)
 
 
 class CatList(View):

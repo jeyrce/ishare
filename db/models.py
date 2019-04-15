@@ -165,7 +165,7 @@ class Blog(models.Model):
     def url(self):
         # 前台展示链接
         from django.utils.safestring import mark_safe
-        full_path = '{}/art/{}'.format(settings.SERVER, self.pk)
+        full_path = '{}/x/art/{}'.format(settings.SERVER, self.pk)
         return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
 
     url.short_description = '前去阅读'
@@ -330,7 +330,7 @@ class Notice(models.Model):
     def url(self):
         # 前台展示链接
         from django.utils.safestring import mark_safe
-        full_path = '{}/notice/{}'.format(settings.SERVER, self.pk)
+        full_path = '{}/x/notice/{}'.format(settings.SERVER, self.pk)
         return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
 
     url.short_description = '公告链接'

@@ -269,7 +269,7 @@ class Link(models.Model):
         (1, '个人主页'),
         (2, '商业广告'),
     )
-    link = models.URLField(max_length=64, verbose_name='链接', primary_key=True, help_text='完整的网站首页地址')
+    link = models.URLField(max_length=64, verbose_name='链接', unique=True, help_text='完整的网站首页地址')
     link_name = models.CharField(max_length=32, verbose_name='链接名称', help_text='网站的名字')
     cat = models.PositiveSmallIntegerField(choices=cats, default=1, verbose_name='链接类型', help_text='网站类型')
     email = models.EmailField(max_length=32, verbose_name='邮箱', help_text='有特殊情况方便联系')

@@ -21,9 +21,9 @@ urlpatterns = [
 
     path('art/dsm/', views.DsImg.as_view()),  # 获取打赏码地址
 
-    path('cat/<pk>/', views.DoingView.as_view()),  # 某类别文章列表
+    path('cat/<pk>/', views.CatList.as_view()),  # 某类别文章列表
 
-    path('tag/<pk>/', views.DoingView.as_view()),  # 某标签文章列表
+    path('tag/<pk>/', views.TagList.as_view()),  # 某标签文章列表
 
     path('notice/<pk>', views.Notice.as_view()),  # 公告详情页
 

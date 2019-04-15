@@ -138,8 +138,10 @@ class Blog(models.Model):
         },
         verbose_name='作者'
     )
-    cat = models.ForeignKey(to=Category, related_name='cblogs', on_delete=models.SET_NULL, null=True, verbose_name='分类')
-    tags = models.ManyToManyField(to=Tag, related_name='tblogs', verbose_name='标签', blank=True)
+    cat = models.ForeignKey(to=Category, related_name='cblogs', limit_choices_to={'is_active': True},
+                            on_delete=models.SET_NULL, null=True, verbose_name='分类')
+    tags = models.ManyToManyField(to=Tag, related_name='tblogs', limit_choices_to={'is_active': True},
+                                  verbose_name='标签', blank=True)
     cover = models.ImageField(upload_to='blog/cover/', verbose_name='封面', blank=True)
     # mini, normal, full, besttome, 四种工具栏, normal比较适合留言, 评论
     content = UEditorField(verbose_name='内容', width='100%', blank=True, imagePath='blog/img/', toolbars='full',

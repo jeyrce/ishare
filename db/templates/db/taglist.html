@@ -1,0 +1,21 @@
+{% extends 'db/base/base-list.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {# 列表页说明 #}
+    <div class="whitebg lanmu"><img src="{% static 'image/lm01.jpg' %}" alt="图片丢失">
+        <h1>{{ tag.tag }}</h1>
+        <p>{{ list_desc }}</p>
+    </div>
+
+    {# 列表数据 #}
+    <div class="whitebg bloglist">
+        {% include 'db/base/left/art_list.html' %}
+
+        {# 分页条 #}
+        {% include 'db/base/left/tag_paginator.html' %}
+    </div>
+
+
+{% endblock %}

@@ -7906,13 +7906,13 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
          */
         getContentLength: function (ingoneHtml, tagNames) {
             var count = this.getContent(false,false,true).length;
-            // if (ingoneHtml) {
-            //     tagNames = (tagNames || []).concat([ 'hr', 'img', 'iframe']);
-            //     count = this.getContentTxt().replace(/[\t\r\n]+/g, '').length;
-            //     for (var i = 0, ci; ci = tagNames[i++];) {
-            //         count += this.document.getElementsByTagName(ci).length;
-            //     }
-            // }
+            if (ingoneHtml) {
+                tagNames = (tagNames || []).concat([ 'hr', 'img', 'iframe']);
+                count = this.getContentTxt().replace(/[\t\r\n]+/g, '').length;
+                for (var i = 0, ci; ci = tagNames[i++];) {
+                    count += this.document.getElementsByTagName(ci).length;
+                }
+            }
             return count;
         },
 
@@ -11840,7 +11840,7 @@ UE.plugins['font'] = function () {
  * ```
  */
 
-UE.plugins['db.templates.db.link'] = function(){
+UE.plugins['link'] = function(){
     function optimize( range ) {
         var start = range.startContainer,end = range.endContainer;
 
@@ -11865,13 +11865,13 @@ UE.plugins['db.templates.db.link'] = function(){
             range.removeInlineStyle( 'a' ).moveToBookmark( bookmark ).select();
         },
         queryCommandState : function(){
-            return !this.highlight && this.queryCommandValue('db.templates.db.link') ?  0 : -1;
+            return !this.highlight && this.queryCommandValue('link') ?  0 : -1;
         }
 
     };
     function doLink(range,opt,me){
         var rngClone = range.cloneRange(),
-            link = me.queryCommandValue('db.templates.db.link');
+            link = me.queryCommandValue('link');
         optimize( range = range.adjustmentBoundary() );
         var start = range.startContainer;
         if(start.nodeType == 1 && link){
@@ -11910,7 +11910,7 @@ UE.plugins['db.templates.db.link'] = function(){
 
         }
     }
-    UE.commands['db.templates.db.link'] = {
+    UE.commands['link'] = {
         execCommand : function( cmdName, opt ) {
             var range;
             opt._href && (opt._href = utils.unhtml(opt._href,/[<">]/g));
@@ -14885,7 +14885,7 @@ UE.plugins['pasteplain'] = function(){
  * @since 1.2.6.1
  */
 
-UE.plugins['db.templates.db.list'] = function () {
+UE.plugins['list'] = function () {
     var me = this,
         notExchange = {
             'TD':1,
@@ -14997,7 +14997,7 @@ UE.plugins['db.templates.db.list'] = function () {
         customCss.push('.list-paddingleft-2{padding-left:'+me.options.listDefaultPaddingLeft+'px}');
         customCss.push('.list-paddingleft-3{padding-left:'+me.options.listDefaultPaddingLeft*2+'px}');
         //如果不给宽度会在自定应样式里出现滚动条
-        utils.cssRule('db.templates.db.list', 'ol,ul{margin:0;pading:0;'+(browser.ie ? '' : 'width:95%')+'}li{clear:both;}'+customCss.join('\n'), me.document);
+        utils.cssRule('list', 'ol,ul{margin:0;pading:0;'+(browser.ie ? '' : 'width:95%')+'}li{clear:both;}'+customCss.join('\n'), me.document);
     });
     //单独处理剪切的问题
     me.ready(function(){
@@ -16416,7 +16416,7 @@ UE.plugins['db.templates.db.list'] = function () {
                     }
                 });
                 utils.loadFile(document,{
-                    tag : "db.templates.db.link",
+                    tag : "link",
                     rel : "stylesheet",
                     type : "text/css",
                     href : opt.codeMirrorCssUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css"
@@ -26274,7 +26274,7 @@ UE.ui = baidu.editor.ui = {};
         _onClick: function (evt){
             var target= evt.target || evt.srcElement;
             if(/icon/.test(target.className)){
-                this.items[target.parentNode.getAttribute("db.templates.db.index")].onclick();
+                this.items[target.parentNode.getAttribute("index")].onclick();
                 Popup.postHide(evt);
             }
         },
@@ -26721,7 +26721,7 @@ UE.ui = baidu.editor.ui = {};
             }
             this.popup = new Menu({
                 items: this.items,
-                uiName: 'db.templates.db.list',
+                uiName: 'list',
                 editor:this.editor,
                 captureWheel: true,
                 combox: this
@@ -27811,7 +27811,7 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogBtns = {
         noOk:['searchreplace', 'help', 'spechars', 'webapp','preview'],
-        ok:['attachment', 'anchor', 'db.templates.db.link', 'insertimage', 'map', 'gmap', 'insertframe', 'wordimage',
+        ok:['attachment', 'anchor', 'link', 'insertimage', 'map', 'gmap', 'insertframe', 'wordimage',
             'insertvideo', 'insertframe', 'edittip', 'edittable', 'edittd', 'scrawl', 'template', 'music', 'background', 'charts']
     };
 
@@ -28634,7 +28634,7 @@ UE.ui = baidu.editor.ui = {};
                 if (!opt.wordCount) {
                     return;
                 }
-                var count = editor.getContentLength(false);
+                var count = editor.getContentLength(true);
                 if (count > max) {
                     countDom.innerHTML = errMsg;
                     editor.fireEvent("wordcountoverflow");
@@ -28781,7 +28781,7 @@ UE.ui = baidu.editor.ui = {};
 
                     }
                     if (editor.ui._dialogs.linkDialog) {
-                        var link = editor.queryCommandValue('db.templates.db.link');
+                        var link = editor.queryCommandValue('link');
                         var url;
                         if (link && (url = (link.getAttribute('_href') || link.getAttribute('href', 2)))) {
                             var txt = url;
@@ -29195,7 +29195,7 @@ UE.ui = baidu.editor.ui = {};
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:editor.options.themePath + editor.options.theme + "/css/ueditor.css",
-            tag:"db.templates.db.link",
+            tag:"link",
             type:"text/css",
             rel:"stylesheet"
         });

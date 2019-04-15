@@ -262,12 +262,93 @@ class Notice(View):
 
 class CatList(View):
     """
-    TODO: 分类列表页
+    分类列表页
     """
+
+    @staticmethod
+    def get_index(cat_id, page, page_size):
+        # 计算总的页数
+        cnt = m.Blog.objects.filter(is_active=True, cat__is_active=True, cat_id=cat_id).only(*('pk',)).count()
+        e = cnt % page_size
+        n = cnt // page_size
+        num = n + 1 if e > 0 else n
+        if page < 1 or num == 0:
+            page = 1
+        elif page > num > 0:
+            page = num
+        start = (page - 1) * page_size
+        end = page * page_size
+        return num, start, end
+
+    def get(self, request, pk, *args, **kwargs):
+        cat_id = pk
+        cat = m.Category.objects.filter(is_active=True, pk=cat_id).first()
+        if not cat:
+            raise Http404()
+        try:
+            page = int(self.request.GET.get('page', 1))
+            page_size = int(self.request.GET.get('page_size', settings.LIST_INFO['page_size']))
+        except:
+            page = 1
+            page_size = settings.LIST_INFO['page_size']
+        num, start, end = self.get_index(cat_id, page, page_size)
+        queryset = m.Blog.objects.filter(is_active=True, cat_id=cat_id, cat__is_active=True).order_by('-add')[start:end]
+        ctx = {
+            'cat': cat,
+            'list_desc': settings.LIST_INFO[cat.pre_cat],
+            'art_list': queryset,
+            'page_size': page_size,
+            'page': page,
+            'total': num,
+            'prev': page - 1 if page > 1 else None,
+            'next': page + 1 if page < num else None,
+            'tags': ContextUtil.random_tags(),
+        }
+        return render(request, 'db/catlist.html', ctx)
 
 
 class TagList(View):
     """
-    TODO: 标签列表页
+    标签列表页
     """
-    pass
+
+    @staticmethod
+    def get_index(tag, page, page_size):
+        # 计算总的页数
+        cnt = tag.tblogs.filter(is_active=True, cat__is_active=True).order_by('-add').only(*('pk',)).count()
+        e = cnt % page_size
+        n = cnt // page_size
+        num = n + 1 if e > 0 else n
+        if page < 1 or num == 0:
+            page = 1
+        elif page > num > 0:
+            page = num
+        start = (page - 1) * page_size
+        end = page * page_size
+        return num, start, end
+
+    def get(self, request, pk, *args, **kwargs):
+        tag_id = pk
+        tag = m.Tag.objects.filter(is_active=True, pk=tag_id).first()
+        if not tag:
+            raise Http404()
+        try:
+            page = int(self.request.GET.get('page', 1))
+            page_size = int(self.request.GET.get('page_size', settings.LIST_INFO['page_size']))
+        except:
+            page = 1
+            page_size = settings.LIST_INFO['page_size']
+        num, start, end = self.get_index(tag, page, page_size)
+        queryset = tag.tblogs.filter(is_active=True, cat__is_active=True).order_by('-add')[start:end]
+        ctx = {
+            'tag': tag,
+            'list_desc': settings.LIST_INFO['tag'],
+            'art_list': queryset,
+            'page_size': page_size,
+            'page': page,
+            'total': num,
+            'prev': page - 1 if page > 1 else None,
+            'next': page + 1 if page < num else None,
+            'tags': ContextUtil.random_tags(),
+        }
+        return render(request, 'db/taglist.html', ctx)

@@ -3351,7 +3351,7 @@ jQuery.support = (function( support ) {
 
 	// Make sure that link elements get serialized correctly by innerHTML
 	// This requires a wrapper element in IE
-	support.htmlSerialize = !!div.getElementsByTagName("db.templates.db.link").length;
+	support.htmlSerialize = !!div.getElementsByTagName("link").length;
 
 	// Get the style information from getAttribute
 	// (IE uses .cssText instead)

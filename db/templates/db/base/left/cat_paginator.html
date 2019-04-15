@@ -1,0 +1,13 @@
+<!--pagelist-->
+<div class="pagelist">
+
+    <a title="共{{ total }}页"><b>{{ total }}</b></a>
+    {% if prev %}
+        <a href="/x/cat/{{ cat.pk }}/?page={{ prev }}&page_size={{ page_size }}"><上一页</a>
+    {% endif %}
+    <b>{{ page }}</b>&nbsp;
+    {% if next %}
+        <a href="/x/cat/{{ cat.pk }}/?page={{ next }}&page_size={{ page_size }}">下一页></a>
+    {% endif %}
+</div>
+<!--pagelist end-->

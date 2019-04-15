@@ -40,7 +40,7 @@
             'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'db.templates.db.link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
             'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
             'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
             'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
@@ -64,21 +64,21 @@
         //,zIndex : 900     //编辑器层级的基数,默认是900
 
         //针对getAllHtml方法，会在对应的head标签中增加该编码设置。
-        ,charset:"utf-8"
+        //,charset:"utf-8"
 
         //若实例化编辑器的页面手动修改的domain，此处需要设置为true
         //,customDomain:false
 
         //常用配置项目
-        ,isShow : true    //默认显示编辑器
+        //,isShow : true    //默认显示编辑器
 
         //,textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
 
-        ,initialContent:''    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
+        //,initialContent:'欢迎使用ueditor!'    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
 
-        ,autoClearinitialContent:false //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
+        //,autoClearinitialContent:true //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
 
-        ,focus:false //初始化时，是否让编辑器获得焦点true或false
+        //,focus:false //初始化时，是否让编辑器获得焦点true或false
 
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
@@ -89,29 +89,29 @@
         //首行缩进距离,默认是2em
         //,indentValue:'2em'
 
-        ,initialFrameWidth:'100%'  //初始化编辑器宽度,默认1000
-        ,initialFrameHeight:320  //初始化编辑器高度,默认320
+        //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
+        //,initialFrameHeight:320  //初始化编辑器高度,默认320
 
-        ,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
+        //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         //启用自动保存
-        ,enableAutoSave: true
+        //,enableAutoSave: true
         //自动保存间隔时间， 单位ms
-        ,saveInterval: 15000
+        //,saveInterval: 500
 
-        ,fullscreen : false //是否开启初始化时即全屏，默认关闭
+        //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
-        ,imagePopup:true      //图片操作的浮层开关，默认打开
+        //,imagePopup:true      //图片操作的浮层开关，默认打开
 
         //,autoSyncData:true //自动同步编辑器要提交的数据
         //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
 
         //粘贴只保留标签，去除标签所有属性
-        // ,retainOnlyLabelPasted: false
+        //,retainOnlyLabelPasted: false
 
-        ,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+        //,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
         //纯文本粘贴模式下的过滤规则
         //'filterTxtRules' : function(){
         //    function transP(node){
@@ -140,7 +140,7 @@
         //    }
         //}()
 
-        // ,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
+        //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
 
         //insertorderedlist
         //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
@@ -247,15 +247,15 @@
 
         //elementPathEnabled
         //是否启用元素路径，默认是显示
-        ,elementPathEnabled : false
+        //,elementPathEnabled : true
 
         //wordCount
         //,wordCount:true          //是否开启字数统计
-        ,maximumWords:10000       //允许的最大字符数
+        //,maximumWords:10000       //允许的最大字符数
         //字数统计提示，{#count}代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
         //,wordCountMsg:''   //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
         //超出字数限制提示  留空支持多语言自动切换，否则按此配置显示
-        ,wordOverFlowMsg:'<span style="color:red;">你输入的字符个数已经超出最大允许值，服务器会拒绝保存！</span>'    //
+        //,wordOverFlowMsg:''    //<span style="color:red;">你输入的字符个数已经超出最大允许值，服务器可能会拒绝保存！</span>
 
         //tab
         //点击tab键时移动的距离,tabSize倍数，tabNode什么字符做为单位
@@ -283,7 +283,7 @@
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)
         //,scaleEnabled:false
         //,minFrameWidth:800    //编辑器拖动时最小宽度,默认800
-        ,minFrameHeight:220  //编辑器拖动时最小高度,默认220
+        //,minFrameHeight:220  //编辑器拖动时最小高度,默认220
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true

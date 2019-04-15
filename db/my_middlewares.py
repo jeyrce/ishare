@@ -62,11 +62,12 @@ class LinkClickMiddleware(BaseCustomMiddleware):
         # 记录ip, ua关键信息
         if request.META.get('PATH_INFO', '') == '/x/goto/':
             LK = request.GET.get('uri', '/')
-            if Link.objects.filter(link=LK).count():
+            link_obj = Link.objects.filter(link=LK).only(*('id',)).first()
+            if link_obj:
                 UA = request.META.get('HTTP_USER_AGENT', DEFAULT_UA)
                 IP = request.META.get('REMOTE_ADDR')
                 try:
-                    Click.objects.create(link_id=LK, ip=IP, user_agent=UA)
+                    Click.objects.create(link_id=link_obj.id, ip=IP, user_agent=UA)
                 except:
                     pass
 

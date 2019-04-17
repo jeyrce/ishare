@@ -221,7 +221,7 @@ COM_DESC_LENGTH = MSG_DESC_LENGTH = 20
 #########
 
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
-CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_SECONDS = 180
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHES = {
     # 默认使用的库，session，csrf等存储
@@ -278,10 +278,6 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 # 基于内存和redis双缓存
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 DJANGO_REDIS_IGNORE_EXCEPTIONS = True  # 忽略异常
-
-DISALLOWED_USER_AGENTS = [
-    re.compile('^python.*$'),
-]
 
 LOGOUT_REDIRECT_URL = '/'
 CSRF_USE_SESSIONS = True

@@ -34,9 +34,6 @@ pymysql.install_as_MySQLdb()
 
 ALLOWED_HOSTS = [
     'www.lujianxin.com',
-    'www.lujianxin.cn',
-    'lujianxin.com',
-    'lujianxin.cn',
     '127.0.0.1',
 ]
 

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /xauth
+Disallow: /xadmin
+Disallow: /admin
+Disallow: /x/notice

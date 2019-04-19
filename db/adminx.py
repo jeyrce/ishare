@@ -223,7 +223,7 @@ class BlogAdmin(CommonSetting):
     list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'url')
     search_fields = ('title', 'author__nickname', 'author__email')
     list_filter = ('is_active', 'add', 'mod')
-    readonly_fields = ('read', 'like', 'add', 'mod', 'author')
+    readonly_fields = ('read', 'like', 'add', 'mod')
     list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
     form_layout = (
         Main(
@@ -252,7 +252,8 @@ class BlogAdmin(CommonSetting):
         """
         保存数据到数据库中时提取作者为当前用户
         """
-        self.new_obj.author = self.request.user
+        if (not hasattr(self.new_obj, 'author')) or (not self.new_obj.author):
+            self.new_obj.author = self.request.user
         self.new_obj.save()
 
 
@@ -262,7 +263,7 @@ class AuthorBlogAdmin(CommonSetting):
     search_fields = ('title',)
     list_filter = ('add', 'mod')
     readonly_fields = ('read', 'like', 'add', 'mod')
-    list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
+    # list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
     form_layout = (
         Main(
             Fieldset(

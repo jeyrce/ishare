@@ -47,6 +47,7 @@ DEFAULT_UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -317,4 +318,42 @@ LIST_INFO = {
     如果我们曾经怀着相同的理想并肩前行过一段岁月，到了最后会不会在彼此的记忆中植满百合？
     """,
     'tag': '此标签检索到以下结果，如果没有你想找的，也可点击右上角进行站内搜索。',
+}
+
+# ------------simpleui配置
+
+SIMPLEUI_HOME_TITLE = '后台首页'
+SIMPLEUI_LOGO = 'https://avatars2.githubusercontent.com/u/13655483?s=60&v=4'
+SIMPLEUI_HOME_INFO = True
+SIMPLEUI_HOME_QUICK = True
+SIMPLEUI_HOME_ACTION = True
+SIMPLEUI_ANALYSIS = False
+SIMPLEUI_CONFIG = {
+    'system_keep': True,
+    # 'menus': [{
+    #     'name': 'Simpleui',
+    #     'icon': 'fas fa-code',
+    #     'url': 'https://gitee.com/tompeppa/simpleui'
+    # }, {
+    #     'app': 'auth',
+    #     'name': '权限认证',
+    #     'icon': 'fas fa-user-shield',
+    #     'models': [{
+    #         'name': '用户',
+    #         'icon': 'fa fa-user',
+    #         'url': 'auth/user/'
+    #     }]
+    # }, {
+    #     'name': '测试',
+    #     'icon': 'fa fa-file',
+    #     'models': [{
+    #         'name': 'Baidu',
+    #         'url': 'http://baidu.com',
+    #         'icon': 'far fa-surprise'
+    #     }, {
+    #         'name': '内网穿透',
+    #         'url': 'https://www.wezoz.com',
+    #         'icon': 'fab fa-github'
+    #     }]
+    # }]
 }

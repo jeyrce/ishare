@@ -43,14 +43,15 @@ class VisitCountMiddleware(BaseCustomMiddleware):
     def after_make_response(self, request):
         # 总访问记录： 暂时直接存库，以后配合celery进行定时任务存库
         obj, is_created = Expand.objects.get_or_create(key='VISIT_CNT', defaults={'key': 'VISIT_CNT', 'value': '1'})
-        if not is_created:
-            obj.value = str(int(obj.value) + 1)
-            obj.save(update_fields=('value',))
-        # 今日访问记录: 使用redis进行高速缓存
-        cache = caches['four']
-        cnt = cache.get(today_key(), 0)
-        new = cnt + 1 if cnt else 1
-        cache.set(today_key(), new, 60 * 60 * 24)
+        if request.META.get('PATH_INFO', '-').startswith('/x/'):
+            if not is_created:
+                obj.value = str(int(obj.value) + 1)
+                obj.save(update_fields=('value',))
+            # 今日访问记录: 使用redis进行高速缓存
+            cache = caches['four']
+            cnt = cache.get(today_key(), 0)
+            new = cnt + 1 if cnt else 1
+            cache.set(today_key(), new, 60 * 60 * 24)
 
 
 class LinkClickMiddleware(BaseCustomMiddleware):
@@ -65,7 +66,7 @@ class LinkClickMiddleware(BaseCustomMiddleware):
             link_obj = Link.objects.filter(link=LK).only(*('id',)).first()
             if link_obj:
                 UA = request.META.get('HTTP_USER_AGENT', DEFAULT_UA)
-                IP = request.META.get('REMOTE_ADDR')
+                IP = request.META.get('REMOTE_ADDR', '0.0.0.0')
                 try:
                     Click.objects.create(link_id=link_obj.id, ip=IP, user_agent=UA)
                 except:

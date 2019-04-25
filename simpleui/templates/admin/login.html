@@ -46,7 +46,7 @@
         {% csrf_token %}
         <div class="simpleui-input-inline">
             <el-input prefix-icon="fas fa-user" v-model="username" name="username"
-                      placeholder="{% trans 'username' %}"></el-input>
+                      placeholder="{% trans 'Email' %}"></el-input>
         </div>
         <div class="simpleui-input-inline">
             <el-input prefix-icon="fas fa-lock" type="password" v-model="password" name="password" @keyup.enter.native="login()"
@@ -55,6 +55,8 @@
         <div class="simpleui-input-inline login-btn">
             <el-button @click="login()" type="primary">{% trans 'Log in' %}</el-button>
         </div>
+
+        <span><a href="/xauth/xadmin/password_reset" target="_self" style="text-decoration: none; color: white;">忘记密码？</a></span>
 
         <input type="hidden" name="next" value="{{ next }}"/>
     </form>

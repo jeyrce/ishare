@@ -204,6 +204,10 @@ SITE = {
     'search_engine_metas': {
         'baidu-site-verification': '5amdMOKaXx',
         'google-site-verification': 'C2ujkHLAjxkyD2SXrnXNeoZum0YsZcl832GvR3XBTw4',
+        '360-site-verification': '8a43aac6e4ecbfb7849b61c40cdebd76',
+        'shenma-site-verification': '61038a23c3906f69d8ec598c57a5988c_1556268317',
+        'sogou_site_verification': '7LJQRWpzdw',
+        'msvalidate.01': '725274B06FEC1DAE34DA835E37A6D5D5',
     },
 }
 

@@ -89,7 +89,7 @@ MIDDLEWARE = [
     # 以下是自定义中间件
     'db.my_middlewares.AllMethodSupportMiddleware',
     'db.my_middlewares.VisitCountMiddleware',
-    'db.my_middlewares.LinkClickMiddleware',
+    # 'db.my_middlewares.LinkClickMiddleware',
 ]
 
 ROOT_URLCONF = 'ljx.urls'

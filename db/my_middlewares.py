@@ -56,7 +56,7 @@ class VisitCountMiddleware(BaseCustomMiddleware):
 
 class LinkClickMiddleware(BaseCustomMiddleware):
     """
-    广告, 友情链接点击记录中间件
+    广告, 友情链接点击记录中间件， 4-27日停用
     """
 
     def after_make_response(self, request):

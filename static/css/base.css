@@ -406,6 +406,4 @@ about
 .shang input { line-height: 70px; height: 70px; width: 70px; border-radius: 50%; background: #00a0e9; font-size: 30px; outline: none; box-shadow: none; }
 #notice { width: 25px; height: 25px; display: inline; vertical-align: middle; align-items: center; margin: 0 10px 0 0; }
 .green {  color: deepskyblue; }
-table {
-    border-spacing: 0;
-}
+.con_text table {  border-spacing: 0; margin: 0 auto; border-collapse: collapse;  }

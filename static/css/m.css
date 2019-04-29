@@ -27,7 +27,7 @@ nav { width: 100%; height: auto; background: rgba(0,0,0,0.5); margin-top: 18px; 
 #starlist li { width: 55%; text-align: center; background: #12b7de; float: none; display: block; font-weight: bold; }
 #starlist li:last-child { padding-bottom: 100% }
 #starlist li a { color: #fff; display: block; width: 100%; text-align: center; float: none; padding: 0; background: #12b7de; border-bottom: #49ccea 1px solid; }
-#starlist ul.sub { display: block; position: inherit; left: inherit; top: inherit; }
+#starlist ul.sub { display: none; position: inherit; left: inherit; top: inherit; }
 #starlist ul.sub li { width: 100% }
 #starlist ul.sub li:last-child { padding-bottom: 0; border-bottom: #49ccea 1px solid; }
 #starlist ul.sub li a { color: #fff; font-weight: normal; border-bottom: none; }
@@ -114,4 +114,7 @@ a.viewmore { position: static; margin-top: 20px; text-align: center }
 .tab_buttons ul { width: 600px;overflow-x: scroll;}
 .tab_buttons li {margin-right: 30px;width: auto;}
 .newscurrent:after{width:100%}
+}
+@media screen and (max-width: 480px) {
+ .dashang .diggit, .dashang .shang {display: block;}
 }

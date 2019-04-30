@@ -29,6 +29,7 @@ $(document).ready(function () {
     $('#banner').easyFader();
     //nav menu   
     $(".menu").click(function (event) {
+        event.preventDefault();
         $(this).children('.sub').slideToggle();
     });
     //tab

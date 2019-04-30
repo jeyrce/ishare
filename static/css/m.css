@@ -27,7 +27,7 @@ nav { width: 100%; height: auto; background: rgba(0,0,0,0.5); margin-top: 18px; 
 #starlist li { width: 55%; text-align: center; background: #12b7de; float: none; display: block; font-weight: bold; }
 #starlist li:last-child { padding-bottom: 100% }
 #starlist li a { color: #fff; display: block; width: 100%; text-align: center; float: none; padding: 0; background: #12b7de; border-bottom: #49ccea 1px solid; }
-#starlist ul.sub { display: none; position: inherit; left: inherit; top: inherit; }
+#starlist ul.sub { position: inherit; left: inherit; top: inherit; }
 #starlist ul.sub li { width: 100% }
 #starlist ul.sub li:last-child { padding-bottom: 0; border-bottom: #49ccea 1px solid; }
 #starlist ul.sub li a { color: #fff; font-weight: normal; border-bottom: none; }

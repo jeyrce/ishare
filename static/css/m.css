@@ -13,7 +13,7 @@
 .jianzhan li:nth-child(3) { width: 36.3% }
 #starlist li:hover ul.sub { display: block }
 }
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1024px) {
 /*header*/
 header { position: fixed; z-index: 999 }
 nav { width: 100%; height: auto; background: rgba(0,0,0,0.5); margin-top: 18px; position: fixed; z-index: 999; top: 42px; }

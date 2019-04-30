@@ -30,6 +30,7 @@ $(document).ready(function () {
     //nav menu   
     $(".menu").click(function (event) {
         event.preventDefault();
+        event.stopPropagation();
         $(this).children('.sub').slideToggle();
     });
     //tab

@@ -17,11 +17,12 @@ from db.models import (
     Blog,
     AuthorBlog,
     Author,
+    Book,
+    AuthorBook,
+    Chapter,
     Advertisement,
     TipAd,
-    AdClick,
     Link,
-    Click,
     Notice,
     Expand,
 )
@@ -48,6 +49,7 @@ class CommonSetting(object):
     list_per_page = 60
     empty_value_display = '-暂无-'
     list_gallery = True
+    list_editable = ()
     use_related_menu = False
     style_fields = {'content': 'ueditor'}
     # relfield_style = 'fk_ajax'  # ajax加载外键选项
@@ -60,7 +62,6 @@ class TagAdmin(CommonSetting):
     search_fields = ('tag',)
     list_filter = ('add', 'mod', 'is_active')
     readonly_fields = ('add', 'mod')
-    list_editable = ('tag', 'is_active')
     form_layout = (
         Main(
             Fieldset(
@@ -74,27 +75,12 @@ class TagAdmin(CommonSetting):
         ),
     )
 
-    # def queryset(self):
-    #     """
-    #     重写查询展示列表页
-    #     """
-    #     q = super().queryset()
-    #     nq = q.filter()
-    #     return nq
-    #
-    # def save_models(self):
-    #     """
-    #     保存实例时要做的事
-    #     """
-    #     super().save_models()
-
 
 class CateGoryAdmin(CommonSetting):
     list_display = ('pre_cat', 'cat', 'is_active', 'art_nums', 'add', 'mod')
     search_fields = ('cat', 'pre_cat')
     list_filter = ('add', 'mod', 'is_active')
     readonly_fields = ('add', 'mod')
-    list_editable = ('pre_cat', 'cat', 'is_active')
     form_layout = (
         Main(
             Fieldset(
@@ -112,7 +98,6 @@ class CateGoryAdmin(CommonSetting):
 class UserAccountAdmin(CommonSetting, UserAdmin):
     change_user_password_template = None
     list_display = ('email', 'username', 'is_staff', 'is_active')
-    list_editable = ('is_active', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('-date_joined',)
@@ -224,7 +209,6 @@ class BlogAdmin(CommonSetting):
     search_fields = ('title', 'author__nickname', 'author__email')
     list_filter = ('is_active', 'add', 'mod')
     readonly_fields = ('read', 'like', 'add', 'mod')
-    list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
     form_layout = (
         Main(
             Fieldset(
@@ -258,12 +242,11 @@ class BlogAdmin(CommonSetting):
 
 
 class AuthorBlogAdmin(CommonSetting):
-    exclude = ('id', 'author', 'is_active', 'is_top', 'is_fine')
+    exclude = ('id', )
     list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'url')
     search_fields = ('title',)
     list_filter = ('add', 'mod')
-    readonly_fields = ('read', 'like', 'add', 'mod')
-    # list_editable = ('title', 'cat', 'is_fine', 'is_top', 'is_active')
+    readonly_fields = ('read', 'like', 'add', 'mod', 'author', 'is_active', 'is_top', 'is_fine')
     form_layout = (
         Main(
             Fieldset(
@@ -282,6 +265,9 @@ class AuthorBlogAdmin(CommonSetting):
                 Row('add', 'mod'),
             ),
         ),
+        Side(
+            Fieldset(_('状态'), 'is_active', 'is_top', 'is_fine')
+        )
     )
 
     def queryset(self):
@@ -313,12 +299,173 @@ class AuthorBlogAdmin(CommonSetting):
                 return True
 
 
+class BookAdmin(CommonSetting):
+    """
+    专题管理
+    """
+    list_display = ('bname', 'is_active', 'author', 'cat', 'read', 'cnum', 'last_update')
+    search_fields = ('bname',)
+    list_filter = ('add', 'mod')
+    exclude = ('id',)
+    readonly_fields = ('read', 'add', 'mod')
+    use_related_menu = True
+    form_layout = (
+        Main(
+            Fieldset(
+                _('基本信息'),
+                Row('bname'),
+                Row('author'),
+            ),
+            Fieldset(
+                _('描述信息'),
+                Row('cat', 'tags'),
+                Row('cover'),
+                Row('desc'),
+            ),
+            Fieldset(
+                _('统计信息'),
+                Row('read', 'add', 'mod'),
+            ),
+        ),
+        Side(
+            Fieldset(_('状态'), 'is_active', 'is_fine'),
+        ),
+    )
+
+    def save_models(self):
+        """
+        保存数据到数据库中时提取作者为当前用户
+        """
+        if (not hasattr(self.new_obj, 'author')) or (not self.new_obj.author):
+            self.new_obj.author = self.request.user
+        self.new_obj.save()
+
+
+class ChapterInline(object):
+    """
+    专题内查看编辑章节
+    """
+    model = Chapter
+    extra = 0
+    exclude = ('id', 'is_active')
+    can_delete = False
+    show_change_link = True
+
+
+class AuthorBookAdmin(CommonSetting):
+    """
+    作者专题管理
+    """
+    list_display = ('bname', 'is_active', 'cnum', 'read', 'last_update')
+    inlines = (ChapterInline,)
+    search_fields = ('bname',)
+    list_filter = ('add', 'mod')
+    exclude = ('id', 'author')
+    inline_styles = {'one': {'content': 'ueditor'}}
+    readonly_fields = ('is_active', 'is_fine', 'read', 'add', 'mod')
+
+    form_layout = (
+        Main(
+            Fieldset(
+                _('基本信息'),
+                Row('bname'),
+            ),
+            Fieldset(
+                _('描述信息'),
+                Row('cat', 'tags'),
+                Row('cover'),
+                Row('desc'),
+            ),
+            Fieldset(
+                _('统计信息'),
+                Row('read', 'add', 'mod'),
+            ),
+        ),
+        Side(
+            Fieldset(_('状态'), 'is_active', 'is_fine'),
+        ),
+    )
+
+    def queryset(self):
+        q = super().queryset()
+        return q.filter(author_id=self.request.user.id)
+
+    def save_models(self):
+        """
+        保存数据到数据库中时提取作者为当前用户
+        """
+        self.new_obj.author = self.request.user
+        self.new_obj.save()
+
+    def has_add_permission(self):
+        # 增添专题的权限
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user.is_active
+
+    def has_delete_permission(self, obj=None):
+        # 删除权限
+        if obj is not None:
+            if self.request.user.id == obj.author.id:
+                return True
+
+    def has_change_permission(self, obj=None):
+        if obj is not None:
+            if self.request.user.id == obj.author.id:
+                return True
+
+
+class ChapterAdmin(CommonSetting):
+    """
+    管理员所见章节
+    """
+    list_display = ('title', 'book', 'is_active', 'add')
+    search_fields = ('title',)
+    list_filter = ('book__bname',)
+    exclude = ('id',)
+    readonly_fields = ('add', 'mod')
+    form_layout = (
+        Main(
+            Fieldset(
+                _('基本信息'),
+                Row('title'),
+                Row('book'),
+            ),
+            Fieldset(
+                _('正文'),
+                Row('content'),
+            ),
+            Fieldset(
+                _('统计信息'),
+                Row('add', 'mod'),
+            ),
+        ),
+        Side(
+            Fieldset(_('状态'), 'is_active'),
+        ),
+    )
+
+    def has_add_permission(self):
+        # 此通道只允许管理员修改和查看
+        return True
+
+    def has_delete_permission(self, obj=None):
+        # 删除权限
+        return False
+
+    def has_change_permission(self, obj=None):
+        if obj is not None:
+            if self.request.user.is_superuser:
+                return True
+            if self.request.user.id == obj.author.id:
+                return True
+
+
 class AdvertisementAdmin(CommonSetting):
     list_display = ('ad_name', 'adtype', 'url', 'end')
     search_fields = ('ad_name', 'remark')
     list_filter = ('add', 'mod', 'end')
     readonly_fields = ('add', 'mod')
-    list_editable = ('end',)
     form_layout = (
         Main(
             Fieldset(
@@ -343,7 +490,6 @@ class TipAdAdmin(CommonSetting):
     search_fields = ('ad_name', 'remark')
     list_filter = ('add', 'mod', 'end')
     readonly_fields = ('add', 'mod')
-    list_editable = ('end',)
     form_layout = (
         Main(
             Fieldset(
@@ -363,33 +509,11 @@ class TipAdAdmin(CommonSetting):
         return q.filter(adtype=1)
 
 
-class AdClickAdmin(CommonSetting):
-    list_display = ('advertisement', 'ip', 'add')
-    search_fields = ('advertisement__ad_name',)
-    list_filter = ('add',)
-    readonly_fields = ('add', 'user_agent')
-    list_editable = ()
-    form_layout = (
-        Main(
-            Fieldset(
-                _('广告主体'),
-                Row('advertisement')
-            ),
-            Fieldset(
-                _('ip记录'),
-                Row('ip', 'add'),
-                Row('user_agent')
-            ),
-        ),
-    )
-
-
 class LinkAdmin(CommonSetting):
     list_display = ('link_name', 'is_active', 'cat', 'url')
     search_fields = ('link_name', 'email', 'link')
     list_filter = ('add', 'mod', 'is_active')
     readonly_fields = ('add', 'mod')
-    list_editable = ('is_active', 'cat')
     form_layout = (
         Main(
             Fieldset(
@@ -405,33 +529,11 @@ class LinkAdmin(CommonSetting):
     )
 
 
-class ClickAdmin(CommonSetting):
-    list_display = ('link', 'ip', 'add')
-    search_fields = ('link__link_name',)
-    list_filter = ('add',)
-    readonly_fields = ('add', 'user_agent')
-    list_editable = ()
-    form_layout = (
-        Main(
-            Fieldset(
-                _('友链主体'),
-                Row('link')
-            ),
-            Fieldset(
-                _('ip记录'),
-                Row('ip', 'add'),
-                Row('user_agent')
-            ),
-        ),
-    )
-
-
 class NoticeAdmin(CommonSetting):
     list_display = ('title', 'is_active', 'add', 'url')
     search_fields = ('title',)
     list_filter = ('add', 'mod', 'is_active')
     readonly_fields = ('add', 'mod')
-    list_editable = ('is_active',)
     form_layout = (
         Main(
             Fieldset(
@@ -453,7 +555,6 @@ class ExpandAdmin(CommonSetting):
     list_filter = ('mod',)
     ordering = ('-mod',)
     readonly_fields = ('mod',)
-    list_editable = ()
     form_layout = (
         Main(
             Fieldset(
@@ -476,11 +577,12 @@ xadmin.site.register(User, UserAccountAdmin)
 xadmin.site.register(Author, AuthorAdmin)
 xadmin.site.register(Blog, BlogAdmin)
 xadmin.site.register(AuthorBlog, AuthorBlogAdmin)
+xadmin.site.register(Book, BookAdmin)
+xadmin.site.register(AuthorBook, AuthorBookAdmin)
+xadmin.site.register(Chapter, ChapterAdmin)
 xadmin.site.register(Advertisement, AdvertisementAdmin)
 xadmin.site.register(TipAd, TipAdAdmin)
-xadmin.site.register(AdClick, AdClickAdmin)
 xadmin.site.register(Link, LinkAdmin)
-xadmin.site.register(Click, ClickAdmin)
 xadmin.site.register(Notice, NoticeAdmin)
 xadmin.site.register(Expand, ExpandAdmin)
 

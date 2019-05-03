@@ -8,8 +8,7 @@ Here is the descriptions and some purpose of the file:
 from django.http import QueryDict
 from django.core.cache import caches
 
-from db.models import Click, Link, Expand
-from ljx.settings import DEFAULT_UA
+from db.models import Expand
 from db.utils import today_key
 
 
@@ -52,25 +51,6 @@ class VisitCountMiddleware(BaseCustomMiddleware):
             cnt = cache.get(today_key(), 0)
             new = cnt + 1 if cnt else 1
             cache.set(today_key(), new, 60 * 60 * 24)
-
-
-class LinkClickMiddleware(BaseCustomMiddleware):
-    """
-    广告, 友情链接点击记录中间件， 4-27日停用
-    """
-
-    def after_make_response(self, request):
-        # 记录ip, ua关键信息
-        if request.META.get('PATH_INFO', '') == '/x/goto/':
-            LK = request.GET.get('uri', '/')
-            link_obj = Link.objects.filter(link=LK).only(*('id',)).first()
-            if link_obj:
-                UA = request.META.get('HTTP_USER_AGENT', DEFAULT_UA)
-                IP = request.META.get('REMOTE_ADDR', '0.0.0.0')
-                try:
-                    Click.objects.create(link_id=link_obj.id, ip=IP, user_agent=UA)
-                except:
-                    pass
 
 
 class AllMethodSupportMiddleware(BaseCustomMiddleware):

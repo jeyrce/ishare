@@ -26,7 +26,11 @@
                 <li><a href="javascript: doing();" class="doing">我的小店</a></li>
                 <li><a href="/x/msg.html">留言板</a></li>
                 <li><a href="/x/link.html">友情链接</a></li>
-                <li><a href="javascript: void(0);" id="tougao">我要投稿</a></li>
+                {% if SITE.UPGRADING %}
+                    <li><a href="javascript: void(0);" id="upgrading">我要投稿</a></li>
+                {% else %}
+                    <li><a href="javascript: void(0);" id="tougao">我要投稿</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div class="searchico"></div>

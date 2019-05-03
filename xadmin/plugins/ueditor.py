@@ -30,6 +30,7 @@ class UeditorPlugin(BaseAdminPlugin):
         return attrs
 
     def block_extrahead(self, context, nodes):
+        # xadmin字段样式
         js = '<script type="text/javascript" src="%s"></script>' % (
                 settings.STATIC_URL + "ueditor/ueditor.config.js")  # 自己的静态目录
         js += '<script type="text/javascript" src="%s"></script>' % (

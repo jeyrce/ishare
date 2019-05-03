@@ -16,6 +16,7 @@ import pymysql
 
 import djcelery
 
+
 djcelery.setup_loader()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -30,6 +31,9 @@ SECRET_KEY = '8=2y6u_5e=3mx0ut5hct!4t)g7gjy@7j_r$-(jv0&#n%v+@p=!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 维护期间阻止用户登录后台产生新的数据
+UPGRADING = False
+
 pymysql.install_as_MySQLdb()
 
 ALLOWED_HOSTS = [
@@ -41,7 +45,6 @@ ALLOWED_HOSTS = [
 START = '2019-04-15'
 
 SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
-# SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
 DEFAULT_UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 
 # Application definition
@@ -209,6 +212,7 @@ SITE = {
         'sogou_site_verification': '7LJQRWpzdw',
         'msvalidate.01': '725274B06FEC1DAE34DA835E37A6D5D5',
     },
+    'UPGRADING': UPGRADING,
 }
 
 # 文章缩略文本长度

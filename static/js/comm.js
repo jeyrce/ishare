@@ -29,8 +29,6 @@ $(document).ready(function () {
     $('#banner').easyFader();
     //nav menu   
     $(".menu").click(function (event) {
-        event.preventDefault();
-        event.stopPropagation();
         $(this).children('.sub').slideToggle();
     });
     //tab
@@ -211,8 +209,13 @@ $(document).ready(function () {
             }
         });
     });
+
+    //服务器维护提示
+    $('#upgrading').click(function (event) {
+        layer.msg('<h1>服务器正在维护</h1>服务器维护期间无法登录作者后台，敬请谅解!', {
+            time: 3000, //3s后自动关闭
+        });
+    })
+
 });
-
-
-
 

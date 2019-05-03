@@ -7,9 +7,11 @@ from ljx import settings
 from DjangoUeditor.models import UEditorField
 from lxml import etree
 
-from db import NewUUID
+from db import NewUUID, BookId, ChapterId
 
 short_uuid = NewUUID()
+book_id = BookId()
+chapter_id = ChapterId()
 
 
 class Tag(models.Model):
@@ -201,6 +203,92 @@ class AuthorBlog(Blog):
         proxy = True
 
 
+class Book(models.Model):
+    """
+    专题系列
+    """
+    cats = (
+        ('A', '文学创作'),
+        ('B', '技术分享'),
+    )
+    id = models.CharField(max_length=4, primary_key=True, default=book_id.random, verbose_name='专题id')
+    bname = models.CharField(max_length=32, verbose_name='专题名称', unique=True)
+    cat = models.CharField(max_length=1, choices=cats, default='A', verbose_name='专题类别')
+    tags = models.ManyToManyField(to=Tag, related_name='tbooks', limit_choices_to={'is_active': True},
+                                  verbose_name='标签', blank=True)
+    author = models.ForeignKey(to=UserAccount, on_delete=models.CASCADE, verbose_name='作者')
+    cover = models.ImageField(upload_to='book/cover', verbose_name='专题封面', blank=True)
+    desc = models.TextField(max_length=300, verbose_name='专题简介', help_text='2~300文字')
+    read = models.PositiveIntegerField(default=0, verbose_name='累计阅读')
+    add = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
+    mod = models.DateTimeField(auto_now=True, verbose_name='最近修改')
+    is_fine = models.BooleanField(default=True, verbose_name='是否推荐')
+    is_active = models.BooleanField(default=True, verbose_name='是否可见')
+
+    class Meta:
+        verbose_name_plural = verbose_name = '专题'
+        db_table = 'book'
+
+    def __str__(self):
+        return self.bname
+
+    def last_update(self):
+        # 最后更新
+        return Chapter.objects.filter(book_id=self.id).order_by('-add').first().only(*('add',)).add
+
+    last_update.short_description = '最后更新'
+
+    def cnum(self):
+        # 专题下章节数
+        return self.bchapters.only('id').count()
+
+    cnum.short_description = '章节数'
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_active = False
+        self.save(update_fields=('is_active',))
+
+
+class AuthorBook(Book):
+    """
+    作者所见专题
+    """
+
+    class Meta:
+        verbose_name_plural = verbose_name = '我的专题'
+        proxy = True
+
+
+class Chapter(models.Model):
+    """
+    专题章节
+    """
+    id = models.CharField(max_length=6, primary_key=True, default=chapter_id.random, verbose_name='章节id')
+    book = models.ForeignKey(to=Book, on_delete=models.CASCADE, related_name='bchapters', verbose_name='所属专题',
+                             limit_choices_to={'is_active': True})
+    title = models.CharField(max_length=32, verbose_name='章节标题')
+    content = UEditorField(verbose_name='内容', width='100%', blank=True, imagePath='book/img/', toolbars='full',
+                           filePath='book/file/')
+    add = models.DateTimeField(auto_now_add=True, verbose_name='更新时间')
+    mod = models.DateTimeField(auto_now=True, verbose_name='上次修改')
+    is_active = models.BooleanField(default=True, verbose_name='是否可见')
+
+    class Meta:
+        verbose_name_plural = verbose_name = '章节'
+        db_table = 'chapter'
+
+    def __str__(self):
+        return '{}-{}'.format(self.book.bname, self.title)
+
+    def prev(self):
+        # 前一章节
+        return Chapter.objects.filter(book_id=self.book_id, add__lt=self.add).order_by('-add').first()
+
+    def next(self):
+        # 后一章节
+        return Chapter.objects.filter(book_id=self.book_id, add__gt=self.add).order_by('add').first()
+
+
 class Advertisement(models.Model):
     """
     广告位: 右侧部分图片元素
@@ -243,23 +331,6 @@ class TipAd(Advertisement):
         proxy = True
 
 
-class AdClick(models.Model):
-    """
-    广告点击记录
-    """
-    advertisement = models.ForeignKey(to=Advertisement, on_delete=models.CASCADE, verbose_name='广告')
-    ip = models.GenericIPAddressField(default='0.0.0.0', verbose_name='IP地址')
-    user_agent = models.TextField(default=settings.DEFAULT_UA, max_length=128, verbose_name='设备信息')
-    add = models.DateTimeField(auto_now_add=True, verbose_name='点击时间')
-
-    class Meta:
-        verbose_name_plural = verbose_name = '广告点击统计'
-        db_table = 'adclick'
-
-    def __str__(self):
-        return self.advertisement.ad_name
-
-
 class Link(models.Model):
     """
     友情链接: 需要分类
@@ -290,23 +361,6 @@ class Link(models.Model):
         return mark_safe('<a href="{}" target="_blank">{}</a>'.format(self.link, self.link))
 
     url.short_description = '跳转链接'
-
-
-class Click(models.Model):
-    """
-    从我网站点击友链的统计, 每月推送给对方
-    """
-    link = models.ForeignKey(to=Link, on_delete=models.CASCADE, verbose_name='链接')
-    ip = models.GenericIPAddressField(default='0.0.0.0', verbose_name='IP地址')
-    user_agent = models.CharField(default=settings.DEFAULT_UA, max_length=128, verbose_name='设备信息')
-    add = models.DateTimeField(auto_now_add=True, verbose_name='点击时间')
-
-    class Meta:
-        verbose_name_plural = verbose_name = '友链点击统计'
-        db_table = 'click'
-
-    def __str__(self):
-        return self.ip
 
 
 class Notice(models.Model):

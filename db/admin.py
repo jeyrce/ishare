@@ -9,9 +9,7 @@ from db.models import (
     Author,
     Advertisement,
     TipAd,
-    AdClick,
     Link,
-    Click,
     Notice,
     Expand,
 )
@@ -90,9 +88,7 @@ admin.site.register(Author, AuthorAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Advertisement, AdvertisementAdmin)
 admin.site.register(TipAd, TipAddAdmin)
-admin.site.register(AdClick, AdClickAdmin)
 admin.site.register(Link, LinkAdmin)
-admin.site.register(Click, ClickAdmin)
 admin.site.register(Notice, NoticeAdmin)
 admin.site.register(Expand, ExpandAdmin)
 

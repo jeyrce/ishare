@@ -137,4 +137,8 @@ class EmailAuthBackend(ModelBackend):
             pass
         else:
             if account.check_password(password) and self.user_can_authenticate(account):
+                if _st.UPGRADING:
+                    if not account.is_superuser:
+                        # 维护期间不允许作者登录
+                        account.is_staff = False
                 return account

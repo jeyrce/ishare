@@ -2,8 +2,8 @@
 """
     此模块仅用于定义数据库文件, xadmin配置
 """
+import datetime
 from random import choices
-from time import strftime
 
 from shortuuid import ShortUUID
 
@@ -35,3 +35,28 @@ def random_prefix(length=3, string=None):
     if string is None:
         string = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return ''.join(choices(string, k=length))
+
+
+class BookId(NewUUID):
+    """
+    专题id
+    """
+
+    def __init__(self, alphabet=None):
+        if alphabet is None:
+            alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789'
+        super().__init__(alphabet)
+
+    @property
+    def _length(self):
+        return 4
+
+
+class ChapterId(BookId):
+    """
+    章节id
+    """
+
+    @property
+    def _length(self):
+        return 6

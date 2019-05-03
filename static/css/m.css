@@ -11,7 +11,6 @@
 .jianzhan li section { margin: 0 5px; }
 .jianzhan li:nth-child(1) { width: 30% }
 .jianzhan li:nth-child(3) { width: 36.3% }
-#starlist li:hover ul.sub { display: block }
 }
 @media screen and (max-width: 1024px) {
 /*header*/
@@ -35,7 +34,6 @@ nav { width: 100%; height: auto; background: rgba(0,0,0,0.5); margin-top: 18px; 
 #starlist ul.sub li a:hover, #starlist li:hover a, #starlist #selected { color: #fff; }
 .menu span { display: block; width: 50px; height: 50px; background: #12b7de; opacity: 0.5; position: absolute; top: 0; right: 0; border-left: #49ccea 1px solid; }
 .menu:before { right: 20px; }
-#starlist li:hover ul.sub { display: block }
 /**/
 .box, article { width: 96% }
 article { padding-top: 80px; }
@@ -59,7 +57,6 @@ article { padding-top: 80px; }
 .hnav a { font-size: 12px }
 .muban li section { margin: 0 5px; height: 260px; overflow: hidden }
 .zhuanti li { width: 27.6%; padding: 8px }
-#starlist li:hover ul.sub { display: block }
 }
  @media only screen and (max-width: 480px) {
 .headline { width: 100% }
@@ -118,5 +115,4 @@ a.viewmore { position: static; margin-top: 20px; text-align: center }
 .tab_buttons li {margin-right: 30px;width: auto;}
 .newscurrent:after{width:100%}
   .dashang .diggit, .dashang .shang {display: block;}
-#starlist li:hover ul.sub { display: block }
 }

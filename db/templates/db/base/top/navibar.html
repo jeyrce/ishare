@@ -29,11 +29,7 @@
                 {% if SITE.UPGRADING %}
                     <li><a href="javascript: void(0);" id="upgrading">我要投稿</a></li>
                 {% else %}
-                    {% if user.is_authenticated %}
-                        <li><a href="/xauth" target="_blank">我要投稿</a></li>
-                    {% else %}
-                        <li><a href="javascript: void(0);" id="tougao">我要投稿</a></li>
-                    {% endif %}
+                    <li><a href="javascript: void(0);" id="tougao">我要投稿</a></li>
                 {% endif %}
             </ul>
         </nav>

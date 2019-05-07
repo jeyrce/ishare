@@ -242,11 +242,11 @@ class BlogAdmin(CommonSetting):
 
 
 class AuthorBlogAdmin(CommonSetting):
-    exclude = ('id', )
-    list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'url')
+    exclude = ('id', 'author')
+    list_display = ('title', 'cat', 'original', 'tags', 'read', 'like', 'url')
     search_fields = ('title',)
     list_filter = ('add', 'mod')
-    readonly_fields = ('read', 'like', 'add', 'mod', 'author', 'is_active', 'is_top', 'is_fine')
+    readonly_fields = ('read', 'like', 'add', 'mod', 'is_active', 'is_top', 'is_fine')
     form_layout = (
         Main(
             Fieldset(

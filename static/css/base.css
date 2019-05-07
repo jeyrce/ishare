@@ -34,6 +34,7 @@ nav { float: left; height: 50px; line-height: 50px; text-align: center; }
 #starlist ul.sub li:last-child { padding-bottom: 10px }
 #starlist ul.sub li a { color: #FFF }
 #starlist ul.sub li a:hover { color: #00c1de }
+#starlist li:hover ul.sub { display: block }
 /*箭头*/
 .menu:before { position: absolute; content: ""; top: 22px; right: 5px; background: url(../image/jt.png) no-repeat; width: 8px; height: 8px; -ms-transition: all .5s ease; -moz-transition: all .5s ease; -webkit-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease; }
 .menu:hover:before { transform: rotate(180deg) }/*旋转*/
@@ -338,9 +339,9 @@ about
 .qq_join li p { margin: 10px; }
 .qq_join li b { color: #019881; margin: 0 5px; }
 /*
-	
+
 	info.html
-	
+
 */
 .con_tilte { font-size: 22px; margin-top: 20px }
 .con_nav { float: right; font-size: 14px; color: #666 }

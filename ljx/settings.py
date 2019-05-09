@@ -64,7 +64,6 @@ MAIN_APPS = [
     # 主要业务模块
     'ljx',
     'db',
-    'biz',
 ]
 INSTALLED_APPS.extend(MAIN_APPS)
 EXTRA_APPS = [

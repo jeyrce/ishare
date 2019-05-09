@@ -289,6 +289,15 @@ class Chapter(models.Model):
         return Chapter.objects.filter(book_id=self.book_id, add__gt=self.add).order_by('add').first()
 
 
+class AuthorChapter(Chapter):
+    """
+    作者所见章节
+    """
+    class Meta:
+        verbose_name_plural = verbose_name = '专题章节'
+        proxy = True
+
+
 class Advertisement(models.Model):
     """
     广告位: 右侧部分图片元素

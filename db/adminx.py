@@ -20,6 +20,7 @@ from db.models import (
     Book,
     AuthorBook,
     Chapter,
+    AuthorChapter,
     Advertisement,
     TipAd,
     Link,
@@ -361,7 +362,6 @@ class AuthorBookAdmin(CommonSetting):
     search_fields = ('bname',)
     list_filter = ('add', 'mod')
     exclude = ('id', 'author')
-    inline_styles = {'one': {'content': 'ueditor'}}
     readonly_fields = ('is_active', 'is_fine', 'read', 'add', 'mod')
 
     form_layout = (
@@ -417,13 +417,57 @@ class AuthorBookAdmin(CommonSetting):
 
 class ChapterAdmin(CommonSetting):
     """
-    管理员所见章节
+    章节
     """
     list_display = ('title', 'book', 'is_active', 'add')
     search_fields = ('title',)
     list_filter = ('book__bname',)
     exclude = ('id',)
     readonly_fields = ('add', 'mod')
+    form_layout = (
+        Main(
+            Fieldset(
+                _('基本信息'),
+                Row('title'),
+                Row('book'),
+            ),
+            Fieldset(
+                _('正文'),
+                Row('content'),
+            ),
+            Fieldset(
+                _('统计信息'),
+                Row('add', 'mod'),
+            ),
+        ),
+        Side(
+            Fieldset(_('状态'), 'is_active'),
+        ),
+    )
+
+    def has_add_permission(self):
+        # 此通道只允许管理员修改和查看
+        return False
+
+    def has_delete_permission(self, obj=None):
+        # 删除权限
+        return False
+
+    def has_change_permission(self, obj=None):
+        if obj is not None:
+            if self.request.user.is_superuser:
+                return True
+
+
+class AuthorChapterAdmin(CommonSetting):
+    """
+    章节
+    """
+    list_display = ('title', 'book', 'is_active', 'add')
+    search_fields = ('title',)
+    list_filter = ('book__bname',)
+    exclude = ('id',)
+    readonly_fields = ('add', 'mod', 'is_active')
     form_layout = (
         Main(
             Fieldset(
@@ -580,6 +624,7 @@ xadmin.site.register(AuthorBlog, AuthorBlogAdmin)
 xadmin.site.register(Book, BookAdmin)
 xadmin.site.register(AuthorBook, AuthorBookAdmin)
 xadmin.site.register(Chapter, ChapterAdmin)
+xadmin.site.register(AuthorChapter, AuthorChapterAdmin)
 xadmin.site.register(Advertisement, AdvertisementAdmin)
 xadmin.site.register(TipAd, TipAdAdmin)
 xadmin.site.register(Link, LinkAdmin)

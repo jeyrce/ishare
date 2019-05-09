@@ -40,5 +40,4 @@ urlpatterns = [
     path('index.html', views.goto_index),
     # 业务逻辑模块
     path('x/', include('db.urls', namespace='x')),
-    path('biz/', include('biz.urls', namespace='biz')),
 ]

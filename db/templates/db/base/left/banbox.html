@@ -9,7 +9,7 @@
                 <li class="slide">
                     <a href="/x/art/{{ ban.pk }}" target="_self" title="{{ ban.title }}">
                         {#                        <span>{{ ban.title }}</span>#}
-                        <img src="{{ MEDIA_URL }}{{ ban.cover }}" alt="图片丢失">
+                        <img src="{{ MEDIA_URL }}{{ ban.cover|default:'lujianxin.com.png' }}" alt="图片丢失">
                     </a>
                 </li>
             {% endfor %}

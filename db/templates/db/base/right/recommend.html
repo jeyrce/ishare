@@ -7,7 +7,7 @@
         {% for art in RECOMMEND %}
             <li>
                 <a href="/x/art/{{ art.pk }}">
-                    <i><img src="{{ MEDIA_URL }}{{ art.cover }}"></i>
+                    <i><img src="{{ MEDIA_URL }}{{ art.cover|default:'lujianxin.com.png' }}"></i>
                     <p>{{ art.title }}</p>
                 </a>
             </li>

@@ -6,7 +6,7 @@
             <li>
                 <i class="ztpic">
                     <a href="/x/art/{{ art.pk }}" target="_self">
-                        <img src="{{ MEDIA_URL }}{{ art.cover }}" alt="图片丢失">
+                        <img src="{{ MEDIA_URL }}{{ art.cover|default:'lujianxin.com.png' }}" alt="图片丢失">
                     </a>
                 </i>
                 <b>{{ art.title }}</b>

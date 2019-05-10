@@ -38,14 +38,14 @@
                     {% else %}
                         <i><a href="#">原创</a></i>
                     {% endif %}
-                    <a href="/x/art/{{ art.pk }}" title=""><img src="{{ MEDIA_URL }}{{ art.cover }}" alt="图片丢失"></a>
+                    <a href="/x/art/{{ art.pk }}" title=""><img src="{{ MEDIA_URL }}{{ art.cover|default:'lujianxin.com.png' }}" alt="图片丢失"></a>
                 </span>
                 <p class="blogtext">
                     {{ art.description }}
                 </p>
                 <p class="bloginfo">
                     <i class="avatar">
-                        <img src="{{ MEDIA_URL }}{{ art.author.header }}">
+                        <img src="{{ MEDIA_URL }}{{ art.author.header|default:'author.jpg' }}">
                     </i>
                     <span>{{ art.author.nickname }}</span>
                     <span>{{ art.add }}</span>

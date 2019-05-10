@@ -2,7 +2,7 @@
     <h2 class="htitle">作者名片</h2>
     <div class="center-block card_head">
         {#        <a href="/x/author/{{ art.author.username }}">#}
-        <img src="{{ MEDIA_URL }}{{ art.author.header }}" alt="图片丢失" class="tongji_gzh">
+        <img src="{{ MEDIA_URL }}{{ art.author.header|default:'author.jpg' }}" alt="图片丢失" class="tongji_gzh">
         {#        </a>#}
     </div>
     <span></span>

@@ -15,7 +15,7 @@
     <h1 class="con_tilte">{{ art.title }}</h1>
     <p class="bloginfo">
         <i class="avatar">
-            <img src="{{ MEDIA_URL }}{{ art.author.header }}" alt="图片丢失">
+            <img src="{{ MEDIA_URL }}{{ art.author.header|default:'author.jpg' }}" alt="图片丢失">
         </i>
         <span>{{ art.author.username }}</span>
         <span>发表于：{{ art.add }}</span>

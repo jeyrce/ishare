@@ -11,6 +11,8 @@
     <script type="text/javascript" src="{% static 'layer/layer.js' %}"></script>
     {# 搜索引擎自动提交 #}
     {% include 'db/base/common/SEO.html' %}
+    {# 引入补丁文件 #}
+    <script type="text/javascript" src="{% static 'js/extra-detail.js' %}"></script>
 
 {% endblock %}
 

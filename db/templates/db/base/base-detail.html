@@ -4,9 +4,9 @@
 <head>
     {# -----------网站头部------------- #}
     {% include 'db/base/common/header.html' %}
-    <title>{{ art.title }}</title>
+    <title>{{ art.title }}-{{ SITE.name }}</title>
     <meta name="keywords" content="{{ art.keywords }}"/>
-    <meta name="description" content="{{ art.title }}"/>
+    <meta name="description" content="{{ art.title }}-{{ SITE.name }}"/>
 
     {# -------------可能用到的其他css-------------- #}
     {% block extra_css %}{% endblock %}

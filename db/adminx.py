@@ -77,7 +77,7 @@ class TagAdmin(CommonSetting):
     )
 
 
-class CateGoryAdmin(CommonSetting):
+class CategoryAdmin(CommonSetting):
     list_display = ('pre_cat', 'cat', 'is_active', 'art_nums', 'add', 'mod')
     search_fields = ('cat', 'pre_cat')
     list_filter = ('add', 'mod', 'is_active')
@@ -277,9 +277,11 @@ class AuthorBlogAdmin(CommonSetting):
 
     def save_models(self):
         """
-        保存数据到数据库中时提取作者为当前用户
+        01.保存数据到数据库中时提取作者为当前用户
+        02.修复代码块bug
         """
-        self.new_obj.author = self.request.user
+        if (not hasattr(self.new_obj, 'author')) or (not self.new_obj.author):
+            self.new_obj.author = self.request.user
         self.new_obj.save()
 
     def has_add_permission(self):
@@ -616,7 +618,7 @@ class ExpandAdmin(CommonSetting):
 
 # ---------------------注册--------------------
 xadmin.site.register(Tag, TagAdmin)
-xadmin.site.register(Category, CateGoryAdmin)
+xadmin.site.register(Category, CategoryAdmin)
 xadmin.site.register(User, UserAccountAdmin)
 xadmin.site.register(Author, AuthorAdmin)
 xadmin.site.register(Blog, BlogAdmin)

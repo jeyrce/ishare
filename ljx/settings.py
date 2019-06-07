@@ -194,6 +194,7 @@ SITE = {
     'dns': ALLOWED_HOSTS[0],
     'host': 'https://{}'.format(ALLOWED_HOSTS[0]),
     'name': '陆鉴鑫的博客',
+    'me': 'https://me.lujianxin.com',
     'email': {
         'jubao': 'jubao@lujianxin.com',
         'tougao': 'tougao@lujianxin.com',

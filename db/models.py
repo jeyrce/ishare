@@ -20,12 +20,12 @@ class Music(models.Model):
     """
     name = models.CharField(max_length=64, verbose_name='音乐名')
     author = models.CharField(max_length=20, verbose_name='歌手')
-    file = models.FileField(upload_to='musics/', verbose_name='音乐文件')
+    code = models.TextField(max_length=300, verbose_name='外链代码')
     mod = models.DateTimeField(auto_now=True, verbose_name='最后变更')
     is_active = models.BooleanField(default=True, verbose_name='是否可用')
 
     class Meta:
-        verbose_name_plural = verbose_name = '音乐文件'
+        verbose_name_plural = verbose_name = '外链音乐'
         db_table = 'music'
         unique_together = (('name', 'author'),)
 

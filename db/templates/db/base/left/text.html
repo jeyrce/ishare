@@ -13,7 +13,7 @@
 
     {#  文章信息  #}
     <h1 class="con_tilte">{{ art.title }}</h1>
-    <p class="bloginfo">
+        <p class="bloginfo">
         <i class="avatar">
             <img src="{{ MEDIA_URL }}{{ art.author.header|default:'author.jpg' }}" alt="图片丢失">
         </i>
@@ -23,18 +23,8 @@
         <span>{{ art.read }}次阅读</span>
     </p>
 
-    {#  声明信息  #}
-    <p class="con_info">
-        {% if art.source %}
-            <b>版权声明</b>
-            本文属于<b>&nbsp;&nbsp;转载</b>作品，原文地址: <a href="{{ art.source }}" target="_blank">{{ art.source }}</a>
-            本站尊重作者的创作成果，侵权或其他问题请联系本站删除。
-        {% else %}
-            <b>版权声明</b>
-            本文属于本站<b>&nbsp;&nbsp;原创</b>作品，文章版权归本站及作者所有，请尊重作者的创作成果，转载、引用自觉附上本文永久地址：
-            {{ SITE.host }}/x/art/{{ art.pk }}
-        {% endif %}
-    </p>
+    {#  bgm信息  #}
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height=52 src="//music.163.com/outchain/player?type=2&id=1351478094&auto=0&height=32"></iframe>
 
     {#  正文区域  #}
     <div class="con_text">
@@ -42,17 +32,23 @@
         {# 富文本 #}
         {{ art.content | safe }}
 
-        {#------转载分享说明-----#}
-        <p class="share">
-            <b>分享：</b>
-            感谢您对{{ SITE.name }}网站平台的认可，以及对我们原创作品的青睐，
-            非常欢迎各位朋友分享到个人站长或者朋友圈，但转载请说明文章出处“{{ SITE.name }}”。
+        {#  声明信息  #}
+        <p class="con_info">
+            {% if art.source %}
+                <b>版权声明</b>
+                本文属于<b>&nbsp;&nbsp;转载</b>作品，原文地址: <a href="{{ art.source }}" target="_blank">{{ art.source }}</a>
+                本站尊重作者的创作成果，侵权或其他问题请联系本站删除。
+            {% else %}
+                <b>版权声明</b>
+                本文属于本站<b>&nbsp;&nbsp;原创</b>作品，文章版权归本站及作者所有，请尊重作者的创作成果，转载、引用自觉附上本文永久地址：
+                {{ SITE.host }}/x/art/{{ art.pk }}
+            {% endif %}
         </p>
         {# 点赞，打赏 #}
         <div class="dashang">
             <p class="like">
                 <span class="diggit"><button id="like">很赞哦({{ art.like }})</button></span>
-                <span class="shang"><input id = "dashang" type="button" value="赏"></span>
+                <span class="shang"><input id="dashang" type="button" value="赏"></span>
                 <span class="diggit"><button id="copy">复制地址</button></span>
                 <input type="hidden" name="link" value="{{ SITE.host }}/x/art/{{ art.pk }}">
                 <input type="hidden" name="author" value="{{ art.author.username }}">

@@ -69,7 +69,7 @@ class MusicAdmin(CommonSetting):
             Fieldset(
                 _("音乐信息"),
                 Row('name', 'author'),
-                Row('file'),
+                Row('code'),
                 Row('mod'),
             ),
         ),

@@ -12,6 +12,7 @@ from xadmin import views
 from xadmin.layout import Main, Fieldset, Row, Side, Col
 from xadmin.plugins.auth import UserAdmin
 from db.models import (
+    Music,
     Tag,
     Category,
     Blog,
@@ -57,6 +58,26 @@ class CommonSetting(object):
 
 
 # --------------------模块设置----------------------
+class MusicAdmin(CommonSetting):
+    list_display = ('name', 'is_active', 'author', 'mod', 'art_nums')
+    search_fields = ('name', 'author')
+    list_filter = ('is_active',)
+    readonly_fields = ('mod',)
+    ordering = ('pk',)
+    form_layout = (
+        Main(
+            Fieldset(
+                _("音乐信息"),
+                Row('name', 'author'),
+                Row('file'),
+                Row('mod'),
+            ),
+        ),
+        Side(
+            Fieldset(_('状态'), 'is_active'),
+        ),
+    )
+
 
 class TagAdmin(CommonSetting):
     list_display = ('tag', 'is_active', 'art_nums', 'add', 'mod')
@@ -216,6 +237,7 @@ class BlogAdmin(CommonSetting):
                 _('基本信息'),
                 Row('title', 'cat', 'author'),
                 Row('cover', 'tags'),
+                Row('music')
             ),
             Fieldset(
                 _('正文'),
@@ -254,6 +276,7 @@ class AuthorBlogAdmin(CommonSetting):
                 _('基本信息'),
                 Row('title', 'cat'),
                 Row('cover', 'tags'),
+                Row('music')
             ),
             Fieldset(
                 _('正文'),
@@ -617,6 +640,7 @@ class ExpandAdmin(CommonSetting):
 
 
 # ---------------------注册--------------------
+xadmin.site.register(Music, MusicAdmin)
 xadmin.site.register(Tag, TagAdmin)
 xadmin.site.register(Category, CategoryAdmin)
 xadmin.site.register(User, UserAccountAdmin)

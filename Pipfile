@@ -54,6 +54,7 @@ xlsxwriter = "==1.1.5"
 xlwt = "==1.3.0"
 et_xmlfile = "==1.0.1"
 pipfile = "*"
+django-celery-beat = "*"
 
 [requires]
 python_version = "3.6"

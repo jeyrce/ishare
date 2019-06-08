@@ -14,11 +14,6 @@ import os
 import re
 import pymysql
 
-import djcelery
-
-
-djcelery.setup_loader()
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -72,9 +67,6 @@ EXTRA_APPS = [
     'reversion',
     'xadmin',
     'DjangoUeditor',
-    'djcelery',
-    'django_celery_results',
-    'django_celery_beat',
 ]
 INSTALLED_APPS.extend(EXTRA_APPS)
 

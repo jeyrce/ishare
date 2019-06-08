@@ -14,6 +14,31 @@ book_id = BookId()
 chapter_id = ChapterId()
 
 
+class Music(models.Model):
+    """
+    文章详情页的bgm
+    """
+    name = models.CharField(max_length=64, verbose_name='音乐名')
+    author = models.CharField(max_length=20, verbose_name='歌手')
+    file = models.FileField(upload_to='musics/', verbose_name='音乐文件')
+    mod = models.DateTimeField(auto_now=True, verbose_name='最后变更')
+    is_active = models.BooleanField(default=True, verbose_name='是否可用')
+
+    class Meta:
+        verbose_name_plural = verbose_name = '音乐文件'
+        db_table = 'music'
+        unique_together = (('name', 'author'),)
+
+    def __str__(self):
+        return '{}-{}'.format(self.author, self.name)
+
+    def art_nums(self):
+        """此音乐被多少文章使用"""
+        return self.mblogs.all().count()
+
+    art_nums.short_description = '引用次数'
+
+
 class Tag(models.Model):
     """
     标签
@@ -145,6 +170,8 @@ class Blog(models.Model):
     tags = models.ManyToManyField(to=Tag, related_name='tblogs', limit_choices_to={'is_active': True},
                                   verbose_name='标签', blank=True)
     cover = models.ImageField(upload_to='blog/cover/', verbose_name='封面', blank=True)
+    music = models.ForeignKey(to=Music, on_delete=models.SET_NULL, limit_choices_to={'is_active': True}, null=True,
+                              blank=True, verbose_name='背景音乐', related_name='mblogs')
     # mini, normal, full, besttome, 四种工具栏, normal比较适合留言, 评论
     content = UEditorField(verbose_name='内容', width='100%', blank=True, imagePath='blog/img/', toolbars='full',
                            filePath='blog/file/')
@@ -293,6 +320,7 @@ class AuthorChapter(Chapter):
     """
     作者所见章节
     """
+
     class Meta:
         verbose_name_plural = verbose_name = '专题章节'
         proxy = True

@@ -204,15 +204,15 @@ class DsImg(View):
         art = m.Blog.objects.filter(pk=art_id).first()
         alipay_src = ''
         wechat_src = ''
+        siter = User.objects.filter(email='jeeyshe@gmail.com').first()
         if not art:
             # 放上站长的二维码
-            siter = User.objects.filter(email='jeeyshe@gmail.com').first()
             alipay_src = '{}{}'.format(settings.MEDIA_URL, siter.alipay)
             wechat_src = '{}{}'.format(settings.MEDIA_URL, siter.wechat)
         else:
             # 放上作者的二维码
-            alipay_src = '{}{}'.format(settings.MEDIA_URL, art.author.alipay)
-            wechat_src = '{}{}'.format(settings.MEDIA_URL, art.author.wechat)
+            alipay_src = '{}{}'.format(settings.MEDIA_URL, art.author.alipay or siter.alipay)
+            wechat_src = '{}{}'.format(settings.MEDIA_URL, art.author.wechat or siter.wechat)
         response = JsonResponse({
             "title": "作者打赏码",
             "id": 'dsm',

@@ -24,7 +24,9 @@
     </p>
 
     {#  bgm信息  #}
-    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height=52 src="//music.163.com/outchain/player?type=2&id=1351478094&auto=0&height=32"></iframe>
+    {% if art.music and art.music.is_active %}
+        {{ art.music.code | safe }}
+    {% endif %}
 
     {#  正文区域  #}
     <div class="con_text">

@@ -22,8 +22,15 @@
 
 <article>
 
-    {# ---------------主体部分------------- #}
-    {% block content %}{% endblock %}
+    <div class="lbox">
+        {# ---------------主体部分------------- #}
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="rbox">
+        {# -------------右部------------- #}
+        {% include 'db/base/right/base-msg.html' %}
+    </div>
 
 </article>
 

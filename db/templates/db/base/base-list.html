@@ -4,7 +4,11 @@
 <head>
     {# -----------网站头部------------- #}
     {% include 'db/base/common/header.html' %}
-    <title>{{ cat.cat }}-{{ SITE.name }}</title>
+    {% if cat %}
+        <title>{{ cat.cat }}-{{ SITE.name }}</title>
+    {% else %}
+        <title>{{ tag.tag }}-{{ SITE.name }}</title>
+    {% endif %}
     <meta name="keywords" content="{{ cat.cat }}、{{ SITE.name }}"/>
     <meta name="description" content="{{ SITE.name }}"/>
     {# -------------可能用到的其他css-------------- #}

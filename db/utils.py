@@ -5,6 +5,8 @@ Here is the descriptions and some purpose of the file:
     0. 一些工具函数
 """
 
+import os
+import json
 import datetime
 import base64
 
@@ -142,3 +144,23 @@ class EmailAuthBackend(ModelBackend):
                         # 维护期间不允许作者登录
                         account.is_staff = False
                 return account
+
+
+def music_json():
+    """
+    取出想要的网易云音乐关键信息生成对应的外链信息
+    """
+    code_base = '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=100% height=52 src="//music.163.com/outchain/player?type=2&id={}&auto=1&height=32"></iframe>'
+    file = open(os.path.join(_st.BASE_DIR, 'docs/music.json'), 'rt', encoding='utf-8')
+    musics = json.loads(file.read())['playlist']['tracks']
+    new = open(os.path.join(_st.BASE_DIR, 'docs/code.txt'), 'at', encoding='utf-8')
+    # 将每一首歌转为正确的格式插入到数据库
+    for music in musics:
+        name, author, code = music['name'], music['ar'][0]['name'], code_base.format(music['id'])
+        new.write('{}-{}||{}\n'.format(author, name, code))
+        _m.Music.objects.create(name=name, author=author, code=code)
+    file.close()
+    new.close()
+
+
+

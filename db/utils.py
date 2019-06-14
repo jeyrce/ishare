@@ -70,7 +70,7 @@ class ContextUtil(object):
     @classmethod
     def most_read(cls):
         # 阅读次数最多的几条
-        num = int(get_value_from_db('MOST_READ_SHOW_NUM', 10))
+        num = int(get_value_from_db('MOST_READ_NUM', 10))
         query = _m.Blog.objects.order_by('-read').filter(is_active=True)[:num]
         return query
 
@@ -84,14 +84,14 @@ class ContextUtil(object):
     @classmethod
     def recommend(cls):
         # 推荐阅读
-        num = int(get_value_from_db('RECOMMEND_SHOW_NUM', 10))
+        num = int(get_value_from_db('RECOMMEND_NUM', 10))
         query = _m.Blog.objects.order_by('-add').filter(is_active=True, is_fine=True)[:num]
         return query
 
     @classmethod
     def random_tags(cls):
         # 随机标签云, 数量在百万以下采用这种方法， 很明显个人博客足够了
-        num = int(get_value_from_db('TAG_CLOUD_SHOW_NUM', 20))
+        num = int(get_value_from_db('TAG_CLOUD_NUM', 20))
         query = _m.Tag.objects.order_by('?').filter(is_active=True)[:num]
         return query
 

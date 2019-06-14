@@ -78,11 +78,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 以下是开启缓存中间件
-    'django.middleware.cache.CacheMiddleware',
     # 以下是自定义中间件
     'db.my_middlewares.AllMethodSupportMiddleware',
     'db.my_middlewares.VisitCountMiddleware',
+    # 以下是开启缓存中间件
+    'django.middleware.cache.CacheMiddleware',
 ]
 
 ROOT_URLCONF = 'ljx.urls'

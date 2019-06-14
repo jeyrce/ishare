@@ -158,7 +158,7 @@ def music_json():
     for music in musics:
         name, author, code = music['name'], music['ar'][0]['name'], code_base.format(music['id'])
         new.write('{}-{}||{}\n'.format(author, name, code))
-        _m.Music.objects.create(name=name, author=author, code=code)
+        _m.Music.objects.create(name=name or '未知歌名', author=author or '未知歌手', code=code)
     file.close()
     new.close()
 

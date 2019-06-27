@@ -1,0 +1,12 @@
+{# 右侧友情链接，仅个人主页 #}
+<div class="whitebg tongji">
+    {# 个人主页 #}
+    <h2 class="htitle"></h2>
+    <ul class="site_tj site_yx">
+        {% for link in person_links %}
+            {# <li><a id="{{ link.link }}" href="javascript: void(0);" class="goto" title="{{ link.link_name }}">{{ link.link_name }}</a></li>#}
+            <li><a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+

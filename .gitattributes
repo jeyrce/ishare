@@ -1,2 +1,5 @@
 # 帮助github将项目判别为python
 *.html linguist-language=python
+*.js linguist-language=python
+*.css linguist-language=python
+*.py linguist-language=python

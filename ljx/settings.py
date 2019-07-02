@@ -107,6 +107,7 @@ TEMPLATES = [
                 'db.my_context_processors.notice',
                 'db.my_context_processors.recommend',
                 'db.my_context_processors.live_re',
+                'db.my_context_processors.links',
             ],
         },
     },

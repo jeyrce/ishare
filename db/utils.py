@@ -105,6 +105,11 @@ class ContextUtil(object):
         # 站点除了散文之外的技术博客
         return _m.Category.objects.order_by('-add').filter(is_active=True, pre_cat=pre)
 
+    @classmethod
+    def person_links(cls):
+        # 个人主页连接
+        return _m.Link.objects.order_by('-add').filter(is_active=True, cat=1)
+
 
 def make_auth_token(obj, salt, join_str='---'):
     # 制作用于标记用户在线的token

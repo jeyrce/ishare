@@ -52,3 +52,8 @@ def recommend(request):
 def live_re(request):
     # 来必力评论插件
     return {"LIVE_RE": settings.LIVE_RE}
+
+
+def links(request):
+    # 个人网站友链信息
+    return {"PERSON_LINKS": ctx.person_links()}

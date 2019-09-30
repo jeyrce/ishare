@@ -26,12 +26,9 @@ kombu==4.5.0
 lxml==4.3.3
 numpy==1.16.2
 odfpy==1.4.0
-opencv-python==4.0.0.21
 openpyxl==2.6.1
 Pillow==5.4.1
 PyMySQL==0.9.3
-PyQt5-sip==4.19.14
-python-crontab==2.3.6
 python-dateutil==2.8.0
 pytz==2018.9
 PyYAML==3.13

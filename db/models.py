@@ -210,7 +210,7 @@ class Blog(models.Model):
 
     def description(self):
         # 返回文章的非富文本字符串
-        e = etree.HTML(self.content)
+        e = etree.HTML(self.content or "本文暂无内容")
         text = e.xpath('string(.)').strip()
         return text[:settings.ART_DESC_LENGTH]
 

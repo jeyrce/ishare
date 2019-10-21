@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8=2y6u_5e=3mx0ut5hct!4t)g7gjy@7j_r$-(jv0&#n%v+@p=!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # 维护期间阻止用户登录后台产生新的数据
 UPGRADING = False

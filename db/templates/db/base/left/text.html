@@ -32,7 +32,7 @@
     <div class="con_text">
 
         {# 富文本 #}
-        {{ art.content | safe | default: "本文暂无内容" }}
+        {{ art.content | safe | default_if_none:"本文暂无内容" | default:"本文暂无内容" }}
 
         {#  声明信息  #}
         <p class="con_info">

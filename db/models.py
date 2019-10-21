@@ -182,7 +182,7 @@ class Blog(models.Model):
     like = models.PositiveIntegerField(default=0, verbose_name='点赞数')
     add = models.DateTimeField(auto_now_add=True, verbose_name='发表时间')
     mod = models.DateTimeField(auto_now=True, verbose_name='最后修改')
-    is_active = models.BooleanField(default=True, verbose_name='是否可用')
+    is_active = models.BooleanField(default=False, verbose_name='是否可用')
 
     class Meta:
         verbose_name_plural = verbose_name = '博客'
@@ -250,7 +250,7 @@ class Book(models.Model):
     add = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
     mod = models.DateTimeField(auto_now=True, verbose_name='最近修改')
     is_fine = models.BooleanField(default=True, verbose_name='是否推荐')
-    is_active = models.BooleanField(default=True, verbose_name='是否可见')
+    is_active = models.BooleanField(default=False, verbose_name='是否可见')
 
     class Meta:
         verbose_name_plural = verbose_name = '专题'

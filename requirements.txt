@@ -8,9 +8,6 @@ chardet==3.0.4
 defusedxml==0.5.0
 diff-match-patch==20181111
 Django==2.0.7
-django-celery==3.2.2
-django-celery-beat==1.4.0
-django-celery-results==1.0.4
 django-crispy-forms==1.7.2
 django-formtools==2.1
 django-import-export==1.2.0

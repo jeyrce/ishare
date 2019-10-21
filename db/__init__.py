@@ -3,7 +3,7 @@
     此模块仅用于定义数据库文件, xadmin配置
 """
 import datetime
-from random import choices
+from random import choice
 
 from shortuuid import ShortUUID
 
@@ -34,7 +34,7 @@ def random_prefix(length=3, string=None):
     """
     if string is None:
         string = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    return ''.join(choices(string, k=length))
+    return ''.join(choice(string, k=length))
 
 
 class BookId(NewUUID):

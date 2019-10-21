@@ -127,7 +127,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.mysql',
     #     'NAME': 'ishare',
     #     'USER': 'root',
-    #     'PASSWORD': 'ljX.07',
+    #     'PASSWORD': 'lujianxin.com',
     #     'HOST': 'lujianxin.com',
     #     'PORT': '3306',
     # }
@@ -238,7 +238,7 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-            "PASSWORD": "ljX.07",
+            "PASSWORD": "lujianxin.com",
         }
     },
     # 重置密码token
@@ -249,7 +249,7 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-            "PASSWORD": "ljX.07",
+            "PASSWORD": "lujianxin.com",
         }
     },
     # 2号3号库用作celery的任务队列
@@ -261,7 +261,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 10},
-            "PASSWORD": "ljX.07",
+            "PASSWORD": "lujianxin.com",
         }
     },
 }
@@ -307,7 +307,7 @@ EMAIL_USE_LOCALTIME = False
 
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'support@lujianxin.com'
-EMAIL_HOST_PASSWORD = 'ljX.07'
+EMAIL_HOST_PASSWORD = 'lujianxin.com'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_SSL_CERTFILE = None

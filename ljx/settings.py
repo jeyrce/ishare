@@ -282,7 +282,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG
 # class to serialize session data
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 # 基于内存和redis双缓存
-SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 DJANGO_REDIS_IGNORE_EXCEPTIONS = True  # 忽略异常
 
 LOGOUT_REDIRECT_URL = '/'

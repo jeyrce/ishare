@@ -1,7 +1,8 @@
-{% load i18n admin_urls %}
+{% load i18n admin_urls simpletags%}
 <div class="submit-row">
     <el-button type="button" icon="el-icon-arrow-left" @click="prev()"
-               style="float: left;margin-right: 10px;margin-bottom: 10px;">返回
+               style="float: left;margin-right: 10px;margin-bottom: 10px;">
+        <span v-text="getLanuage('Go back')"></span>
     </el-button>
     {% if show_delete_link %}
         {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
@@ -27,8 +28,10 @@
     <input type="hidden" name="actionName" value="actionValue" id="actionName">
 </div>
 <script type="text/javascript">
-    new Vue({
-        el: '.submit-row',
+    var submitrows=document.getElementsByClassName('submit-row');
+    for(var i=0;i<submitrows.length;i++){
+        new Vue({
+        el: submitrows[i],
         data: {},
         methods: {
             del: function (url) {
@@ -39,13 +42,10 @@
                 $("form").submit();
             },
             prev: function () {
-                var referrer = document.referrer;
-                if (referrer && document.URL != referrer) {
-                    window.location.href = referrer;
-                } else {
-                    window.history.go(-1);
-                }
+             window.location.href='{% get_model_url %}'
             }
         }
     })
+    }
+
 </script>

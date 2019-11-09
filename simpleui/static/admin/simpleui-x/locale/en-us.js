@@ -33,5 +33,10 @@ var Lanuages = {
     "Are you sure you want them all closed": "Are you sure you want them all closed?",
 
     "to": "",
-    "Quick navigation": ""
+    "Quick navigation": "",
+    "Go back": '',
+
+    'Set font size': '',
+    'Reset': '',
+    'Are you sure you want to delete the selected?':''
 }

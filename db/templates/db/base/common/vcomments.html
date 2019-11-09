@@ -1,0 +1,23 @@
+<!--2019-11-09试用valine插件替换原有的来必力-->
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '{{ VALINE.appId }}',
+        appKey: '{{ VALINE.appKey }}',
+        region: '{{ VALINE.region }}',  // 节点 cn 或 us
+        notify: {{ VALINE.notify }},    // 邮件提醒
+        verify: {{ VALINE.verify }},    // 验证码
+        // path: window.location.href,
+        avatar: '{{ VALINE.avatar }}',   // 访客头像
+        placeholder: '{{ VALINE.placeholder }}',
+        // meta: ['nick', 'mail', 'link'],
+        pageSize: {{ VALINE.pageSize }},    // 每页展示评论数
+        lang: '{{ VALINE.lang }}',    // 语言， 参考i18n
+        visitor: {{ VALINE.visitor }},  // 文章访问量统计开启或关闭
+        highlight: {{ VALINE.highlight }},  // 代码高亮
+        avatarForce: {{ VALINE.avatarForce }},  // 强制拉取新头像
+        recordIP: {{ VALINE.recordIP }},    // 是否记录访客ip
+        // serverURLs: 'xxx',  // 国内自定义域名
+    })
+</script>

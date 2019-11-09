@@ -106,8 +106,9 @@ TEMPLATES = [
                 'db.my_context_processors.most_read',
                 'db.my_context_processors.notice',
                 'db.my_context_processors.recommend',
-                'db.my_context_processors.live_re',
+                # 'db.my_context_processors.live_re',
                 'db.my_context_processors.links',
+                'db.my_context_processors.valine',
             ],
         },
     },
@@ -184,7 +185,26 @@ AUTHENTICATION_BACKENDS = (
 # 云评论插件的账户信息
 LIVE_RE = {
     'data_id': 'city',
-    'data_uid': 'MTAyMC80MzY3NS8yMDIxNQ==',
+    'data_uid': 'lujianxin.com',
+}
+
+# valine 评论系统账户
+VALINE = {
+    'appId': 'lujianxin.com',
+    'appKey': 'lujianxin.com',
+    'region': 'cn',  # 节点 cn 或 us
+    'notify': 'true',  # 邮件提醒
+    'verify': 'true',  # 验证码
+    'avatar': 'monsterid',  # 访客头像
+    'placeholder': '我有话要说...',
+    # meta: ['nick', 'mail', 'link'],
+    'pageSize': 10,  # 每页展示评论数
+    'lang': 'zh-cn',  # 语言， 参考i18n
+    'visitor': 'true',  # 文章访问量统计开启或关闭
+    'highlight': 'true',  # 代码高亮
+    'avatarForce': 'false',  # 强制拉取新头像
+    'recordIP': 'true',  # 是否记录访客ip
+    # serverURLs: '{{ VALINE.serverURLs }}',  // 国内自定义域名#
 }
 
 # 密码重置链接一天内有效

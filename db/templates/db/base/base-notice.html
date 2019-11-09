@@ -7,7 +7,8 @@
     <title>{{ tip.title }}</title>
     <meta name="keywords" content="{{ tip.keywords }}"/>
     <meta name="description" content="{{ tip.title }}"/>
-
+    {# valine评论插件 #}
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
     {# -------------可能用到的其他css-------------- #}
     {% block extra_css %}{% endblock %}
 </head>

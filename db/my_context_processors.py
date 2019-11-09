@@ -54,6 +54,11 @@ def live_re(request):
     return {"LIVE_RE": settings.LIVE_RE}
 
 
+def valine(request):
+    # valine插件: https://valine.js.org
+    return {'VALINE': settings.VALINE}
+
+
 def links(request):
     # 个人网站友链信息
     return {"PERSON_LINKS": ctx.person_links()}

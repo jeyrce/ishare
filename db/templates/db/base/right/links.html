@@ -5,7 +5,8 @@
     <ul>
         {% for link in PERSON_LINKS %}
             {# <li><a id="{{ link.link }}" href="javascript: void(0);" class="goto" title="{{ link.link_name }}">{{ link.link_name }}</a></li>#}
-            <li><a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
+            <a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a>
+            {#<li><a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>#}
         {% endfor %}
     </ul>
 </div>

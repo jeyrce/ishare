@@ -384,13 +384,13 @@ class SearchView(View):
         except:
             page = 1
             page_size = settings.LIST_INFO['page_size']
-        num, start, end = self.get_index(key, page, page_size)
+        cnt, num, start, end = self.get_index(key, page, page_size)
         queryset = m.Blog.objects.filter(
             Q(cat__cat__icontains=key) | Q(title__icontains=key) | Q(tags__tag__icontains=key)).filter(
             is_active=True, cat__is_active=True).distinct().order_by('-add')[start:end]
         ctx = {
             'key': key,
-            'list_desc': "搜索到以下{}篇文章".format(num),
+            'list_desc': "根据你的关键词【{}】搜索到{}篇文章".format(key, cnt),
             'art_list': queryset,
             'page_size': page_size,
             'page': page,
@@ -417,4 +417,4 @@ class SearchView(View):
             page = num
         start = (page - 1) * page_size
         end = page * page_size
-        return num, start, end
+        return cnt, num, start, end

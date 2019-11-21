@@ -387,7 +387,7 @@ class SearchView(View):
         num, start, end = self.get_index(key, page, page_size)
         queryset = m.Blog.objects.filter(
             Q(cat__cat__icontains=key) | Q(title__icontains=key) | Q(tags__tag__icontains=key)).filter(
-            is_active=True, cat__is_active=True).order_by('-add')[start:end]
+            is_active=True, cat__is_active=True).distinct('pk').order_by('-add')[start:end]
         ctx = {
             'key': key,
             'list_desc': "搜索到以下{}篇文章".format(num),
@@ -407,7 +407,7 @@ class SearchView(View):
         cnt = m.Blog.objects.filter(
             # 用Q查询寻找标题, 标签, 分类名字包含关键字的记录
             Q(cat__cat__icontains=key) | Q(title__icontains=key) | Q(tags__tag__icontains=key)).filter(
-            is_active=True, cat__is_active=True).order_by('-add').only(*('pk',)).count()
+            is_active=True, cat__is_active=True).order_by('-add').only(*('pk',)).distinct('pk').count()
         e = cnt % page_size
         n = cnt // page_size
         num = n + 1 if e > 0 else n

@@ -386,7 +386,7 @@ class SearchView(View):
             page_size = settings.LIST_INFO['page_size']
         num, start, end = self.get_index(key, page, page_size)
         queryset = m.Blog.objects.filter(
-            Q(cat__cat__contains=key) | Q(title__contains=key) | Q(tags__tag__contains=key)).filter(
+            Q(cat__cat__icontains=key) | Q(title__icontains=key) | Q(tags__tag__icontains=key)).filter(
             is_active=True, cat__is_active=True).order_by('-add')[start:end]
         ctx = {
             'key': key,
@@ -406,7 +406,7 @@ class SearchView(View):
         # 计算总的页数
         cnt = m.Blog.objects.filter(
             # 用Q查询寻找标题, 标签, 分类名字包含关键字的记录
-            Q(cat__cat__contains=key) | Q(title__contains=key) | Q(tags__tag__contains=key)).filter(
+            Q(cat__cat__icontains=key) | Q(title__icontains=key) | Q(tags__tag__icontains=key)).filter(
             is_active=True, cat__is_active=True).order_by('-add').only(*('pk',)).count()
         e = cnt % page_size
         n = cnt // page_size

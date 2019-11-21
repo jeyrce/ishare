@@ -2,9 +2,8 @@
 <div class="searchbox">
     <div class="search">
         <form action="/x/search/" method="get" name="searchform" id="searchform">
-            {% csrf_token %}
             <input name="key" id="keyboard" class="input_text" value="请输入关键字词" type="text">
-            <input name="submit" class="input_submit" value="站内搜索" type="submit">
+            <input class="input_submit" value="站内搜索" type="submit">
         </form>
     </div>
     <div class="searchclose"></div>

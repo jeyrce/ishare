@@ -11,6 +11,7 @@ from django.views.generic import View
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from ljx.views import OpenView
 from db import models as m
@@ -352,3 +353,68 @@ class TagList(View):
             'tags': ContextUtil.random_tags(),
         }
         return render(request, 'db/taglist.html', ctx)
+
+
+class SearchView(View):
+    """
+    站内搜索
+    """
+
+    def get(self, request, *args, **kwargs):
+        key = self.request.GET.get('key', None)
+        if not key:
+            return render(
+                request,
+                "db/search.html",
+                {
+                    'key': "无关键词",
+                    'list_desc': "输入一个关键词呗, 不然我怎么知道你想找啥",
+                    'art_list': [],
+                    'page_size': settings.LIST_INFO['page_size'],
+                    'page': 1,
+                    'total': 0,
+                    'prev': None,
+                    'next': None,
+                    'tags': ContextUtil.random_tags(),
+                }
+            )
+        try:
+            page = int(self.request.GET.get('page', 1))
+            page_size = int(self.request.GET.get('page_size', settings.LIST_INFO['page_size']))
+        except:
+            page = 1
+            page_size = settings.LIST_INFO['page_size']
+        num, start, end = self.get_index(key, page, page_size)
+        queryset = m.Blog.objects.filter(
+            Q(cat__cat__contains=key) | Q(title__contains=key) | Q(tags__tag__contains=key)).filter(
+            is_active=True, cat__is_active=True).order_by('-add')[start:end]
+        ctx = {
+            'key': key,
+            'list_desc': "搜索到以下{}篇文章".format(num),
+            'art_list': queryset,
+            'page_size': page_size,
+            'page': page,
+            'total': num,
+            'prev': page - 1 if page > 1 else None,
+            'next': page + 1 if page < num else None,
+            'tags': ContextUtil.random_tags(),
+        }
+        return render(request, "db/search.html", ctx)
+
+    @staticmethod
+    def get_index(key, page, page_size):
+        # 计算总的页数
+        cnt = m.Blog.objects.filter(
+            # 用Q查询寻找标题, 标签, 分类名字包含关键字的记录
+            Q(cat__cat__contains=key) | Q(title__contains=key) | Q(tags__tag__contains=key)).filter(
+            is_active=True, cat__is_active=True).order_by('-add').only(*('pk',)).count()
+        e = cnt % page_size
+        n = cnt // page_size
+        num = n + 1 if e > 0 else n
+        if page < 1 or num == 0:
+            page = 1
+        elif page > num > 0:
+            page = num
+        start = (page - 1) * page_size
+        end = page * page_size
+        return num, start, end

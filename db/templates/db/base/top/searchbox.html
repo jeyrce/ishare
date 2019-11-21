@@ -1,9 +1,9 @@
 {# 站内搜索 #}
 <div class="searchbox">
     <div class="search">
-        <form action="/x/search/" method="post" name="searchform" id="searchform">
+        <form action="/x/search/" method="get" name="searchform" id="searchform">
             {% csrf_token %}
-            <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" type="text">
+            <input name="key" id="keyboard" class="input_text" value="请输入关键字词" type="text">
             <input name="submit" class="input_submit" value="站内搜索" type="submit">
         </form>
     </div>

@@ -31,5 +31,5 @@ urlpatterns = [
 
     path('link/add', views.LinkAdd.as_view()),  # 提交友链
 
-    path('search/', views.DoingView.as_view()),  # 站内搜索
+    path('search/', views.SearchView.as_view()),  # 站内搜索
 ]

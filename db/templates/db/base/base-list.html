@@ -6,10 +6,18 @@
     {% include 'db/base/common/header.html' %}
     {% if cat %}
         <title>{{ cat.cat }}-{{ SITE.name }}</title>
+        <meta name="keywords" content="{{ cat.cat }}、{{ SITE.name }}"/>
     {% else %}
-        <title>{{ tag.tag }}-{{ SITE.name }}</title>
+        {% if tag %}
+            <title>{{ tag.tag }}-{{ SITE.name }}</title>
+            <meta name="keywords" content="{{ tag.tag }}、{{ SITE.name }}"/>
+        {% else %}
+            {% if key %}
+                <title>站内搜索-{{ key }}-{{ SITE.name }}</title>
+                <meta name="keywords" content="{{ key }}、{{ SITE.name }}"/>
+            {% endif %}
+        {% endif %}
     {% endif %}
-    <meta name="keywords" content="{{ cat.cat }}、{{ SITE.name }}"/>
     <meta name="description" content="{{ SITE.name }}"/>
     {# -------------可能用到的其他css-------------- #}
     {% block extra_css %}{% endblock %}

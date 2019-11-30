@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8=2y6u_5e=3mx0ut5hct!4t)g7gjy@7j_r$-(jv0&#n%v+@p=!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # 维护期间阻止用户登录后台产生新的数据
 UPGRADING = False
@@ -82,7 +82,7 @@ MIDDLEWARE = [
     'db.my_middlewares.AllMethodSupportMiddleware',
     'db.my_middlewares.VisitCountMiddleware',
     # 以下是开启缓存中间件
-    'django.middleware.cache.CacheMiddleware',
+    # 'django.middleware.cache.CacheMiddleware',
 ]
 
 ROOT_URLCONF = 'ljx.urls'
@@ -302,7 +302,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG
 # class to serialize session data
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 # 基于内存和redis双缓存
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 DJANGO_REDIS_IGNORE_EXCEPTIONS = True  # 忽略异常
 
 LOGOUT_REDIRECT_URL = '/'

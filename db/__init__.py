@@ -2,7 +2,6 @@
 """
     此模块仅用于定义数据库文件, xadmin配置
 """
-import datetime
 from random import choice
 
 from shortuuid import ShortUUID

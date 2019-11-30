@@ -27,7 +27,6 @@ class DoingView(OpenView):
     """
 
     def get(self, request, *args, **kwargs):
-        self.request.user.set_password()
         return render(request, 'db/doing.html')
 
 

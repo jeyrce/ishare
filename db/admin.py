@@ -108,7 +108,7 @@ class AuthorBlogAdmin(admin.ModelAdmin):
     list_filter = ("cat", "is_active")
     empty_value_display = 'N/A'
     fieldsets = (
-        ("基本信息", {"fields": ("title", "cover", "author", "music", "cat", "tags",)}),
+        ("基本信息", {"fields": ("title", "cover", "music", "cat", "tags",)}),
         ("标记信息", {"fields": (("is_active", "apply_active"), ("is_top", "apply_top"), ("is_fine", "apply_fine"))}),
         ("正文部分", {"fields": ("source", "content",)}),
         ("统计信息", {"fields": (("read", "like"), "mod", "add",)}),

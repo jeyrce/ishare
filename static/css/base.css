@@ -407,3 +407,4 @@ about
 #notice { width: 25px; height: 25px; display: inline; vertical-align: middle; align-items: center; margin: 0 10px 0 0; }
 .green {  color: deepskyblue; }
 .con_text table {  border-spacing: 0; margin: 0 auto; border-collapse: collapse;  }
+.img-center {display: flex; justify-content: center;}

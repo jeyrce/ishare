@@ -1,5 +1,5 @@
 /**
- * 2019-04-01 杰西
+ * 2019-04-01 Jeeyshe
  * 一个后端程序员写的js~~~将就着看吧
  *
  */
@@ -199,13 +199,13 @@ $(document).ready(function () {
             shade: 0.7,
             id: 'iWrite', //设定一个id，防止重复弹出
             resize: false,
-            btn: ['已有作者账号', '选择邮件投稿'],
+            btn: ['我同意'],
             btnAlign: 'c',
             moveType: 1, //拖拽模式，0或者1
             content: tips,
             yes: function (x) {
-                layer.closeAll();
-                window.open('/xauth', '_blank');
+                window.open('/admin', '_blank');
+                layer.closeAll(); // 打开新的标签页后本身的iframe关闭
             }
         });
     });

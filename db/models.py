@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
@@ -58,6 +59,16 @@ class Tag(models.Model):
 
     art_nums.short_description = '文章数'
 
+    def url(self):
+        # 前台展示链接
+        from django.utils.safestring import mark_safe
+        if self.is_active:
+            full_path = '{}/x/tag/{}/'.format(settings.SERVER, self.pk)
+            return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
+        return "不可用标签"
+
+    url.short_description = '前去阅读'
+
 
 class Category(models.Model):
     """
@@ -84,6 +95,16 @@ class Category(models.Model):
         return self.cblogs.count()
 
     art_nums.short_description = '文章数'
+
+    def url(self):
+        # 前台展示链接
+        from django.utils.safestring import mark_safe
+        if self.is_active:
+            full_path = '{}/x/cat/{}'.format(settings.SERVER, self.pk)
+            return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
+        return "不可用分类"
+
+    url.short_description = '前去阅读'
 
 
 class UserAccount(AbstractUser):
@@ -141,10 +162,34 @@ class UserAccount(AbstractUser):
         t = now - self.date_joined
         return t.days
 
+    def published(self):
+        # 作者在本站已发表文章数
+        return Blog.objects.filter(author_id=self.id, is_active=True, cat__is_active=True).count()
+
+    published.short_description = "累计发表文章"
+
+    def to_publish(self):
+        return Blog.objects.filter(Q(is_active=False) | Q(cat__is_active=False), author_id=self.id).count()
+
+    to_publish.short_description = "暂未发表文章"
+
+    def read(self):
+        # 总阅读量
+        bs = Blog.objects.only("read").filter(author_id=self.id)
+        return sum([b.read for b in bs])
+
+    read.short_description = "阅读量"
+
+    def like(self):
+        bs = Blog.objects.only("like").filter(author_id=self.id)
+        return sum([b.like for b in bs])
+
+    like.short_description = "点赞量"
+
 
 class Author(UserAccount):
     class Meta:
-        verbose_name_plural = verbose_name = '我的账号'
+        verbose_name_plural = verbose_name = '账户中心'
         proxy = True
 
 
@@ -183,7 +228,7 @@ class Blog(models.Model):
     is_active = models.BooleanField(default=False, verbose_name='是否可用')
 
     class Meta:
-        verbose_name_plural = verbose_name = '博客'
+        verbose_name_plural = verbose_name = '文章'
         db_table = 'blog'
 
     def __str__(self):
@@ -192,8 +237,10 @@ class Blog(models.Model):
     def url(self):
         # 前台展示链接
         from django.utils.safestring import mark_safe
-        full_path = '{}/x/art/{}'.format(settings.SERVER, self.pk)
-        return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
+        if self.is_active and self.cat.is_active:
+            full_path = '{}/x/art/{}'.format(settings.SERVER, self.pk)
+            return mark_safe('<a href="{}" target="_blank">{}</a>'.format(full_path, full_path))
+        return "不可见文章"
 
     url.short_description = '前去阅读'
 
@@ -224,8 +271,23 @@ class AuthorBlog(Blog):
     """
 
     class Meta:
-        verbose_name_plural = verbose_name = '我的博客'
+        verbose_name_plural = verbose_name = '我的文章'
         proxy = True
+
+    def apply_top(self):
+        return "功能即将上线^c^"
+
+    apply_top.short_description = "申请置顶"
+
+    def apply_active(self):
+        return "功能即将上线^c^"
+
+    apply_active.short_description = "提交审核"
+
+    def apply_fine(self):
+        return "功能即将上线^c^"
+
+    apply_fine.short_description = "申请推荐"
 
 
 class Advertisement(models.Model):
@@ -255,19 +317,9 @@ class Advertisement(models.Model):
     def url(self):
         # 跳转链接
         from django.utils.safestring import mark_safe
-        return mark_safe('<a href="{}" target="_blank">{}</a>'.format(self.link, self.link))
+        return mark_safe('<a href="{}?from={}" target="_blank">{}</a>'.format(self.link, settings.ALLOWED_HOSTS[0], self.link))
 
     url.short_description = '广告链接'
-
-
-class TipAd(Advertisement):
-    """
-    左侧长条广告
-    """
-
-    class Meta:
-        verbose_name_plural = verbose_name = '长条广告'
-        proxy = True
 
 
 class Link(models.Model):
@@ -297,7 +349,7 @@ class Link(models.Model):
     def url(self):
         # 跳转链接
         from django.utils.safestring import mark_safe
-        return mark_safe('<a href="{}" target="_blank">{}</a>'.format(self.link, self.link))
+        return mark_safe('<a href="{}?from={}" target="_blank">{}</a>'.format(self.link, settings.ALLOWED_HOSTS[0], self.link))
 
     url.short_description = '跳转链接'
 

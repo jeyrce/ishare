@@ -4,10 +4,11 @@
 
 
 {% block content %}
-    {# 友链声明 #}
+    {# 友链页上部分 #}
     <div class="whitebg">
-        <h1>{{ declare }}</h1>
-        <p>{{ desc }}</p>
+{#        <h1>{{ declare }}</h1>#}
+{#        <p>{{ desc | safe }}</p>#}
+    <img src="{{ MEDIA_URL }}lujianxin.com.png" alt="图片丢失">
     </div>
 
     {# 公益链接 #}
@@ -20,7 +21,7 @@
         <ul class="site_tj">
             {% for link in public_links %}
 {#                <li><a id="{{ link.link }}"  class="goto" href="javascript: void(0);" title="{{ link.link_name }}">{{ link.link_name }}</a></li>#}
-                <li><a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
+                <li><a id="{{ link.link }}" href="{{ link.link }}?from={{ SITE.dns }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
             {% endfor %}
         </ul>
     </div>
@@ -35,7 +36,7 @@
         <ul class="site_tj site_yx">
             {% for link in person_links %}
 {#                <li><a id="{{ link.link }}" href="javascript: void(0);" class="goto" title="{{ link.link_name }}">{{ link.link_name }}</a></li>#}
-                <li><a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
+                <li><a id="{{ link.link }}" href="{{ link.link }}?from={{ SITE.dns }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
             {% endfor %}
         </ul>
     </div>
@@ -50,7 +51,7 @@
         <ul class="site_tj">
             {% for link in biz_links %}
 {#                <li><a id="{{ link.link }}" href="javascript: void(0);" class="goto" title="{{ link.link_name }}">{{ link.link_name }}</a></li>#}
-                <li><a id="{{ link.link }}" href="{{ link.link }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
+                <li><a id="{{ link.link }}" href="{{ link.link }}?from={{ SITE.dns }}" title="{{ link.link_name }}" target="_blank">{{ link.link_name }}</a></li>
             {% endfor %}
         </ul>
     </div>

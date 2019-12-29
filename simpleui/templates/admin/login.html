@@ -16,7 +16,7 @@
         <title>{{ site_title }}-{% trans 'Log in' %}</title>
     {% endblock %}
     {% block icon %}
-        <link rel="icon" href="{% static '/admin/simpleui-x/img/favicon.png' %}">
+{#        <link rel="icon" href="{% static '/admin/simpleui-x/img/favicon.png' %}">#}
     {% endblock %}
 
     {% if "SIMPLEUI_STATIC_OFFLINE"|get_config %}
@@ -90,7 +90,7 @@
             {% csrf_token %}
             <div class="simpleui-input-inline">
                 <el-input prefix-icon="fas fa-user" v-model="username" name="username"
-                          placeholder="{% trans 'username' %}"></el-input>
+                          placeholder="邮箱账号"></el-input>
             </div>
             <div class="simpleui-input-inline">
                 <el-input prefix-icon="fas fa-lock" type="password" v-model="password" name="password"
@@ -98,9 +98,9 @@
                           placeholder="{% trans 'password' %}" show-password></el-input>
             </div>
             <div class="simpleui-input-inline login-btn">
-                <el-button :icon="loading?'el-icon-loading':''" @click="login()"
-                           type="primary">{% trans 'Log in' %}</el-button>
+                <el-button :icon="loading?'el-icon-loading':''" @click="login()" type="primary">{% trans 'Log in' %}</el-button>
             </div>
+            <a href="/xauth/xadmin/password_reset/"><i> 忘记了您的密码？</i></a>
 
             <input type="hidden" name="next" value="{{ next }}"/>
         </form>

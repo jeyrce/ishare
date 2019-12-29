@@ -19,7 +19,6 @@ from db.models import (
     AuthorBlog,
     Author,
     Advertisement,
-    TipAd,
     Link,
     Notice,
     Expand,
@@ -115,11 +114,11 @@ class CategoryAdmin(CommonSetting):
 
 class UserAccountAdmin(CommonSetting, UserAdmin):
     change_user_password_template = None
-    list_display = ('email', 'username', 'is_staff', 'is_active')
+    list_display = ('email', 'username', 'is_active', "published", "to_publish", "read", "like")
     list_filter = ('is_staff', 'is_superuser', 'is_active')
-    search_fields = ('username', 'first_name', 'last_name', 'email')
+    search_fields = ('username', 'email')
     ordering = ('-date_joined',)
-    readonly_fields = ('date_joined', 'last_login')
+    readonly_fields = ('date_joined', 'last_login', "published", "to_publish", "read", "like")
     exclude = ('last_name', 'first_name')
     style_fields = {'user_permissions': 'm2m_transfer'}
     model_icon = 'fa fa-user'
@@ -155,7 +154,7 @@ class UserAccountAdmin(CommonSetting, UserAdmin):
         return super(UserAdmin, self).get_form_layout()
 
     def save_models(self):
-        if self.new_obj.email is None:
+        if not self.new_obj.email:
             self.new_obj.email = 'author@lujianxin.com'
         self.new_obj.save()
 
@@ -165,9 +164,10 @@ class AuthorAdmin(CommonSetting, UserAdmin):
     作者的管理类
     """
     change_user_password_template = None
-    list_display = ('email', 'username', 'is_staff', 'is_active')
+    list_display = ('email', 'username', 'is_active', "published", "to_publish", "read", "like")
     ordering = ('-date_joined',)
-    readonly_fields = ('date_joined', 'last_login', 'email', 'is_active', 'is_staff', 'is_superuser')
+    readonly_fields = ('date_joined', 'last_login', 'email', 'is_active', 'is_staff', 'is_superuser',
+                       "published", "to_publish", "read", "like")
     exclude = ('last_name', 'first_name', 'groups', 'user_permissions')
     style_fields = {'user_permissions': 'm2m_transfer'}
     model_icon = 'fa fa-user'
@@ -187,8 +187,8 @@ class AuthorAdmin(CommonSetting, UserAdmin):
                         Row('desc'),
                         Row('alipay', 'wechat'),
                     ),
-                    Fieldset(_('Important dates'),
-                             Row('last_login', 'date_joined')
+                    Fieldset("统计信息",
+                             Row('last_login', 'date_joined', "published", "to_publish", "read", "like")
                              ),
                 ),
                 Side(
@@ -205,26 +205,33 @@ class AuthorAdmin(CommonSetting, UserAdmin):
 
     def has_delete_permission(self, obj=None):
         # 删除权限
+        if self.request.user.is_superuser:
+            return True
         return False
 
     def has_add_permission(self):
+        if self.request.user.is_superuser:
+            return True
         return False
 
     def save_models(self):
-        if self.new_obj.email is None:
+        if not self.new_obj.email:
             self.new_obj.email = 'author@lujianxin.com'
         self.new_obj.save()
 
     def has_change_permission(self, obj=None):
         if obj is not None:
+            if self.request.user.is_superuser:
+                return True
             if self.request.user.id == obj.id:
                 return True
+        return False
 
 
 class BlogAdmin(CommonSetting):
     exclude = ('id',)
-    list_display = ('title', 'author', 'cat', 'original', 'tags', 'read', 'like', 'url')
-    search_fields = ('title', 'author__nickname', 'author__email')
+    list_display = ('title', "is_active", 'author', 'cat', 'original', 'read', 'like', 'url')
+    search_fields = ('title', 'author__username', 'author__email')
     list_filter = ('is_active', 'add', 'mod')
     readonly_fields = ('read', 'like', 'add', 'mod')
     form_layout = (
@@ -262,10 +269,11 @@ class BlogAdmin(CommonSetting):
 
 class AuthorBlogAdmin(CommonSetting):
     exclude = ('id', 'author')
-    list_display = ('title', 'cat', 'original', 'tags', 'read', 'like', 'url')
+    list_display = ('title', 'cat', 'is_active', 'original', 'tags', 'read', 'like', 'url')
     search_fields = ('title',)
     list_filter = ('add', 'mod')
-    readonly_fields = ('read', 'like', 'add', 'mod', 'is_active', 'is_top', 'is_fine')
+    readonly_fields = ('read', 'like', 'add', 'mod', 'is_active', 'is_top', 'is_fine', "apply_active",
+                       "apply_top", "apply_fine")
     form_layout = (
         Main(
             Fieldset(
@@ -273,6 +281,12 @@ class AuthorBlogAdmin(CommonSetting):
                 Row('title', 'cat'),
                 Row('cover', 'tags'),
                 Row('music')
+            ),
+            Fieldset(
+                _('标记信息'),
+                Row('apply_active', ),
+                Row('apply_top', ),
+                Row('apply_fine')
             ),
             Fieldset(
                 _('正文'),
@@ -312,19 +326,25 @@ class AuthorBlogAdmin(CommonSetting):
     def has_delete_permission(self, obj=None):
         # 删除权限
         if obj is not None:
+            if self.request.user.is_superuser:
+                return True
             if self.request.user.id == obj.author.id:
                 return True
+        return False
 
     def has_change_permission(self, obj=None):
         if obj is not None:
+            if self.request.user.is_superuser:
+                return True
             if self.request.user.id == obj.author.id:
                 return True
+        return False
 
 
 class AdvertisementAdmin(CommonSetting):
     list_display = ('ad_name', 'adtype', 'url', 'end')
     search_fields = ('ad_name', 'remark')
-    list_filter = ('add', 'mod', 'end')
+    list_filter = ('add', 'mod', 'end', "adtype")
     readonly_fields = ('add', 'mod')
     form_layout = (
         Main(
@@ -339,40 +359,12 @@ class AdvertisementAdmin(CommonSetting):
             Fieldset(_('备注'), 'remark')
         )
     )
-
-    def queryset(self):
-        q = super().queryset()
-        return q.filter(adtype=0)
-
-
-class TipAdAdmin(CommonSetting):
-    list_display = ('ad_name', 'adtype', 'url', 'end')
-    search_fields = ('ad_name', 'remark')
-    list_filter = ('add', 'mod', 'end')
-    readonly_fields = ('add', 'mod')
-    form_layout = (
-        Main(
-            Fieldset(
-                _('广告信息'),
-                Row('ad_name', 'add', 'end'),
-                Row('link', 'mod'),
-                Row('image', 'adtype')
-            ),
-        ),
-        Side(
-            Fieldset(_('备注'), 'remark')
-        )
-    )
-
-    def queryset(self):
-        q = super().queryset()
-        return q.filter(adtype=1)
 
 
 class LinkAdmin(CommonSetting):
     list_display = ('link_name', 'is_active', 'cat', 'url')
     search_fields = ('link_name', 'email', 'link')
-    list_filter = ('add', 'mod', 'is_active')
+    list_filter = ('cat', 'is_active')
     readonly_fields = ('add', 'mod')
     form_layout = (
         Main(
@@ -410,7 +402,7 @@ class NoticeAdmin(CommonSetting):
 
 
 class ExpandAdmin(CommonSetting):
-    list_display = ('key', 'value')
+    list_display = ('key', 'value', "mod")
     search_fields = ('remark', 'key')
     list_filter = ('mod',)
     ordering = ('-mod',)
@@ -439,7 +431,6 @@ xadmin.site.register(Author, AuthorAdmin)
 xadmin.site.register(Blog, BlogAdmin)
 xadmin.site.register(AuthorBlog, AuthorBlogAdmin)
 xadmin.site.register(Advertisement, AdvertisementAdmin)
-xadmin.site.register(TipAd, TipAdAdmin)
 xadmin.site.register(Link, LinkAdmin)
 xadmin.site.register(Notice, NoticeAdmin)
 xadmin.site.register(Expand, ExpandAdmin)

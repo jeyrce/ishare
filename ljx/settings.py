@@ -217,8 +217,8 @@ SITE = {
     'name': '陆鉴鑫的博客',
     'me': 'https://me.lujianxin.com',
     'email': {
-        'jubao': 'jubao@lujianxin.com',
-        'tougao': 'tougao@lujianxin.com',
+        'jubao': 'support@lujianxin.com',
+        'tougao': 'support@lujianxin.com',
         'support': 'support@lujianxin.com',
         'me': 'jeeyshe@gmail.com',
     },
@@ -351,10 +351,12 @@ LIST_INFO = {
 # ------------simpleui配置
 
 SIMPLEUI_HOME_TITLE = '后台首页'
-SIMPLEUI_LOGO = 'https://avatars2.githubusercontent.com/u/13655483?s=60&v=4'
+SIMPLEUI_LOGO = '/static/image/favicon.ico'
 SIMPLEUI_HOME_INFO = True
 SIMPLEUI_HOME_QUICK = True
 SIMPLEUI_HOME_ACTION = True
+SIMPLEUI_STATIC_OFFLINE = True
+SIMPLEUI_LOGIN_PARTICLES = False    # 关闭登录页粒子动画
 SIMPLEUI_ANALYSIS = False
 SIMPLEUI_CONFIG = {
     'system_keep': True,

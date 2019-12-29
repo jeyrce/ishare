@@ -109,8 +109,14 @@ class Link(View):
                 'keywords': '友情链接、公益链接、个人主页、商业广告',
                 'description': '陆鉴鑫的博客，一个助力实现文学梦想，技术干货创作和分享的开放平台。',
             },
-            'declare': '友链说明',
-            'desc': '本站接受个人博客链接、真实可信的广告链接作为友链，请自行提交或联系站长后台添加，自行提交的链接通过审核方可显示，请耐心等待。',
+            # 'declare': '友链说明',
+            # 'desc': """
+            # <strong>致各位站长:</strong><br><br>
+            # &nbsp;&nbsp;&nbsp;&nbsp;1. 本站接受个人博客链接、真实可信的广告链接作为友链，请留言或点击下方按钮自行提交。<br><br>
+            # &nbsp;&nbsp;&nbsp;&nbsp;2. 对于不稳定, 经常宕机的友链, 我可能会暂时隐藏, 请服务器稳定后联系我放出。<br><br>
+            # &nbsp;&nbsp;&nbsp;&nbsp;3. 所有从本站页面到达的链接将会在url中携带from='www.lujianxin.com'参数。<br><br>
+            # 欢迎各位前来阅读、点赞、技术交流, 本站也会不定时前去贵站留言或评论。<br><br>
+            # """,
         }
         return render(request, 'db/link.html', ctx)
 

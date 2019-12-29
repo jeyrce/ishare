@@ -190,6 +190,7 @@ class AccountAdmin(admin.ModelAdmin):
     list_display = ('email', 'username', 'is_active', "published", "to_publish", "read", "like")
     ordering = ('-date_joined',)
     list_per_page = 60
+    list_editable = ("is_active",)
     search_fields = ('username', 'email')
     readonly_fields = ('date_joined', 'last_login', "published", "to_publish", "read", "like")
     exclude = ('last_name', 'first_name',)

@@ -257,7 +257,9 @@ class Blog(models.Model):
         # 返回文章的非富文本字符串
         e = etree.HTML(self.content or "本文暂无内容")
         text = e.xpath('string(.)').strip()
-        return text[:settings.ART_DESC_LENGTH]
+        obj = Expand.objects.filter(key="ART_DESC_LENGTH").first()
+        num = int(obj.value) if obj else settings.ART_DESC_LENGTH
+        return text[:num]
 
     def keywords(self):
         # 用于文章详情页seo优化的关键字

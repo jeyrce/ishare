@@ -216,6 +216,7 @@ SITE = {
     'host': 'https://{}'.format(ALLOWED_HOSTS[0]),
     'name': '陆鉴鑫的博客',
     'me': 'https://me.lujianxin.com',
+    'author': "Jeeyshe",
     'email': {
         'jubao': 'support@lujianxin.com',
         'tougao': 'support@lujianxin.com',
@@ -387,3 +388,6 @@ SIMPLEUI_CONFIG = {
     #     }]
     # }]
 }
+
+# ===========>Feed<===========
+RSS_NUM = 5

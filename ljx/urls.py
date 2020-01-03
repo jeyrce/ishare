@@ -38,6 +38,10 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('index', views.goto_index),
     path('index.html', views.goto_index),
+    path('feed.html', views.ArticleFeed()),     # RSS订阅
+    path('feed', views.ArticleFeed()),          # RSS订阅
+    path('rss', views.ArticleFeed()),           # RSS订阅
+    path('rss.html', views.ArticleFeed()),      # RSS订阅
     # 业务逻辑模块
     path('x/', include('db.urls', namespace='x')),
 ]

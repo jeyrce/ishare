@@ -7,7 +7,7 @@ Some ideas of the file:
 
 from django.views.generic import View
 from django.shortcuts import render, redirect, resolve_url
-from django.http.response import HttpResponseNotAllowed
+from django.contrib.syndication.views import Feed
 
 from db import models
 from db.utils import get_value_from_db
@@ -117,3 +117,63 @@ def password_reset(request, uid):
     if request.user.is_authenticated:
         uri = '/xauth/account/password/'
     return redirect(uri)
+
+
+class ArticleFeed(Feed):
+    """
+    RSS订阅-文章
+    """
+    title = "RSS of {domain}".format(domain=settings.SITE["dns"])
+    link = "/feed/"
+    description = "Latest articles in site"
+
+    def items(self):
+        obj = models.Expand.objects.filter(key="RSS_NUM").first()
+        num = int(obj.value) if obj else settings.RSS_NUM
+        return models.Blog.objects.filter(is_active=True, cat__is_active=True).order_by("-add")[:num]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.description()
+
+    def item_link(self, item):
+        return "/x/art/{pk}".format(pk=item.pk)
+
+    def item_author_name(self, item):
+        return item.author.username
+
+    def item_author_email(self, item):
+        return item.author.email
+
+    def item_author_link(self, item):
+        return settings.SITE["host"] if item.author.is_superuser else ""
+
+    def item_updateddate(self, item):
+        return item.mod
+
+    def item_pubdate(self, item):
+        if hasattr(item, "pub"):
+            pub = getattr(item, "pub")
+            if pub:
+                return pub
+        return item.add
+
+    def item_copyright(self, item):
+        return "All Rights Reserved {} And The Author: {}.".format(settings.SITE["dns"], item.author.username)
+
+    def feed_copyright(self):
+        return "All Rights Reserved {}.".format(settings.SITE["dns"])
+
+    def author_email(self):
+        return settings.SITE["email"]["me"]
+
+    def author_link(self):
+        return settings.SITE["host"]
+
+    def author_name(self):
+        return settings.SITE["author"]
+
+    def item_guid(self, item):
+        return item.pk

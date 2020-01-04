@@ -300,11 +300,11 @@ SESSION_COOKIE_NAME = 'sessionid'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 2
 # The path of the session cookie.
 SESSION_COOKIE_PATH = '/'
-SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG
+SESSION_EXPIRE_AT_BROWSER_CLOSE = not DEBUG
 # class to serialize session data
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
-# 基于内存和redis双缓存
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# 基于cache的缓存: redis
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 DJANGO_REDIS_IGNORE_EXCEPTIONS = True  # 忽略异常
 
 LOGOUT_REDIRECT_URL = '/'

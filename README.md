@@ -15,7 +15,7 @@
 - django + celery 后端框架
 - nginx + uwsgi 项目部署
 - mysql + redis 数据库
-- 现成的前端模板
+- 现成的前端模板 + simpleui后台管理系统
 
 ### 概览
 
@@ -26,7 +26,7 @@
 
 - **详情页**： 文章详情、评论区、猜你喜欢
 
-![详情页1](./docs/imgs/detail-header.png)
+![详情页1](./docs/imgs/detail.png)
 ![详情页2](./docs/imgs/detail-footer.png)
 
 - **归档页**： 按照类别或标签
@@ -39,11 +39,18 @@
 
 - **留言板**： 来必力评论插件
 
-![留言板](./docs/imgs/msgboard.png)
+![留言板](./docs/imgs/msgbox.png)
 
 - **友链页**： 公益类、个人类、商业类、自主提交链接
 
 ![友链](./docs/imgs/links.png)
 
-- 后续更新
+- **后台管理系统**: 文章列表页
 
+![文章列表](./docs/imgs/admin.png)
+
+- **编辑器**: 撰写文章
+
+![编辑器](./docs/imgs/blog-write.png)
+
+- 后续更新~

@@ -69,6 +69,9 @@ class Tag(models.Model):
 
     url.short_description = '前去阅读'
 
+    def get_absolute_url(self):
+        return '/x/tag/{}'.format(self.pk)
+
 
 class Category(models.Model):
     """
@@ -105,6 +108,9 @@ class Category(models.Model):
         return "不可用分类"
 
     url.short_description = '前去阅读'
+
+    def get_absolute_url(self):
+        return '/x/cat/{}'.format(self.pk)
 
 
 class UserAccount(AbstractUser):
@@ -266,6 +272,9 @@ class Blog(models.Model):
         tags = self.tags.filter(is_active=True)
         return '、'.join([tag.tag for tag in tags])
 
+    def get_absolute_url(self):
+        return '/x/art/{pk}'.format(pk=self.pk)
+
 
 class AuthorBlog(Blog):
     """
@@ -319,7 +328,8 @@ class Advertisement(models.Model):
     def url(self):
         # 跳转链接
         from django.utils.safestring import mark_safe
-        return mark_safe('<a href="{}?from={}" target="_blank">{}</a>'.format(self.link, settings.ALLOWED_HOSTS[0], self.link))
+        return mark_safe(
+            '<a href="{}?from={}" target="_blank">{}</a>'.format(self.link, settings.ALLOWED_HOSTS[0], self.link))
 
     url.short_description = '广告链接'
 
@@ -351,7 +361,8 @@ class Link(models.Model):
     def url(self):
         # 跳转链接
         from django.utils.safestring import mark_safe
-        return mark_safe('<a href="{}?from={}" target="_blank">{}</a>'.format(self.link, settings.ALLOWED_HOSTS[0], self.link))
+        return mark_safe(
+            '<a href="{}?from={}" target="_blank">{}</a>'.format(self.link, settings.ALLOWED_HOSTS[0], self.link))
 
     url.short_description = '跳转链接'
 

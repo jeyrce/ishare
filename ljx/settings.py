@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ]
 
 MAIN_APPS = [
@@ -391,3 +392,4 @@ SIMPLEUI_CONFIG = {
 
 # ===========>Feed<===========
 RSS_NUM = 5
+SITE_ID = 7

@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path, re_path, include
 from django.views.static import serve
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 
 import xadmin
 from xadmin.plugins import xversion
@@ -38,10 +39,11 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('index', views.goto_index),
     path('index.html', views.goto_index),
-    path('feed.html', views.ArticleFeed()),     # RSS订阅
-    path('feed', views.ArticleFeed()),          # RSS订阅
-    path('rss', views.ArticleFeed()),           # RSS订阅
-    path('rss.html', views.ArticleFeed()),      # RSS订阅
+    path('feed.html', views.ArticleFeed()),  # RSS订阅
+    path('feed', views.ArticleFeed()),  # RSS订阅
+    path('rss', views.ArticleFeed()),  # RSS订阅
+    path('rss.html', views.ArticleFeed()),  # RSS订阅
+    path('sitemap.xml', sitemap, views.sitemaps, name='django.contrib.sitemaps.views.sitemap'),  # sitemap
     # 业务逻辑模块
     path('x/', include('db.urls', namespace='x')),
 ]

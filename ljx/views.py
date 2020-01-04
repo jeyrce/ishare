@@ -8,6 +8,7 @@ Some ideas of the file:
 from django.views.generic import View
 from django.shortcuts import render, redirect, resolve_url
 from django.contrib.syndication.views import Feed
+from django.contrib.sitemaps import Sitemap, GenericSitemap
 
 from db import models
 from db.utils import get_value_from_db
@@ -177,3 +178,67 @@ class ArticleFeed(Feed):
 
     def item_guid(self, item):
         return item.pk
+
+
+class ArticleSitemap(Sitemap):
+    """
+    文章站点地图
+    """
+    limit = 10000
+    protocol = 'https'
+    changefreq = 'weekly'
+
+    # 'always'
+    # 'hourly'
+    # 'daily'
+    # 'weekly'
+    # 'monthly'
+    # 'yearly'
+    # 'never'
+
+    def items(self):
+        return models.Blog.objects.filter(is_active=True, cat__is_active=True).order_by('-add')
+
+    def lastmod(self, item):
+        return item.mod
+
+
+class CategorySitemap(Sitemap):
+    """
+    分类站点地图
+    """
+    limit = 100
+    protocol = 'https'
+    changefreq = 'weekly'
+
+    def items(self):
+        return models.Category.objects.filter(is_active=True).order_by('-add')
+
+    def lastmod(self, item):
+        obj = models.Blog.objects.filter(is_active=True, cat_id=item.pk).only("add").order_by('-add').first()
+        return obj.add if obj else item.add
+
+
+class TagSitemap(Sitemap):
+    """
+    标签站点地图
+    """
+    limit = 1000
+    protocol = 'https'
+    changefreq = 'weekly'
+
+    def items(self):
+        return models.Tag.objects.filter(is_active=True).order_by('-add')
+
+    def lastmod(self, item):
+        obj = item.tblogs.filter(is_active=True, cat__is_active=True).only('add').order_by('-add').first()
+        return obj.add if obj else item.add
+
+
+sitemaps = {
+    'sitemaps': {
+        'articles': ArticleSitemap,
+        'categories': CategorySitemap,
+        'tags': TagSitemap,
+    },
+}

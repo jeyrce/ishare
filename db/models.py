@@ -70,7 +70,7 @@ class Tag(models.Model):
     url.short_description = '前去阅读'
 
     def get_absolute_url(self):
-        return '/x/tag/{}'.format(self.pk)
+        return '/x/tag/{}/'.format(self.pk)
 
 
 class Category(models.Model):
@@ -110,7 +110,7 @@ class Category(models.Model):
     url.short_description = '前去阅读'
 
     def get_absolute_url(self):
-        return '/x/cat/{}'.format(self.pk)
+        return '/x/cat/{}/'.format(self.pk)
 
 
 class UserAccount(AbstractUser):

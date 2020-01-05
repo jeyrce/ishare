@@ -5,10 +5,11 @@ Some ideas of the file:
     0. 首页
 """
 
+from django.conf import settings
 from django.views.generic import View
 from django.shortcuts import render, redirect, resolve_url
 from django.contrib.syndication.views import Feed
-from django.contrib.sitemaps import Sitemap, GenericSitemap
+from django.contrib.sitemaps import Sitemap
 
 from db import models
 from db.utils import get_value_from_db
@@ -187,6 +188,7 @@ class ArticleSitemap(Sitemap):
     limit = 10000
     protocol = 'https'
     changefreq = 'weekly'
+    priority = 0.9
 
     # 'always'
     # 'hourly'
@@ -209,7 +211,8 @@ class CategorySitemap(Sitemap):
     """
     limit = 100
     protocol = 'https'
-    changefreq = 'weekly'
+    changefreq = 'daily'
+    priority = 0.8
 
     def items(self):
         return models.Category.objects.filter(is_active=True).order_by('-add')
@@ -225,7 +228,8 @@ class TagSitemap(Sitemap):
     """
     limit = 1000
     protocol = 'https'
-    changefreq = 'weekly'
+    changefreq = 'daily'
+    priority = 0.8
 
     def items(self):
         return models.Tag.objects.filter(is_active=True).order_by('-add')
@@ -235,8 +239,75 @@ class TagSitemap(Sitemap):
         return obj.add if obj else item.add
 
 
+class IndexSitemap(Sitemap):
+    """
+    首页， 友链页， 关于我
+    """
+    limit = 10
+    protocol = 'https'
+    changefreq = 'always'
+    priority = 1.0
+
+    class Module(object):
+        """不需要依赖于model的item"""
+        def __init__(self, abs_url, domain=None):
+            self._abs_url = abs_url
+            self._domain = domain  # 用于引入settings之外引入的域名
+
+        def get_absolute_url(self):
+            return self._abs_url
+
+        @property
+        def domain(self):
+            return self._domain
+
+    def __get(self, name, obj, default=None):
+        try:
+            attr = getattr(self, name)
+        except AttributeError:
+            return default
+        if callable(attr):
+            return attr(obj)
+        return attr
+
+    def _urls(self, page, protocol, domain):
+        # 重构此方法以解决有其他域名的情况
+        urls = []
+        latest_lastmod = None
+        all_items_lastmod = True  # track if all items have a lastmod
+        for item in self.paginator.page(page).object_list:
+            _domain = item.domain if item.domain is not None else domain
+            loc = "%s://%s%s" % (protocol, _domain, self.__get('location', item))
+            priority = self.__get('priority', item)
+            lastmod = self.__get('lastmod', item)
+            if all_items_lastmod:
+                all_items_lastmod = lastmod is not None
+                if (all_items_lastmod and
+                        (latest_lastmod is None or lastmod > latest_lastmod)):
+                    latest_lastmod = lastmod
+            url_info = {
+                'item': item,
+                'location': loc,
+                'lastmod': lastmod,
+                'changefreq': self.__get('changefreq', item),
+                'priority': str(priority if priority is not None else ''),
+            }
+            urls.append(url_info)
+        if all_items_lastmod and latest_lastmod:
+            self.latest_lastmod = latest_lastmod
+        return urls
+
+    def items(self):
+        return [
+            self.Module('/'),  # https://www.lujianxin.com/
+            self.Module('/', settings.SITE['me'].split('//')[-1]),  # https://me.lujianxin.com/
+            self.Module('/x/link.html'),  # https://www.lujianxin.com/x/link.html
+        ]
+
+
 sitemaps = {
     'sitemaps': {
+        'index': IndexSitemap,
         'articles': ArticleSitemap,
         'categories': CategorySitemap,
         'tags': TagSitemap,

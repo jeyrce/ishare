@@ -18,18 +18,12 @@ from django.views.static import serve
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 
-import xadmin
-from xadmin.plugins import xversion
-
 from ljx import views
 from ljx.settings import MEDIA_ROOT
 
-xadmin.autodiscover()
-xversion.register_models()
 
 urlpatterns = [
     # 后台管理系统
-    path('xauth/', xadmin.site.urls),
     path('admin/', admin.site.urls),
     path('xauth/db/author/<uid>/password/', views.password_reset),
     # 其他

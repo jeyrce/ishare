@@ -66,7 +66,6 @@ EXTRA_APPS = [
     # 功能拓展模块
     'crispy_forms',
     'reversion',
-    'xadmin',
     'DjangoUeditor',
 ]
 INSTALLED_APPS.extend(EXTRA_APPS)

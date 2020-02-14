@@ -115,6 +115,7 @@ def goto_index(request):
 
 def password_reset(request, uid):
     # 解决后台管理中的bug
+    # TODO: 自己实现邮件改密
     uri = 'xauth/'
     if request.user.is_authenticated:
         uri = '/xauth/account/password/'

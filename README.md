@@ -6,7 +6,7 @@
 感谢杨青姐的前端模板！
 
 - 开发: 2019年03月08日 ~ 2019年04月08日
-- 当前版本: 0.1.0-gamma
+- 当前版本: 0.1.0'
 - 上线: [https://www.lujianxin.com](https://www.lujianxin.com)
 
 ### 使用技术:

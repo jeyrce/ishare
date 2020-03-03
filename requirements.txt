@@ -3,6 +3,7 @@ anyjson==0.3.3
 asgiref==3.2.3
 backports.csv==1.0.7
 billiard==3.6.2.0
+bumpversion==0.5.3
 celery==4.3.0
 certifi==2019.11.28
 chardet==3.0.4

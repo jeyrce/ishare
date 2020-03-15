@@ -4,11 +4,11 @@ from django.db.models import Q
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-from ljx import settings
+from ishare import settings
 from DjangoUeditor.models import UEditorField
 from lxml import etree
 
-from db import NewUUID
+from blog import NewUUID
 
 short_uuid = NewUUID()
 

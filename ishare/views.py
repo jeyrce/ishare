@@ -11,10 +11,10 @@ from django.shortcuts import render, redirect, resolve_url
 from django.contrib.syndication.views import Feed
 from django.contrib.sitemaps import Sitemap
 
-from db import models
-from db.utils import get_value_from_db
+from blog import models
+from blog.utils import get_value_from_db
 
-from ljx import settings
+from ishare import settings
 
 
 class OpenView(View):

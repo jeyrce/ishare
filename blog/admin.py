@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 # Register your models here.
-from db.models import (
+from blog.models import (
     Music,
     Tag,
     Category,

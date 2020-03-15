@@ -7,9 +7,9 @@ Here is the descriptions and some purpose of the file:
 
 from django.urls import path
 
-from db import views
+from blog import views
 
-app_name = 'db'
+app_name = 'ishare'
 
 urlpatterns = [
 

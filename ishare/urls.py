@@ -1,4 +1,4 @@
-"""ljx URL Configuration
+"""ishare URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -18,8 +18,8 @@ from django.views.static import serve
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 
-from ljx import views
-from ljx.settings import MEDIA_ROOT
+from ishare import views
+from ishare.settings import MEDIA_ROOT
 
 
 urlpatterns = [
@@ -39,5 +39,5 @@ urlpatterns = [
     path('rss.html', views.ArticleFeed()),  # RSS订阅
     path('sitemap.xml', sitemap, views.sitemaps, name='django.contrib.sitemaps.views.sitemap'),  # sitemap
     # 业务逻辑模块
-    path('x/', include('db.urls', namespace='x')),
+    path('x/', include('blog.urls', namespace='x')),
 ]

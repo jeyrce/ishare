@@ -13,11 +13,11 @@ from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 
-from ljx.views import OpenView
-from db import models as m
-from db.utils import ContextUtil
+from ishare.views import OpenView
+from blog import models as m
+from blog.utils import ContextUtil
 
-from ljx import settings
+from ishare import settings
 
 User = get_user_model()
 

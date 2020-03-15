@@ -4,8 +4,8 @@ Created by Jeeysie.Ru at 19-3-27 下午2:26, for any more contact me with jeeysi
 Here is the descriptions and some popurse of the file:
     0. 自定义全局上下文
 """
-from ljx import settings
-from db.utils import ContextUtil as ctx
+from ishare import settings
+from blog.utils import ContextUtil as ctx
 
 
 def site(request):

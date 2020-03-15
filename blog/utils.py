@@ -14,8 +14,8 @@ from django.contrib.auth import get_user_model
 from django.core.cache import caches
 from django.contrib.auth.backends import ModelBackend
 
-from db import models as _m
-from ljx import settings as _st
+from blog import models as _m
+from ishare import settings as _st
 
 UserAccount = get_user_model()
 

@@ -6,7 +6,7 @@ from random import choice
 
 from shortuuid import ShortUUID
 
-default_app_config = 'db.apps.DbConfig'
+default_app_config = 'blog.apps.DbConfig'
 
 
 class NewUUID(ShortUUID):

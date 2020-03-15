@@ -8,8 +8,8 @@ Here is the descriptions and some purpose of the file:
 from django.http import QueryDict
 from django.core.cache import caches
 
-from db.models import Expand
-from db.utils import today_key
+from blog.models import Expand
+from blog.utils import today_key
 
 
 class BaseCustomMiddleware(object):

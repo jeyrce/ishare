@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
 from ishare.views import OpenView
 from blog import models as m
@@ -76,6 +77,7 @@ class Detail(View):
         obj.save(update_fields=('read',))
         return render(request, 'db/detail.html', ctx)
 
+    @csrf_exempt
     def post(self, request, pk):
         obj = self.get_obj(pk)
         obj.like += 1

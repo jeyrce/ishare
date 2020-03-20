@@ -39,7 +39,7 @@ $(document).ready(function () {
 
     //文章点赞
     $('#like').click(function (event) {
-        var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+        // var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
         like_btn = $('#like');
         var liked = $('input[name="liked"]').val();
         if (liked == 'true') {

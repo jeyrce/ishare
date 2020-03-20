@@ -111,7 +111,7 @@
         //粘贴只保留标签，去除标签所有属性
         //,retainOnlyLabelPasted: false
 
-        //,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+        ,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
         //纯文本粘贴模式下的过滤规则
         //'filterTxtRules' : function(){
         //    function transP(node){
@@ -140,7 +140,7 @@
         //    }
         //}()
 
-        //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
+        ,allHtmlEnabled:true //提交到后台的数据是否包含整个html字符串
 
         //insertorderedlist
         //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
@@ -173,13 +173,13 @@
         //,listiconpath : 'http://bs.baidu.com/listicon/'//自定义标号的路径
         //,maxListLevel : 3 //限制可以tab的级数, 设置-1为不限制
 
-        //,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
+        ,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
 
         //fontfamily
         //字体设置 label留空支持多语言自动切换，若配置，则以配置值为准
-        //,'fontfamily':[
-        //    { label:'',name:'songti',val:'宋体,SimSun'},
-        //    { label:'',name:'kaiti',val:'楷体,楷体_GB2312, SimKai'},
+        ,'fontfamily':[
+           { label:'',name:'songti',val:'宋体,SimSun'},
+           { label:'',name:'kaiti',val:'楷体,楷体_GB2312, SimKai'},
         //    { label:'',name:'yahei',val:'微软雅黑,Microsoft YaHei'},
         //    { label:'',name:'heiti',val:'黑体, SimHei'},
         //    { label:'',name:'lishu',val:'隶书, SimLi'},
@@ -189,7 +189,7 @@
         //    { label:'',name:'comicSansMs',val:'comic sans ms'},
         //    { label:'',name:'impact',val:'impact,chicago'},
         //    { label:'',name:'timesNewRoman',val:'times new roman'}
-        //]
+        ]
 
         //fontsize
         //字号

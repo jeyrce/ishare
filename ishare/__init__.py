@@ -4,7 +4,7 @@
 """
 from __future__ import absolute_import, unicode_literals
 
-__version__ = '0.1.3-dev'
+__version__ = '0.1.4-dev'
 __site__ = 'www.lujianxin.com'
 __start__ = '2019-03-08'
 

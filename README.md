@@ -12,7 +12,7 @@
 ### 使用技术:
 
 ---
-
+- 线上环境 python>=3.8.0
 - django + celery 后端框架
 - nginx + uwsgi 项目部署
 - mysql + redis 数据库

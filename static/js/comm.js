@@ -49,7 +49,7 @@ $(document).ready(function () {
                 type: "POST",
                 url: document.location.href,
                 data: {
-                    csrfmiddlewaretoken: csrf_token
+                    // csrfmiddlewaretoken: csrf_token
                 },
                 //回调
                 success: function (res) {

@@ -161,6 +161,8 @@ class LinkAdd(View):
         email = self.request.POST.get('email')
         name = self.request.POST.get('link_name')
         link = self.request.POST.get('link')
+        if not link.endswith('/'):
+            link = "".join((link, "/"))
         existed = m.Link.objects.filter(link=link).only(*('pk',)).count()
 
         if existed:

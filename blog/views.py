@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from ishare.views import OpenView
@@ -32,6 +33,7 @@ class DoingView(OpenView):
         return render(request, 'db/doing.html')
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class Detail(View):
     # 前台和文章有关的逻辑
 
@@ -77,7 +79,7 @@ class Detail(View):
         obj.save(update_fields=('read',))
         return render(request, 'db/detail.html', ctx)
 
-    @csrf_exempt
+    # @csrf_exempt
     def post(self, request, pk):
         obj = self.get_obj(pk)
         obj.like += 1

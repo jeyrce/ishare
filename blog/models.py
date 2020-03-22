@@ -121,6 +121,7 @@ class UserAccount(AbstractUser):
         _('username'),
         max_length=30,
         unique=True,
+        blank=False,
         help_text='作者昵称、2~30个字符',
         error_messages={
             'unique': _("A user with that username already exists."),
@@ -129,6 +130,7 @@ class UserAccount(AbstractUser):
     email = models.EmailField(
         verbose_name='账号邮箱',
         unique=True,
+        blank=False,
         help_text='作为登录账号，绑定后不可修改'
     )
     header = models.ImageField(null=True, blank=True, verbose_name='头像', upload_to='header/')

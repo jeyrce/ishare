@@ -165,10 +165,10 @@ class AuthorAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.filter(id=request.user.id)
 
-    def save_model(self, request, obj, form, change):
-        if not obj.email:
-            obj.email = 'author@lujianxin.com'
-        obj.save()
+    # def save_model(self, request, obj, form, change):
+    #     if not obj.email:
+    #         obj.email = 'author@lujianxin.com'
+    #     obj.save()
 
     # def has_change_permission(self, request, obj=None):
     #     if obj is not None:
@@ -202,12 +202,12 @@ class AccountAdmin(admin.ModelAdmin):
         ("统计信息", {"fields": ("date_joined", "last_login", "published", "to_publish", "read", "like")}),
     )
 
-    def save_model(self, request, obj, form, change):
-        # todo 新增账户时, 发邮件给对应邮箱, 恭喜注册成功
-        # if not change: send_mail
-        if not obj.email:
-            obj.email = 'author@lujianxin.com'
-        obj.save()
+    # def save_model(self, request, obj, form, change):
+    #     # todo 新增账户时, 发邮件给对应邮箱, 恭喜注册成功
+    #     # if not change: send_mail
+    #     if not obj.email:
+    #         obj.email = 'author@lujianxin.com'
+    #     obj.save()
 
 
 class AdvertisementAdmin(admin.ModelAdmin):

@@ -7,7 +7,7 @@
 from kombu import Exchange, Queue
 
 # 记录日志
-CELERYD_HIJACK_ROOT_LOGGER = False
+CELERYD_HIJACK_ROOT_LOGGER = True
 
 # 注册Celery任务
 CELERY_IMPORTS = (
@@ -17,9 +17,9 @@ CELERY_IMPORTS = (
 # 序列化方法
 CELERY_TASK_SERIALIZER = "json"
 # 结果保存
-CELERY_RESULT_BACKEND = 'redis://:{}@{}:{}/2'.format("ljX.07", "127.0.0.1", 6379)
+CELERY_RESULT_BACKEND = 'redis://:{}@{}:{}/2'.format("lujianxin.com", "127.0.0.1", 6379)
 # Broker使用redis
-BROKER_URL = 'redis://:{}@{}:{}/3'.format("ljX.07", "127.0.0.1", 6379)
+BROKER_URL = 'redis://:{}@{}:{}/3'.format("lujianxin.com", "127.0.0.1", 6379)
 
 default_exchange = Exchange('default', type='direct')
 topic_exchange = Exchange('topic', type='topic')

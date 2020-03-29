@@ -39,14 +39,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# 网站开始运营时间
-START = '2019-04-15'
-
 SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
-DEFAULT_UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 
 # Application definition
-
 INSTALLED_APPS = [
     'simpleui',
     'django.contrib.admin',
@@ -210,9 +205,6 @@ VALINE = {
     # serverURLs: '{{ VALINE.serverURLs }}',  // 国内自定义域名#
 }
 
-# 密码重置链接一天内有效
-PASSWORD_RESET_TIMEOUT_DAYS = 1
-
 # 站点信息
 SITE = {
     'dns': ALLOWED_HOSTS[0],
@@ -238,12 +230,6 @@ SITE = {
     },
     'UPGRADING': UPGRADING,
 }
-
-# 文章缩略文本长度
-ART_DESC_LENGTH = 200
-
-# 评论和留言缩略长度
-COM_DESC_LENGTH = MSG_DESC_LENGTH = 20
 
 # 缓存配置
 #########
@@ -393,7 +379,6 @@ SIMPLEUI_CONFIG = {
 }
 
 # ===========>Feed<===========
-RSS_NUM = 5
 SITE_ID = 7
 
 # ==========>logging<==========

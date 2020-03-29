@@ -44,7 +44,7 @@ class ContextUtil(object):
     @classmethod
     def run_days(cls) -> int:
         # 网站运行天数
-        start = datetime.datetime.strptime(_st.START, '%Y-%m-%d')
+        start = datetime.datetime.strptime(get_value_from_db("SITE_START", "2020-03-20"), '%Y-%m-%d')
         now = datetime.datetime.now()
         times = now - start
         return times.days

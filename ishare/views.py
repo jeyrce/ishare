@@ -131,8 +131,7 @@ class ArticleFeed(Feed):
     description = "Latest articles in site"
 
     def items(self):
-        obj = models.Expand.objects.filter(key="RSS_NUM").first()
-        num = int(obj.value) if obj else settings.RSS_NUM
+        num = int(get_value_from_db("RSS_NUM", 10))
         return models.Blog.objects.filter(is_active=True, cat__is_active=True).order_by("-add")[:num]
 
     def item_title(self, item):
@@ -251,6 +250,7 @@ class IndexSitemap(Sitemap):
 
     class Module(object):
         """不需要依赖于model的item"""
+
         def __init__(self, abs_url, domain=None):
             self._abs_url = abs_url
             self._domain = domain  # 用于引入settings之外引入的域名

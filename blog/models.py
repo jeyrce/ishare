@@ -263,10 +263,10 @@ class Blog(models.Model):
 
     def description(self):
         # 返回文章的非富文本字符串
+        from blog.utils import get_value_from_db
         e = etree.HTML(self.content or "本文暂无内容")
         text = e.xpath('string(.)').strip()
-        obj = Expand.objects.filter(key="ART_DESC_LENGTH").first()
-        num = int(obj.value) if obj else settings.ART_DESC_LENGTH
+        num = int(get_value_from_db("ART_DESC_LENGTH", 100))
         return text[:num]
 
     def keywords(self):

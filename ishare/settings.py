@@ -331,7 +331,7 @@ EMAIL_USE_LOCALTIME = False
 
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'support@lujianxin.com'
-EMAIL_HOST_PASSWORD = 'ljX.07'
+EMAIL_HOST_PASSWORD = 'lujianxin.com'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_SSL_CERTFILE = None
@@ -405,7 +405,7 @@ LOGGING = {
     'formatters': {
         # 日志格式
         'standard': {
-            'format': '[%(asctime)s] [%(filename)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'},
+            'format': '[%(levelname)s][%(asctime)s] [%(filename)s] [%(module)s.%(funcName)s:%(lineno)d]-%(message)s'},
         # 简单格式
         'simple': {
             'format': '%(levelname)s %(funcName)s %(message)s'

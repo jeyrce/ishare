@@ -240,7 +240,7 @@ def UploadFile(request):
     # 返回数据
     return_info = {
         # 保存后的文件名称
-        'url': urljoin(USettings.gSettings.MEDIA_URL, OutputPathFormat),
+        'url': request.scheme +'://'+ request.META['HTTP_HOST'] + urljoin(USettings.gSettings.MEDIA_URL, OutputPathFormat),
         'original': upload_file_name,  # 原始文件名
         'type': upload_original_ext,
         'state': state,  # 上传状态，成功时返回SUCCESS,其他任何值将原样返回至图片上传框中

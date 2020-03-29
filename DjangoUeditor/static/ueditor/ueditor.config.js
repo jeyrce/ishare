@@ -97,7 +97,7 @@
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         //启用自动保存
-        //,enableAutoSave: true
+        ,enableAutoSave: false
         //自动保存间隔时间， 单位ms
         //,saveInterval: 500
 
@@ -111,7 +111,7 @@
         //粘贴只保留标签，去除标签所有属性
         //,retainOnlyLabelPasted: false
 
-        ,pasteplain:true  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+        //,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
         //纯文本粘贴模式下的过滤规则
         //'filterTxtRules' : function(){
         //    function transP(node){
@@ -140,7 +140,7 @@
         //    }
         //}()
 
-        ,allHtmlEnabled:true //提交到后台的数据是否包含整个html字符串
+        //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
 
         //insertorderedlist
         //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
@@ -173,7 +173,7 @@
         //,listiconpath : 'http://bs.baidu.com/listicon/'//自定义标号的路径
         //,maxListLevel : 3 //限制可以tab的级数, 设置-1为不限制
 
-        ,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
+        //,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
 
         //fontfamily
         //字体设置 label留空支持多语言自动切换，若配置，则以配置值为准
@@ -287,11 +287,11 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        ,autoFloatEnabled:true
+        ,autoFloatEnabled:false
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
-        // ,topOffset:30
+        //,topOffset:30
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
-        // ,toolbarTopOffset:400
+        //,toolbarTopOffset:400
 
         //pageBreakTag
         //分页标识符,默认是_ueditor_page_break_tag_

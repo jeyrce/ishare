@@ -7908,7 +7908,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             var count = this.getContent(false,false,true).length;
             if (ingoneHtml) {
                 tagNames = (tagNames || []).concat([ 'hr', 'img', 'iframe']);
-                count = this.getContentTxt().replace(/[\t\r\n\s]+/g, '').length;
+                count = this.getContentTxt().replace(/[\t\r\n]+/g, '').length;
                 for (var i = 0, ci; ci = tagNames[i++];) {
                     count += this.document.getElementsByTagName(ci).length;
                 }
@@ -12961,7 +12961,7 @@ UE.plugins['horizontal'] = function(){
 
 
 
-// plugins/time.js
+// plugins/error.js
 /**
  * 插入时间和日期
  * @file

@@ -43,7 +43,7 @@
             'plugins/paragraph.js',
             'plugins/directionality.js',
             'plugins/horizontal.js',
-            'plugins/time.js',
+            'plugins/error.js',
             'plugins/rowspacing.js',
             'plugins/lineheight.js',
             'plugins/insertcode.js',

@@ -100,7 +100,7 @@
             <div class="simpleui-input-inline login-btn">
                 <el-button :icon="loading?'el-icon-loading':''" @click="login()" type="primary">{% trans 'Log in' %}</el-button>
             </div>
-            <a href="/xauth/xadmin/password_reset/"><i> 忘记了您的密码？</i></a>
+            <a href="{% url 'password_reset' %}"><i> 忘记了您的密码？</i></a>
 
             <input type="hidden" name="next" value="{{ next }}"/>
         </form>

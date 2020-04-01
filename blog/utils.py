@@ -10,14 +10,10 @@ import json
 import datetime
 import base64
 
-from django.contrib.auth import get_user_model
 from django.core.cache import caches
-from django.contrib.auth.backends import ModelBackend
 
 from blog import models as _m
 from ishare import settings as _st
-
-UserAccount = get_user_model()
 
 
 def get_value_from_db(key, default):
@@ -131,26 +127,6 @@ def parse_auth_token(token, salt, join_str='---'):
     return visitor
 
 
-class EmailAuthBackend(ModelBackend):
-    """
-    使用email作为账户登录
-    """
-
-    def authenticate(self, request, username=None, password=None, **kwargs):
-        email = username
-        try:
-            account = UserAccount.objects.get(**{UserAccount.EMAIL_FIELD: email})
-        except UserAccount.DoesNotExist:
-            pass
-        else:
-            if account.check_password(password) and self.user_can_authenticate(account):
-                if _st.UPGRADING:
-                    if not account.is_superuser:
-                        # 维护期间不允许作者登录
-                        account.is_staff = False
-                return account
-
-
 def music_json():
     """
     取出想要的网易云音乐关键信息生成对应的外链信息
@@ -166,6 +142,3 @@ def music_json():
         _m.Music.objects.create(name=name or '未知歌名', author=author or '未知歌手', code=code)
     file.close()
     new.close()
-
-
-

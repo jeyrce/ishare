@@ -113,15 +113,6 @@ def goto_index(request):
     return redirect(to=resolve_url('index'), permanent=True)
 
 
-def password_reset(request, uid):
-    # 解决后台管理中的bug
-    # TODO: 自己实现邮件改密
-    uri = 'xauth/'
-    if request.user.is_authenticated:
-        uri = '/xauth/account/password/'
-    return redirect(uri)
-
-
 class ArticleFeed(Feed):
     """
     RSS订阅-文章

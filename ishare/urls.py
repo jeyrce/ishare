@@ -17,20 +17,15 @@ from django.urls import path, re_path, include
 from django.views.static import serve
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
+from django.contrib.auth import views as auth_views
 
 from ishare import views
+from ishare.auth import SyncMailPasswordResetView, SendOne
 from ishare.settings import MEDIA_ROOT
 
-
+# ==============前台展示系统路由==============
 urlpatterns = [
-    # 后台管理系统
-    path('admin/', admin.site.urls),
-    path('xauth/db/author/<uid>/password/', views.password_reset),
-    # 其他
-    re_path('^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
-    path('ueditor/', include('DjangoUeditor.urls')),
-    # 前台展示系统
-    path('', views.Index.as_view(), name='index'),
+    path('', views.Index.as_view(), name='index'),  # 首页
     path('index', views.goto_index),
     path('index.html', views.goto_index),
     path('feed.html', views.ArticleFeed()),  # RSS订阅
@@ -38,6 +33,29 @@ urlpatterns = [
     path('rss', views.ArticleFeed()),  # RSS订阅
     path('rss.html', views.ArticleFeed()),  # RSS订阅
     path('sitemap.xml', sitemap, views.sitemaps, name='django.contrib.sitemaps.views.sitemap'),  # sitemap
-    # 业务逻辑模块
-    path('x/', include('blog.urls', namespace='x')),
 ]
+
+# ==============文件处理路由==============
+urlpatterns.extend([
+    re_path('^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
+    path('ueditor/', include('DjangoUeditor.urls')),
+])
+
+# ===============后台管理路由================
+urlpatterns.extend([
+    path('admin/', admin.site.urls),
+])
+
+# =============博客业务路由=============
+urlpatterns.extend([
+    path('x/', include('blog.urls', namespace='x')),
+])
+
+# ===============认证部分路由=============
+urlpatterns.extend([
+    path('auth/password_reset/', SyncMailPasswordResetView.as_view(), name='password_reset'),
+    path('auth/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('auth/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('auth/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('auth/sendone/', SendOne.as_view())
+])

@@ -177,7 +177,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'blog.UserAccount'
 AUTHENTICATION_BACKENDS = (
-    'blog.utils.EmailAuthBackend',
+    'ishare.auth.EmailAuthBackend',
 )
 
 # 云评论插件的账户信息
@@ -317,7 +317,7 @@ EMAIL_USE_LOCALTIME = False
 
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'support@lujianxin.com'
-EMAIL_HOST_PASSWORD = 'lujianxin.com'
+EMAIL_HOST_PASSWORD = 'ljX.07'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_SSL_CERTFILE = None

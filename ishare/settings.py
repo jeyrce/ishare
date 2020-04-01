@@ -317,7 +317,7 @@ EMAIL_USE_LOCALTIME = False
 
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'support@lujianxin.com'
-EMAIL_HOST_PASSWORD = 'ljX.07'
+EMAIL_HOST_PASSWORD = 'lujianxin.com'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_SSL_CERTFILE = None

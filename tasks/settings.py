@@ -4,20 +4,23 @@
 # Celery 配置
 
 import os
+import datetime
 
 from kombu import Exchange, Queue
 import django
+from celery.schedules import crontab
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ishare.settings")
 django.setup()
 
 # 记录日志
 CELERYD_HIJACK_ROOT_LOGGER = True
+CELERY_TIMEZONE = 'Asia/Shanghai'
 
-# 注册Celery任务
-CELERY_IMPORTS = (
-    "tasks.mail",
-)
+# 注册Celery任务, 或者使用celery.autodiscover_tasks也可
+# CELERY_IMPORTS = (
+#     "tasks.mail",
+# )
 
 # 序列化方法
 CELERY_TASK_SERIALIZER = "pickle"
@@ -36,8 +39,44 @@ fanout_exchange = Exchange('fanout', type='fanout')
 
 CELERY_QUEUES = (
     Queue('default', default_exchange, routing_key='default'),
+    Queue('topic', topic_exchange, routing_key='topic'),
+    Queue('fanout', fanout_exchange, routing_key='fanout'),
 )
 
 CELERY_DEFAULT_QUEUE = 'default'
 CELERY_DEFAULT_EXCHANGE = 'default'
 CELERY_DEFAULT_ROUTING_KEY = 'default'
+
+# 定时任务配置如下
+CELERYBEAT_SCHEDULE = {
+    # 更新网站访问量
+    'beat_task1': {
+        'task': 'cron.update_visit_count',
+        'schedule': datetime.timedelta(hours=1),  # 周期任务: 每隔time执行一次
+        'args': (2, 8),
+    },
+    # 刷新文章点赞到库中
+    'beat_task2': {
+        'task': 'cron.update_like_click',
+        'schedule': datetime.timedelta(hours=1),
+        'args': (4, 5),
+    },
+    # 提醒站长新的友链申请
+    'beat_task3': {
+        'task': 'cron.notify_new_link',
+        'schedule': crontab(hour=21, minute=0),  # 定时任务: 固定的时间点执行
+        'args': (),
+    },
+    # 提醒站长新增的待审核文章
+    'beat_task4': {
+        'task': 'cron.notify_new_article',
+        'schedule': crontab(hour=21, minute=30),
+        'args': (),
+    },
+    # 探测web服务是否可访问
+    'beat_task5': {
+        'task': 'cron.test_alive',
+        'schedule': datetime.timedelta(hours=1),
+        'args': (),
+    },
+}

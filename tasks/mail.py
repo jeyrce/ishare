@@ -7,18 +7,17 @@
 import os
 import logging
 
-import celery
 from django.core.mail import send_mail, send_mass_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 
 from ishare.settings import EMAIL_SUBJECT_PREFIX, SERVER_EMAIL
-
+from tasks import app
 
 logger = logging.getLogger(__name__)
 
 
-@celery.task(name='tasks.mail.test_mail')
+@app.task(name='tasks.mail.test_mail')
 def test_mail():
     subject = '{}这是一封测试邮件，邀你共赏美文《青春》'.format(EMAIL_SUBJECT_PREFIX)
     text_content = """
@@ -38,7 +37,7 @@ def test_mail():
     msg.send()
 
 
-@celery.task(name="tasks.mail.send_one")
+@app.task(name="mail.send_one")
 def send_one(subject, message, recipient_list, html=None):
     """
     发送一条消息: 自动添加主题前缀和签名
@@ -52,7 +51,7 @@ def send_one(subject, message, recipient_list, html=None):
     )
 
 
-@celery.task(name="tasks.mail.send_many")
+@app.task(name="mail.send_many")
 def send_many(datatuple):
     """
     一次性发送多条消息: 自动添加前缀和主题签名
@@ -66,7 +65,7 @@ def send_many(datatuple):
     send_mass_mail(datatuple)
 
 
-@celery.task(name="tasks.mail.send_password_reset_link")
+@app.task(name="mail.send_password_reset_link")
 def send_password_rest_link(subject_template_name, email_template_name,
                             context, from_email, to_email, html_email_template_name=None):
     subject = loader.render_to_string(subject_template_name, context)

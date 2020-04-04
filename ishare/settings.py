@@ -54,19 +54,18 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
 ]
 
-MAIN_APPS = [
+INSTALLED_APPS.extend([
     # 主要业务模块
     'ishare',
     'blog',
-]
-INSTALLED_APPS.extend(MAIN_APPS)
-EXTRA_APPS = [
+])
+
+INSTALLED_APPS.extend([
     # 功能拓展模块
     'crispy_forms',
     'reversion',
     'DjangoUeditor',
-]
-INSTALLED_APPS.extend(EXTRA_APPS)
+])
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,10 +92,14 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+
                 # 以下为自定义模板上下文
                 'blog.my_context_processors.site',
                 'blog.my_context_processors.cats',

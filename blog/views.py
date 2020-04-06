@@ -77,7 +77,7 @@ class Detail(View):
         # 更新阅读次数
         obj.read += 1
         obj.save(update_fields=('read',))
-        obj.like += obj.like + caches['four'].get('like_{}'.format(pk), 0)
+        obj.like += caches['four'].get('like_{}'.format(pk), 0)
         return render(request, 'db/detail.html', ctx)
 
     def post(self, request, pk):

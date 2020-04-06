@@ -9,9 +9,11 @@ import datetime
 from kombu import Exchange, Queue
 import django
 from celery.schedules import crontab
+from celery import platforms
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ishare.settings")
 django.setup()
+platforms.C_FORCE_ROOT = True   # 允许root用户启动worker
 
 # 记录日志
 CELERYD_HIJACK_ROOT_LOGGER = True

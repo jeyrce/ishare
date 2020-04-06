@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <title>{{ title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<font size="4">今日新增公益链接<span style="background-color: rgb(255, 255, 255);"><font
+        color="#0000ff">{{ public|length }}</font></span>条，个人主页<span style="background-color: rgb(255, 255, 255);"><font
+        color="#0000ff">{{ personal|length }}</font></span>条，商业广告<font
+        color="#0000ff">{{ business|length }}</font>条，共计<font
+        color="#0000ff">{{ total }}</font>条新的友链申请，请站长及时处理。</font>
+<div>
+    <font size="4"><br/></font>
+</div>
+
+<!--公益链接类-->
+{% if public | length > 0 %}
+    <div>
+        <font size="4">公益链接：</font>
+    </div>
+    <div>
+        <ul>
+            {% for publink in public %}
+                <li><font size="4"><a href="{{ publink.link }}">{{ publink.link_name }}</a></font></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<!--个人主页类-->
+{% if personal|length > 0 %}
+    <div>
+        <font size="4">个人主页：</font>
+    </div>
+    <div>
+        <ul>
+            {% for perlink in personal %}
+                <li><font size="4"><a href="{{ perlink.link }}">{{ perlink.link_name }}</a></font></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<!--商业广告类-->
+{% if business|length > 0 %}
+    <div>
+        <font size="4">商业广告：</font>
+    </div>
+    <div>
+        <ul>
+            {% for buslink in business %}
+                <li><font size="4"><a href="{{ buslink.link }}">{{ buslink.link_name }}</a></font></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+<div><br/></div>
+<!--签名-->
+{% include "mail/base/signature.html" %}
+<!--<![endif]-->
+</body>
+</html>

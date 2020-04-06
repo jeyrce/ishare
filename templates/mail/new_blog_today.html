@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+    <title>{{ title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<font size="4">今日共计<font color="#0000ff">{{ total }}</font>篇待审核文章，请站长及时处理。</font>
+<div>
+    <font size="4"><br/></font>
+</div>
+<!--今日新增文章列表-->
+<div>
+    <font size="4">文章列表：</font>
+</div>
+<div>
+    <ul>
+        {% for blog in blogs %}
+            <li><font size="4"><a href="x/art/{{ blog.pk }}">【{{ blog.cat.cat }}】{{ blog.title }}({{ blog.author.name }})</a></font></li>
+        {% endfor %}
+    </ul>
+</div>
+<div><br/></div>
+<!--签名-->
+{% include "mail/base/signature.html" %}
+<!--<![endif]-->
+</body>
+</html>

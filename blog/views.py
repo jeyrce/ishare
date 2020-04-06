@@ -14,11 +14,11 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.core.cache import caches
 
 from ishare.views import OpenView
 from blog import models as m
 from blog.utils import ContextUtil
-
 from ishare import settings
 
 User = get_user_model()
@@ -77,14 +77,19 @@ class Detail(View):
         # 更新阅读次数
         obj.read += 1
         obj.save(update_fields=('read',))
+        obj.like += obj.like + caches['four'].get('like_{}'.format(pk), 0)
         return render(request, 'db/detail.html', ctx)
 
-    # @csrf_exempt
     def post(self, request, pk):
-        obj = self.get_obj(pk)
-        obj.like += 1
-        obj.save(update_fields=['like', ])
-        response = JsonResponse({'code': 0, 'msg': obj.like})
+        """
+        点赞时先写入redis, 定时任务更新到mysql
+        """
+        obj = m.Blog.objects.filter(pk=pk).first()
+        cache = caches['four']
+        key = 'like_{}'.format(pk)
+        real_like = cache.get(key, 0)
+        response = JsonResponse({'code': 0, 'msg': obj.like + real_like + 1})
+        cache.set(key, real_like + 1, 60 * 60 + 60)
         # 7天内不允许重复点赞
         response.set_cookie(pk, 'true', expires=60 * 60 * 24 * 7)
         return response

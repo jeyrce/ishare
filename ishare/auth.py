@@ -13,16 +13,8 @@ from django.http.response import HttpResponse
 
 from ishare import settings as _st
 from ishare.forms import SyncMailPasswordResetForm
-from tasks.mail import send_one
 
 UserAccount = get_user_model()
-
-
-class SendOne(View):
-
-    def get(self, request, *args, **kwargs):
-        send_one.delay("你好呀", "测试一部邮件", ["support@lujianxin.com"])
-        return HttpResponse("ok")
 
 
 class SyncMailPasswordResetView(PasswordResetView):

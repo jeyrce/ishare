@@ -50,33 +50,33 @@ CELERY_DEFAULT_ROUTING_KEY = 'default'
 # 定时任务配置如下
 CELERYBEAT_SCHEDULE = {
     # 更新网站访问量
-    'beat_task1': {
+    'loop_task_1': {
         'task': 'cron.update_visit_count',
         'schedule': datetime.timedelta(hours=1),  # 周期任务: 每隔time执行一次
-        'args': (2, 8),
+        'args': (),
     },
     # 刷新文章点赞到库中
-    'beat_task2': {
+    'loop_task_2': {
         'task': 'cron.update_like_click',
         'schedule': datetime.timedelta(hours=1),
-        'args': (4, 5),
+        'args': (),
     },
     # 提醒站长新的友链申请
-    'beat_task3': {
+    'fixed_task_3': {
         'task': 'cron.notify_new_link',
-        'schedule': crontab(hour=21, minute=0),  # 定时任务: 固定的时间点执行
+        'schedule': crontab(hour='21', minute='00'),  # 定时任务: 固定的时间点执行
         'args': (),
     },
     # 提醒站长新增的待审核文章
-    'beat_task4': {
+    'fixed_task_4': {
         'task': 'cron.notify_new_article',
-        'schedule': crontab(hour=21, minute=30),
+        'schedule': crontab(hour='21', minute='30'),
         'args': (),
     },
-    # 探测web服务是否可访问
-    'beat_task5': {
-        'task': 'cron.test_alive',
-        'schedule': datetime.timedelta(hours=1),
+    # 每月向友链推荐阅读
+    'fixed_task_5': {
+        'task': 'cron.recommend_month',
+        'schedule': crontab(day_of_month='1', hour='10', minute='30'),
         'args': (),
     },
 }

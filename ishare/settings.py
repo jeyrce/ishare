@@ -210,6 +210,7 @@ VALINE = {
 
 # 站点信息
 SITE = {
+    'team': 'lujianxin.com',
     'dns': ALLOWED_HOSTS[0],
     'host': 'https://{}'.format(ALLOWED_HOSTS[0]),
     'name': '陆鉴鑫的博客',

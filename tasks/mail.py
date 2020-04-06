@@ -10,14 +10,36 @@ import logging
 from django.core.mail import send_mail, send_mass_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
+from django.contrib.auth import get_user_model
 
 from ishare.settings import EMAIL_SUBJECT_PREFIX, SERVER_EMAIL
+from blog.models import Link
 from tasks import app
 
+UserAccount = get_user_model()
 logger = logging.getLogger(__name__)
+add_prefix = lambda txt: '{}{}'.format(EMAIL_SUBJECT_PREFIX, txt) if not txt.startswith(EMAIL_SUBJECT_PREFIX) else txt
 
 
-@app.task(name='tasks.mail.test_mail')
+def supervisor_receivers():
+    """
+    超管接收组
+    """
+    receivers = UserAccount.objects.filter(is_superuser=True, is_staff=True, is_active=True)
+    receivers = [getattr(user, UserAccount.EMAIL_FIELD) for user in receivers]
+    return list(set([mail for mail in receivers if mail]))
+
+
+def webmaster_receivers():
+    """
+    站长接收组
+    """
+    links = Link.objects.filter(is_active=True)
+    receivers = [link.email for link in links]
+    return list(set([mail for mail in receivers if mail]))
+
+
+@app.task(name='mail.test_mail')
 def test_mail():
     subject = '{}这是一封测试邮件，邀你共赏美文《青春》'.format(EMAIL_SUBJECT_PREFIX)
     text_content = """
@@ -43,7 +65,7 @@ def send_one(subject, message, recipient_list, html=None):
     发送一条消息: 自动添加主题前缀和签名
     """
     send_mail(
-        subject='{}{}'.format(EMAIL_SUBJECT_PREFIX, subject),
+        subject=add_prefix(subject),
         message=message,
         from_email=SERVER_EMAIL,
         recipient_list=recipient_list,
@@ -51,8 +73,8 @@ def send_one(subject, message, recipient_list, html=None):
     )
 
 
-@app.task(name="mail.send_many")
-def send_many(datatuple):
+@app.task(name="mail.send_many_text")
+def send_many_text(datatuple):
     """
     一次性发送多条消息: 自动添加前缀和主题签名
     datatuple:
@@ -62,6 +84,7 @@ def send_many(datatuple):
         (subject2, message2, sender, recipient),
     )
     """
+    datatuple = ((add_prefix(d[0]), d[1], d[2], d[3]) for d in datatuple)
     send_mass_mail(datatuple)
 
 

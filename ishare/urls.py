@@ -20,7 +20,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 
 from ishare import views
-from ishare.auth import SyncMailPasswordResetView, SendOne
+from ishare.auth import SyncMailPasswordResetView
 from ishare.settings import MEDIA_ROOT
 
 # ==============前台展示系统路由==============
@@ -57,5 +57,4 @@ urlpatterns.extend([
     path('auth/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('auth/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('auth/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    path('auth/sendone/', SendOne.as_view())
 ])

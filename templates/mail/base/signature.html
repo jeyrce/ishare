@@ -1,0 +1,29 @@
+{# 邮件签名 #}
+<!--不回复提示-->
+<div>
+    <font size="4">邮件由系统自动发出，请勿回复！</font>
+</div>
+<div><br/></div>
+<div>
+    <sign signid="0">
+        <div>
+            <div style="color:#909090;font-family:Arial Narrow;font-size:12px">
+                --------------------------
+            </div>
+        </div>
+        <div style="color: rgb(0, 0, 0);">
+            <div style="">
+                <font style="" face="宋体" size="2">site: <a href="{{ SITE.host }}" style="">{{ SITE.host }}</a></font>
+            </div>
+            <div style="">
+                <font style="" face="宋体" size="2">-- 邮件发自 {{ SITE.team }} 团队</font>
+            </div>
+            <div style="font-family: Verdana; font-size: 14px;">
+                <br/>
+            </div>
+        </div>
+    </sign>
+</div>
+<div>
+    <qzone></qzone>
+</div>

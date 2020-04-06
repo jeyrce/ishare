@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <title>{{ title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<div>
+    <font size="4">亲爱的<font color="#0000ff"><a href="{{ link.link }}">{{ link.link_name }}</a></font>站长你好，上个月<font
+            color="#0000ff"><a href="{{ SITE.host }}">{{ SITE.name }}</a></font>新增<font
+            color="#0000ff">{{ total }}</font>篇新文章，邀请您前来我站阅读交流。</font>
+
+    <font size="4"><br/></font>
+</div>
+<!--今日新增文章列表-->
+<div>
+    <font size="4">文章列表：</font>
+</div>
+<div>
+    <ul>
+        {% for blog in blogs %}
+            <li><font size="4"><a href="x/art/{{ blog.pk }}">【{{ blog.cat.cat }}】{{ blog.title }}</a></font>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div><br/></div>
+<font size="4">截止到{% now "%Y-%m-%d %H:%M:%S" %}，贵站<font color="#0000ff"><a
+        href="{{ link.link }}">{{ link.link_name }}</a></font>已在我站建立了<font color="#0000ff">{{ days }}</font>天的友情链接，时光见证了我们的友谊。在接下来的岁月中，祝愿我们的网站越来越好，祝您和您的亲友身体健康，事事顺心。</font>
+<!--签名-->
+{% include "mail/base/signature.html" %}
+<!--<![endif]-->
+</body>
+</html>

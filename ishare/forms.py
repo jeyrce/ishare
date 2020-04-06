@@ -5,7 +5,6 @@ Created by Jeeyshe 2020/4/1 下午10:24, contact with jeeyshe@gmail.com or websi
 >>> 表单文件
 """
 
-
 from django.contrib.auth.forms import PasswordResetForm
 
 from tasks.mail import send_password_rest_link
@@ -16,7 +15,7 @@ class SyncMailPasswordResetForm(PasswordResetForm):
     覆盖父类同步发送邮件,此处使用异步任务
     """
 
-    def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
-        send_password_rest_link.delay(subject_template_name, email_template_name,
-                                      context, from_email, to_email, html_email_template_name=None)
+    def send_mail(self, subject_template_name, email_template_name, context, from_email, to_email,
+                  html_email_template_name=None):
+        send_password_rest_link.delay(subject_template_name, email_template_name, context, from_email, to_email,
+                                      html_email_template_name=None)

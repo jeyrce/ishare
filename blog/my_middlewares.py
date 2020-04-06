@@ -8,7 +8,6 @@ Here is the descriptions and some purpose of the file:
 from django.http import QueryDict
 from django.core.cache import caches
 
-from blog.models import Expand
 from blog.utils import today_key
 
 
@@ -40,17 +39,14 @@ class VisitCountMiddleware(BaseCustomMiddleware):
     """
 
     def after_make_response(self, request):
-        # 总访问记录： 暂时直接存库，以后配合celery进行定时任务存库
-        obj, is_created = Expand.objects.get_or_create(key='VISIT_CNT', defaults={'key': 'VISIT_CNT', 'value': '1'})
         if request.META.get('PATH_INFO', '-').startswith('/x/'):
-            if not is_created:
-                obj.value = str(int(obj.value) + 1)
-                obj.save(update_fields=('value',))
-            # 今日访问记录: 使用redis进行高速缓存
             cache = caches['four']
-            cnt = cache.get(today_key(), 0)
-            new = cnt + 1 if cnt else 1
-            cache.set(today_key(), new, 60 * 60 * 24)
+            # 总访问记录: 临时存储在redis, 由celery每小时同步到mysql库中
+            total_cnt = cache.get('total', 0)
+            cache.set('total', total_cnt + 1, 60 * 60 + 60)  # 此处设定时间只要大于1h即可, 同步时会重置时间
+            # 今日访问记录: 使用redis进行高速缓存
+            today_cnt = cache.get(today_key(), 0)
+            cache.set(today_key(), today_cnt + 1, 60 * 60 * 24 + 60)
 
 
 class AllMethodSupportMiddleware(BaseCustomMiddleware):

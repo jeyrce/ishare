@@ -6,6 +6,7 @@ Created by Jeeyshe 2020/4/4 下午5:16, contact with jeeyshe@gmail.com or websit
 """
 import logging
 import datetime
+import time
 
 from django.core.mail import send_mail
 from django.core.cache import caches
@@ -152,4 +153,5 @@ def recommend_month(*args, **kwargs):
                 )
             except Exception as e:
                 logger.error("通知{}站长失败: {}".format(link.link_name, e))
+            time.sleep(5)
     print("每月总结完毕")

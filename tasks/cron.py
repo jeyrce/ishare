@@ -140,7 +140,7 @@ def recommend_month(*args, **kwargs):
                     'total': total,
                     'link': link,
                     'blogs': blogs,
-                    'days': datetime.timedelta(now - link.add).days,
+                    'days': (now - link.add).days,
                 }
             )
             try:

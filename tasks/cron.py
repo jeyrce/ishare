@@ -16,7 +16,7 @@ from django.template import loader
 from tasks import app
 from blog.models import Expand, Blog, Link
 from tasks.mail import add_prefix, supervisor_receivers, webmaster_receivers
-from ishare.settings import SERVER_EMAIL
+from ishare.settings import SERVER_EMAIL, SITE
 
 logger = logging.getLogger(__name__)
 UserAccount = get_user_model()
@@ -77,6 +77,7 @@ def notify_new_link(*args, **kwargs):
                 'public': links.filter(cat=0),
                 'personal': links.filter(cat=1),
                 'business': links.filter(cat=2),
+                'SITE': SITE,
             }
         )
         send_mail(
@@ -107,6 +108,7 @@ def notify_new_article(*args, **kwargs):
                 'title': 'New Blog Today',
                 'total': total,
                 'blogs': blogs,
+                'SITE': SITE,
             }
         )
         send_mail(
@@ -130,7 +132,7 @@ def recommend_month(*args, **kwargs):
     blogs = Blog.objects.filter(is_active=True, add__lt=now, add__gte=start)
     total = blogs.count()
     logger.info("Find %s new blog" % total)
-    links = Link.objects.filter(is_active=True)
+    links = Link.objects.filter(is_active=True, cat__gt=0, email__isnull=False)
     if total > 0:
         for link in links:
             html_email = loader.render_to_string(
@@ -141,6 +143,7 @@ def recommend_month(*args, **kwargs):
                     'link': link,
                     'blogs': blogs,
                     'days': (now - link.add).days,
+                    'SITE': SITE,
                 }
             )
             try:
@@ -152,6 +155,8 @@ def recommend_month(*args, **kwargs):
                     html_message=html_email,
                 )
             except Exception as e:
-                logger.error("通知{}站长失败: {}".format(link.link_name, e))
+                logger.error("通知[{}]站长失败: {}".format(link.link_name, e))
+            else:
+                logger.info("通知[{}]站长成功!".format(link.link_name))
             time.sleep(5)
     print("每月总结完毕")

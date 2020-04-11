@@ -127,7 +127,7 @@ def recommend_month(*args, **kwargs):
     logger.info("Start recommend to friend-links")
     now = datetime.datetime.now()
     start = now - datetime.timedelta(days=30, hours=1)
-    blogs = Blog.objects.filter(is_active=False, add__lt=now, add__gte=start)
+    blogs = Blog.objects.filter(is_active=True, add__lt=now, add__gte=start)
     total = blogs.count()
     logger.info("Find %s new blog" % total)
     links = Link.objects.filter(is_active=True)

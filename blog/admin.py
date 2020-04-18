@@ -79,7 +79,7 @@ class BlogAdmin(admin.ModelAdmin):
     readonly_fields = ("mod", "add", "read", "like")
     ordering = ("-add",)
     search_fields = ("title", "author__username", "author__email")
-    list_filter = ("cat", "is_active")
+    list_filter = ("cat", "is_active", "is_top")
     empty_value_display = 'N/A'
     fieldsets = (
         ("基本信息", {"fields": ("title", "cover", "author", "music", "cat", "tags",)}),

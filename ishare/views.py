@@ -57,7 +57,7 @@ class Index(OpenView):
             'headlines': self.get_headlines(),
             'table': self.get_table(),
             'ad': self.get_ad(),
-            'blog_list': self.get_blog_list(),
+            'blog_list': self.get_blog_list(request),
             'page': {
                 'title': '首页 | 陆鉴鑫的博客',
                 'keywords': '文艺青年、技术干货、个人博客、原创文章、内容创作、程序员、文学创作',
@@ -99,7 +99,10 @@ class Index(OpenView):
         now = datetime.datetime.now()
         return models.Advertisement.objects.filter(end__gt=now, adtype=1).order_by('?').first()
 
-    def get_blog_list(self):
+    def get_blog_list(self, request):
+        """
+        按照分页参数获取对应信息
+        """
         num = int(get_value_from_db('BLOG_LIST_SHOW_NUM', 10))
         query = models.Blog.objects.order_by('-add').filter(
             is_active=True,

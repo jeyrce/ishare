@@ -15,7 +15,7 @@
 <div>
     <ul>
         {% for blog in blogs %}
-            <li><font size="2"><a href="x/art/{{ blog.pk }}">【{{ blog.cat.cat }}】{{ blog.title }}({{ blog.author.name }})</a></font></li>
+            <li><font size="2"><a href="x/art/{{ blog.pk }}">【{{ blog.cat.cat }}】{{ blog.title }}({{ blog.author.username }})</a></font></li>
         {% endfor %}
     </ul>
 </div>

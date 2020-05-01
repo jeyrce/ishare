@@ -21,4 +21,5 @@ app.config_from_object("tasks.settings")
 app.autodiscover_tasks([
     "tasks.mail",
     "tasks.cron",
+    "tasks.ops",
 ])

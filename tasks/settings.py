@@ -58,11 +58,11 @@ CELERYBEAT_SCHEDULE = {
         'args': (),
     },
     # 刷新文章点赞到库中
-    'loop_task_2': {
-        'task': 'cron.update_like_click',
-        'schedule': datetime.timedelta(hours=1),
-        'args': (),
-    },
+    # 'loop_task_2': {
+    #     'task': 'cron.update_like_click',
+    #     'schedule': datetime.timedelta(hours=1),
+    #     'args': (),
+    # },
     # 提醒站长新的友链申请
     'fixed_task_3': {
         'task': 'cron.notify_new_link',

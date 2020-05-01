@@ -38,25 +38,6 @@ def update_visit_count(*args, **kwargs):
     logger.info("更新网站浏览量完成")
 
 
-@app.task(name='cron.update_like_click')
-def update_like_click(*args, **kwargs):
-    """
-    每小时将文章点赞量更新到mysql
-    """
-    logger.info('Start update blog like')
-    cache = caches['four']
-    query = Blog.objects.filter(is_active=True)
-
-    def update_blog_like(blog):
-        key = "like_{}".format(blog.pk)
-        blog.like += cache.get(key, 0)
-        blog.save(update_fields=('like',))
-        cache.set(key, 0, 60 * 60)
-
-    map(update_blog_like, query)
-    logger.info("更新文章点赞量完成")
-
-
 @app.task(name='cron.notify_new_link')
 def notify_new_link(*args, **kwargs):
     """

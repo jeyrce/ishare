@@ -20,6 +20,7 @@ from ishare.views import OpenView
 from blog import models as m
 from blog.utils import ContextUtil
 from ishare import settings
+from tasks.ops import update_art_like
 
 User = get_user_model()
 
@@ -82,16 +83,14 @@ class Detail(View):
 
     def post(self, request, pk):
         """
-        点赞时先写入redis, 定时任务更新到mysql
+        点赞, 异步任务来做
         """
         obj = m.Blog.objects.filter(pk=pk).first()
-        cache = caches['four']
-        key = 'like_{}'.format(pk)
-        real_like = cache.get(key, 0)
-        response = JsonResponse({'code': 0, 'msg': obj.like + real_like + 1})
-        cache.set(key, real_like + 1, 60 * 60 + 60)
+        response = JsonResponse({'code': 0, 'msg': obj.like + 1})
         # 7天内不允许重复点赞
         response.set_cookie(pk, 'true', expires=60 * 60 * 24 * 7)
+        # 异步更新数据库
+        update_art_like.delay(pk)
         return response
 
     def get_art_like_status(self, pk):

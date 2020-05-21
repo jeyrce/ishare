@@ -57,9 +57,9 @@ $(document).ready(function () {
     console.log('\r\n');
     console.log("%c2019-04-09 00:40 https://www.lujianxin.com", "color: green;");
 
-    for (i = 0; i < site_name.length; i++) {
-        console.log(site_name[i], "color: blue;");
-    }
+    // for (i = 0; i < site_name.length; i++) {
+    //    console.log(site_name[i], "color: blue;");
+    //}
     console.log("%c~既然都发现这个彩蛋了，收藏一下本站呗^o^", "color: red;");
 
 });

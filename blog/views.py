@@ -50,11 +50,11 @@ class Detail(View):
 
     def get_others(self, obj):
         # 作者其他文章
-        return self.model.objects.filter(is_active=True, author=obj.author).order_by('-add')[:10]
+        return self.model.objects.filter(is_active=True, author=obj.author).order_by('?')[:10]
 
     def get_next(self, obj):
         # 获取下一篇： 按发表时间
-        return self.model.objects.filter(is_active=True, add__gt=obj.add).order_by('-add').first()
+        return self.model.objects.filter(is_active=True, add__gt=obj.add).order_by('add').first()
 
     def get_prev(self, obj):
         # 获取上一篇： 按发表时间

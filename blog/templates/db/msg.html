@@ -3,13 +3,15 @@
 
 {% block content %}
     {# 留言板声明 #}
-    <div class="whitebg">
-        <h1>{{ declare }}</h1>
-        <p>{{ desc }}</p>
-    </div>
+{#    <div class="whitebg">#}
+{#        <h1>{{ declare }}</h1>#}
+{#        <p>{{ desc }}</p>#}
+{#    </div>#}
 
     {# 留言表单以及留言板 #}
     <div class="whitebg">
+        <h1>{{ declare }}</h1>
+        <p>{{ desc }}</p>
         {% include 'db/base/common/comments.html' %}
     </div>
 {% endblock %}

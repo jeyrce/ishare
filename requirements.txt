@@ -102,9 +102,9 @@ html5lib==1.0.1 \
     --hash=sha256:20b159aa3badc9d5ee8f5c647e5efd02ed2a66ab8d354930bd9ff139fc1dc0a3 \
     --hash=sha256:66cb0dcfdbbc4f9c3ba1a63fdb511ffdbd4f513b2b6d81b80cd26ce6b3fb3736 \
     # via -r requirements.txt
-httplib2==0.17.0 \
-    --hash=sha256:79751cc040229ec896aa01dced54de0cd0bf042f928e84d5761294422dde4454 \
-    --hash=sha256:de96d0a49f46d0ee7e0aae80141d37b8fcd6a68fb05d02e0b82c128592dd8261 \
+httplib2==0.18.0 \
+    --hash=sha256:4f6988e6399a2546b525a037d56da34aed4d149bbdc0e78523018d5606c26e74 \
+    --hash=sha256:b0e1f3ed76c97380fe2485bc47f25235453b40ef33ca5921bb2897e257a49c4c \
     # via -r requirements.txt
 idna==2.8 \
     --hash=sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407 \

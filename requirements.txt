@@ -88,9 +88,9 @@ django-timezone-field==3.1 \
     --hash=sha256:1a7bbcf984ae191c6dfe713994b4ff4062dc21e47a909356c93e76d027c87c8f \
     --hash=sha256:a25af66b86d13709aa8c69a361c1ea68322cda64b5bbf9141fb67b8b44aa4e43 \
     # via -r requirements.txt
-django==2.1.10 \
-    --hash=sha256:65e2a548a52fca560cdd4e35f4fa1a79140f405af48950e59702a37e4227e958 \
-    --hash=sha256:d4244e2c9653e1349b37ab0cdf108607ba9d1e41f71d0711ac71360e4026ce94 \
+django==2.2.13 \
+    --hash=sha256:e8fe3c2b2212dce6126becab7a693157f1a441a07b62ec994c046c76af5bb66d \
+    --hash=sha256:84f370f6acedbe1f3c41e1a02de44ac206efda3355e427139ecb785b5f596d80 \
     # via -r requirements.txt, django-classy-tags, django-formtools, django-import-export, django-mysql, django-redis, django-reversion, django-timezone-field
 et-xmlfile==1.0.1 \
     --hash=sha256:614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b \

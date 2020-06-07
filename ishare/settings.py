@@ -222,7 +222,16 @@ SITE = {
         'support': 'support@lujianxin.com',
         'me': 'jeeyshe@gmail.com',
     },
-    'icp': '浙ICP备18053740号-2',
+    # 工信部备案号
+    'icp': {
+        'code': '浙ICP备18053740号-2',
+        'link': 'http://beian.miit.gov.cn/',
+    },
+    # 公安部备案号
+    'psb': {
+        'code': '浙公网安备33010802010917号',
+        'link': 'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010802010917',
+    },
     # 各种搜索引擎验证码
     'search_engine_metas': {
         'baidu-site-verification': '5amdMOKaXx',

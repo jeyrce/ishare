@@ -26,7 +26,7 @@ class OpenView(View):
     def get(self, request, *args, **kwargs):
         # 集成了这个类的子类必须实现自己的get方法
         raise NotImplementedError(
-            "You must override the function 'get' as you extend %s".format(self.__class__.__name__)
+            "You must override the function 'get' as you extend {0}".format(self.__class__.__name__)
         )
 
     def post(self, request, *args, **kwargs):

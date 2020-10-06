@@ -100,7 +100,7 @@
             <div class="simpleui-input-inline login-btn">
                 <el-button :icon="loading?'el-icon-loading':''" @click="login()" type="primary">{% trans 'Log in' %}</el-button>
             </div>
-            <a href="{% url 'password_reset' %}"><i>{% translate 'Forgotten your password or username?' %}</i></a>
+            <a href="{% url 'password_reset' %}"><i>{% trans 'Forgotten your password or username?' %}</i></a>
 
             <input type="hidden" name="next" value="{{ next }}"/>
         </form>

@@ -23,7 +23,7 @@ django-timezone-field==3.1
 et-xmlfile==1.0.1
 future==0.18.2
 html5lib==1.0.1
-httplib2==0.18.0
+httplib2==0.19.0
 idna==2.8
 jdcal==1.4.1
 kombu==4.6.7

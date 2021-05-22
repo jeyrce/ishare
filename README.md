@@ -1,5 +1,7 @@
 ### 个人博客项目
 
+[![Join the chat at https://gitter.im/Jeyrce/ishare](https://badges.gitter.im/Jeyrce/ishare.svg)](https://gitter.im/Jeyrce/ishare?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 欢迎点个关注 ![微信公众号](./static/image/wxgzh.jpg) 谢谢！
 
 ---

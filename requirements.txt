@@ -10,7 +10,7 @@ chardet==3.0.4
 click==7.1.2
 defusedxml==0.6.0
 diff-match-patch==20181111
-Django==2.1.10
+Django==2.2.24
 django-classy-tags==1.0.0
 django-crispy-forms==1.8.1
 django-formtools==2.2

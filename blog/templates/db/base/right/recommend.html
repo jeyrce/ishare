@@ -1,16 +1,8 @@
-<div class="whitebg tuijian">
+<div class="whitebg paihang">
     <h2 class="htitle">站长推荐</h2>
-    {#    <section class="topnews imgscale">#}
-    {#        <a href="/"><img src="images/h2.jpg"><span>6条网页设计配色原则,让你秒变配色高手</span></a>#}
-    {#    </section>#}
     <ul>
-        {% for art in RECOMMEND %}
-            <li>
-                <a href="/x/art/{{ art.pk }}">
-                    <i><img src="{{ MEDIA_URL }}{{ art.cover|default:'lujianxin.com.png' }}"></i>
-                    <p>{{ art.title }}</p>
-                </a>
-            </li>
+        {% for art in MOST_READ %}
+            <li><i></i><a href="/x/art/{{ art.pk }}">{{ art.title }}</a></li>
         {% endfor %}
     </ul>
 </div>

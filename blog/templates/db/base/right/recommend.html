@@ -1,7 +1,7 @@
 <div class="whitebg paihang">
     <h2 class="htitle">站长推荐</h2>
     <ul>
-        {% for art in MOST_READ %}
+        {% for art in RECOMMEND %}
             <li><i></i><a href="/x/art/{{ art.pk }}">{{ art.title }}</a></li>
         {% endfor %}
     </ul>

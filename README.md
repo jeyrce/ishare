@@ -1,3 +1,7 @@
+### 该分支已归档
+
+- 将在 `main` 分支使用 `go` 进行重新设计开发
+
 ### 个人博客项目
 
 [![Join the chat at https://gitter.im/Jeyrce/ishare](https://badges.gitter.im/Jeyrce/ishare.svg)](https://gitter.im/Jeyrce/ishare?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

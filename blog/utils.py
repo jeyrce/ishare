@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Created by Jeeyshe.Ru at 19-3-27 下午2:52, for any more contact me with jeeysie@gmail.com.
+Created by Jeyrce.Lu at 19-3-27 下午2:52, for any more contact me with jeyrce@gmail.com.
 Here is the descriptions and some purpose of the file:
     0. 一些工具函数
 """

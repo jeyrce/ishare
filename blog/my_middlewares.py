@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Created by Jeeyshe.Ru at 19-3-27 下午6:04, for any more contact me with jeeyshe@gmail.com.
+Created by Jeeyshe.Ru at 19-3-27 下午6:04, for any more contact me with jeyrce@gmail.com.
 Here is the descriptions and some purpose of the file:
     0. 自定义中间件
 """

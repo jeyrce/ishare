@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Created by Jeeyshe 2020/4/1 下午8:45, contact with jeeyshe@gmail.com or website https://www.lujianxin.com
+Created by Jeyrce.Lu 2020/4/1 下午8:45, contact with jeyrce@gmail.com or website https://www.lujianxin.com
 ---------------------------------------------------------------------------------------------------------
 >>> 本站登录认证方式
 """

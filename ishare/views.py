@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Created by Lu Jianxin at 2019/03/08 16:56, for any questions contact me with jeeysie@gmail.com.
+Created by Lu Jeyrce.Lu at 2019/03/08 16:56, for any questions contact me with jeyrce@gmail.com.
 Some ideas of the file:
     0. 首页
 """

@@ -5,8 +5,8 @@
 #=============================================================================
 # FileName: __init__.py.py
 # Desc: 项目中所需的异步任务
-# Author: jeeyshe
-# Email: jianxin.lu@woqutech.com
+# Author: Jeyrce.Lu
+# Email: jeyrce@gmail.com
 # HomePage: www.lujianxin.com
 # Created: 2019/9/30 下午4:17
 #=============================================================================

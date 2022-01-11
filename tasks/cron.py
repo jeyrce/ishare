@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Created by Jeeyshe 2020/4/4 下午5:16, contact with jeeyshe@gmail.com or website https://www.lujianxin.com
+Created by Jeyrce.Lu 2020/4/4 下午5:16, contact with jeyrce@gmail.com or website https://www.lujianxin.com
 ---------------------------------------------------------------------------------------------------------
 >>> 项目中的一些定时任务
 """

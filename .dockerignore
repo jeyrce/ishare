@@ -1,0 +1,22 @@
+# project
+.venv/
+.git/
+.idea/
+.DS_Store
+*.lic
+logs/
+
+
+# Python
+*.egg-info
+*.egg
+*.pyc
+.cache/
+build/
+dist/
+
+# pytest
+.pytest_cache/
+
+# files
+*.log

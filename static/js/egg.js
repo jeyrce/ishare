@@ -1,5 +1,5 @@
 /*
-* author: jeeyshe@gmail.com
+* author: jeyrce@gmail.com
 * date: 2019-04-09 00:34
 * description: 埋藏在控制台的彩蛋
 * */
@@ -48,6 +48,9 @@ function doing() {
 }
 
 $(document).ready(function () {
+    layer.msg('<h1>网站已归档不再更新内容,欢迎关注新站: </h1><h1>ioseek.cn</h1>', {
+        time: 3000, //3s后自动关闭
+    });
     console.clear();
     console.log("%c《青春》---塞缪尔•厄尔曼", "color: red;");
     for (var index = 0; index < str.length; index++) {
@@ -56,11 +59,7 @@ $(document).ready(function () {
     }
     console.log('\r\n');
     console.log("%c2019-04-09 00:40 https://www.lujianxin.com", "color: green;");
-
-    // for (i = 0; i < site_name.length; i++) {
-    //    console.log(site_name[i], "color: blue;");
-    //}
     console.log("%c~既然都发现这个彩蛋了，收藏一下本站呗^o^", "color: red;");
-
+    console.log("%c> 本站从2022-01-01日起不再维护和更新内容，欢迎前往新站: https://ioseek.cn", "color: green;");
 });
 

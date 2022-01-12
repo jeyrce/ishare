@@ -1,6 +1,11 @@
 ### 个人博客项目
 
-[![Join the chat at https://gitter.im/Jeyrce/ishare](https://badges.gitter.im/Jeyrce/ishare.svg)](https://gitter.im/Jeyrce/ishare?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+**项目2022-01-01起归档，代码不再维护，网站内容也不再更新。届时网站原内容将转移至：http://blog.lujianxin.com/**
+
+**项目2022-01-01起归档，代码不再维护，网站内容也不再更新。届时网站原内容将转移至：http://blog.lujianxin.com/**
+
+**项目2022-01-01起归档，代码不再维护，网站内容也不再更新。届时网站原内容将转移至：http://blog.lujianxin.com/**
+
 
 欢迎点个关注 ![微信公众号](./static/image/wxgzh.jpg) 谢谢！
 
@@ -10,8 +15,10 @@
 感谢杨青姐的前端模板！
 
 - 开发: 2019年03月08日 ~ 2019年04月08日
-- 当前版本: `0.1.8`
-- 上线: [https://www.lujianxin.com](https://www.lujianxin.com)
+- 当前版本: `1.0.1` 终版
+- 上线: [https://www.lujianxin.com](https://www.lujianxin.com) 该域名2022年之后仅作为个人主页使用
+- 归档：2022-01-01 起该项目不再维护，网站内容也不再更新，内容迁移至 [http://blog.lujianxin.com/](http://blog.lujianxin.com/)
+- 新域名: [https://ioseek.cn/](http://ioseek.cn/) 已启用，作为微信公众号pc索引使用
 
 ### 使用技术:
 

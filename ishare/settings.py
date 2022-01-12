@@ -27,16 +27,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7=2y6u_5e=3mx0ut5hct!4t)g7gjy@7j_r$-(jv0&#n%v+@p=!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # 维护期间阻止用户登录后台产生新的数据
-UPGRADING = False
+UPGRADING = True
 
 pymysql.install_as_MySQLdb()
 
 ALLOWED_HOSTS = [
     'www.lujianxin.com',
     '127.0.0.1',
+    'blog.lujianxin.com',
 ]
 
 SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
@@ -77,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 以下是自定义中间件
     'blog.my_middlewares.AllMethodSupportMiddleware',
-    'blog.my_middlewares.VisitCountMiddleware',
+    # 'blog.my_middlewares.VisitCountMiddleware',
     # 以下是开启缓存中间件
     # 'django.middleware.cache.CacheMiddleware',
 ]
@@ -213,14 +214,14 @@ SITE = {
     'team': 'lujianxin.com',
     'dns': ALLOWED_HOSTS[0],
     'host': 'https://{}'.format(ALLOWED_HOSTS[0]),
-    'name': '陆鉴鑫的博客',
-    'me': 'https://me.lujianxin.com',
-    'author': "Jeeyshe",
+    'name': '信息展示',
+    'me': 'https://lujianxin.com',
+    'author': "Jeyrce.Lu",
     'email': {
-        'jubao': 'support@lujianxin.com',
-        'tougao': 'support@lujianxin.com',
-        'support': 'support@lujianxin.com',
-        'me': 'jeeyshe@gmail.com',
+        'jubao': 'admin@ioseek.cn',
+        'tougao': 'admin@ioseek.cn',
+        'support': 'admin@ioseek.cn',
+        'me': 'jeyrce@gmail.com',
     },
     # 工信部备案号
     'icp': {
@@ -253,40 +254,26 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ''
 CACHE_MIDDLEWARE_SECONDS = 180
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHES = {
-    # 默认使用的库，session，csrf等存储
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
-            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-            "PASSWORD": "lujianxin.com",
-        }
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     },
-    # 重置密码token
-    "one": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
-            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-            "PASSWORD": "lujianxin.com",
-        }
+    'one': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     },
-    # 2号3号库用作celery的任务队列
-
-    # 专做本站访问次数记录
-    "four": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/4",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 10},
-            "PASSWORD": "lujianxin.com",
-        }
+    'two': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     },
+    'three': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    },
+    'four': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
 }
 
 ############
@@ -298,7 +285,7 @@ SESSION_CACHE_ALIAS = 'default'
 # Cookie name. This can be whatever you want.
 SESSION_COOKIE_NAME = 'sessionid'
 # Age of cookie, in seconds (default: 2 weeks).
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 2
+SESSION_COOKIE_AGE = 60 * 60
 # The path of the session cookie.
 SESSION_COOKIE_PATH = '/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = not DEBUG
@@ -321,7 +308,7 @@ BROKER_TRANSPORT_OPTIONS = {
 }
 
 # ----------本站系统所用email配置----------
-SERVER_EMAIL = 'support@lujianxin.com'
+SERVER_EMAIL = 'admin@ioseek.cn'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.exmail.qq.com'
 EMAIL_PORT = 465
@@ -329,7 +316,7 @@ EMAIL_PORT = 465
 EMAIL_USE_LOCALTIME = False
 
 # Optional SMTP authentication information for EMAIL_HOST.
-EMAIL_HOST_USER = 'support@lujianxin.com'
+EMAIL_HOST_USER = 'admin@ioseek.cn'
 EMAIL_HOST_PASSWORD = 'lujianxin.com'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
@@ -337,8 +324,8 @@ EMAIL_SSL_CERTFILE = None
 EMAIL_SSL_KEYFILE = None
 EMAIL_TIMEOUT = None
 
-DEFAULT_FROM_EMAIL = 'support@lujianxin.com'
-EMAIL_SUBJECT_PREFIX = '[陆鉴鑫的博客]'
+DEFAULT_FROM_EMAIL = 'admin@ioseek.cn'
+EMAIL_SUBJECT_PREFIX = '[信息展示]'
 
 LIST_INFO = {
     'page_size': 30,

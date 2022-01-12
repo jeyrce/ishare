@@ -48,7 +48,7 @@ function doing() {
 }
 
 $(document).ready(function () {
-    layer.msg('<h1>网站已归档不再更新内容</h1><h1>欢迎关注新站: ioseek.cn</h1>', {
+    layer.msg('<h1>网站已归档不再更新内容,欢迎关注新站: </h1><h1>ioseek.cn</h1>', {
         time: 3000, //3s后自动关闭
     });
     console.clear();

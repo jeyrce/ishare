@@ -34,11 +34,7 @@ UPGRADING = True
 
 pymysql.install_as_MySQLdb()
 
-ALLOWED_HOSTS = [
-    'www.lujianxin.com',
-    '127.0.0.1',
-    'blog.lujianxin.com',
-]
+ALLOWED_HOSTS = ["*"]
 
 SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
 

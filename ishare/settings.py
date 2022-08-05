@@ -209,14 +209,14 @@ VALINE = {
 SITE = {
     'team': 'lujianxin.com',
     'dns': ALLOWED_HOSTS[0],
-    'host': 'https://{}'.format(ALLOWED_HOSTS[0]),
+    'host': 'http://{}'.format(ALLOWED_HOSTS[0]),
     'name': '信息展示',
     'me': 'https://lujianxin.com',
     'author': "Jeyrce.Lu",
     'email': {
-        'jubao': 'admin@ioseek.cn',
-        'tougao': 'admin@ioseek.cn',
-        'support': 'admin@ioseek.cn',
+        'jubao': 'admin@imseek.cn',
+        'tougao': 'admin@imseek.cn',
+        'support': 'admin@imseek.cn',
         'me': 'jeyrce@gmail.com',
     },
     # 工信部备案号
@@ -304,7 +304,7 @@ BROKER_TRANSPORT_OPTIONS = {
 }
 
 # ----------本站系统所用email配置----------
-SERVER_EMAIL = 'admin@ioseek.cn'
+SERVER_EMAIL = 'admin@imseek.cn'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.exmail.qq.com'
 EMAIL_PORT = 465
@@ -312,7 +312,7 @@ EMAIL_PORT = 465
 EMAIL_USE_LOCALTIME = False
 
 # Optional SMTP authentication information for EMAIL_HOST.
-EMAIL_HOST_USER = 'admin@ioseek.cn'
+EMAIL_HOST_USER = 'admin@imseek.cn'
 EMAIL_HOST_PASSWORD = 'lujianxin.com'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
@@ -320,7 +320,7 @@ EMAIL_SSL_CERTFILE = None
 EMAIL_SSL_KEYFILE = None
 EMAIL_TIMEOUT = None
 
-DEFAULT_FROM_EMAIL = 'admin@ioseek.cn'
+DEFAULT_FROM_EMAIL = 'admin@imseek.cn'
 EMAIL_SUBJECT_PREFIX = '[信息展示]'
 
 LIST_INFO = {

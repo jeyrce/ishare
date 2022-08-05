@@ -5,6 +5,6 @@
 from __future__ import absolute_import, unicode_literals
 
 __version__ = '1.0.1'
-__site__ = 'www.lujianxin.com'
+__site__ = 'blog.lujianxin.com'
 __start__ = '2019-03-08'
 

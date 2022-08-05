@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import re
-import time
-import logging
 
 import pymysql
 
@@ -34,9 +31,12 @@ UPGRADING = True
 
 pymysql.install_as_MySQLdb()
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "blog.lujianxin.com",
+    "*"
+]
 
-SERVER = 'https://{}'.format(ALLOWED_HOSTS[0])
+SERVER = 'http://{}'.format(ALLOWED_HOSTS[0])
 
 # Application definition
 INSTALLED_APPS = [

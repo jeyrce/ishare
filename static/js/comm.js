@@ -4,7 +4,7 @@
  *
  */
 
-var HOST = 'https://www.lujianxin.com';
+var HOST = 'http://blog.lujianxin.com';
 
 var videoIds = [
     'XMTY3MDgyMjg2OA',//妹子演唱告白气球
@@ -115,7 +115,7 @@ $(document).ready(function () {
         var link = $('input[name="link"]').val();
         var str;
         if (!site || !author || !link) {
-            str = 'https://www.lujianxin.com';
+            str = 'http://lujianxin.com';
         } else {
             str =
                 '来源:' + site + '\r\n' +

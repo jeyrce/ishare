@@ -58,8 +58,8 @@ $(document).ready(function () {
         console.log(str[index], "color: green;");
     }
     console.log('\r\n');
-    console.log("%c2019-04-09 00:40 https://www.lujianxin.com", "color: green;");
+    console.log("%c2019-04-09 00:40 http://www.lujianxin.com", "color: green;");
     console.log("%c~既然都发现这个彩蛋了，收藏一下本站呗^o^", "color: red;");
-    console.log("%c> 本站从2022-01-01日起不再维护和更新内容，欢迎前往新站: https://ioseek.cn", "color: green;");
+    console.log("%c> 本站从2022-01-01日起不再维护和更新内容，欢迎前往新站: https://imseek.cn", "color: green;");
 });
 

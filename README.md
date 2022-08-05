@@ -15,7 +15,7 @@
 感谢杨青姐的前端模板！
 
 - 开发: 2019年03月08日 ~ 2019年04月08日
-- 当前版本: `1.0.1` 终版
+- 当前版本: `1.0.2-final` 终版
 - 上线: [https://www.lujianxin.com](https://www.lujianxin.com) 该域名2022年之后仅作为个人主页使用
 - 归档：2022-01-01 起该项目不再维护，网站内容也不再更新，内容迁移至 [http://blog.lujianxin.com/](http://blog.lujianxin.com/)
 - 新域名: [https://imseek.cn/](http://imseek.cn/) 已启用，作为微信公众号pc索引使用

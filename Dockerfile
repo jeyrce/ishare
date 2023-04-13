@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.8.12-slim AS runner
+FROM python:3.8.12-slim AS runner
 MAINTAINER jeyrce@gmail.com
 WORKDIR /ishare
 COPY . .

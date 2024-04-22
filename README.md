@@ -1,6 +1,14 @@
-### 个人博客项目
+### 新版博客 `imseek.cn`
 
+> 折腾了很多次，最终还是进行了大改版。
+
+- `imseek.cn` 域名更加简洁好记有寓意
+- 页面更加简约美观
+
+![[imseek.cn](https://imseek.cn)](./static/image/imseek-cn.png)
 ![微信公众号:不止平凡](./static/image/white-large.png)
+
+### 旧版博客 `blog.lujianxin.com`
 
 > 思来想去, 我还是从网上淘了一个博客前端模板: [今夕何夕](https://qingqingblog.com/), 我打算自己做后端, 毕竟前端对我来说很头痛.
 感谢杨青姐的前端模板！

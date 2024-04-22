@@ -1,5 +1,5 @@
 
-image:=jeyrce/ishare:v1.0.2-final
+image:=jeyrce/ishare:v1.0.3-final
 
 .phony: all
 all:
